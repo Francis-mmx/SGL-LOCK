@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<FileVersion major="1" minor="0" />
+	<ActiveTarget name="Release" />
+	<File name="include_lib\system\power_manage.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1452" topLine="33" />
+		</Cursor>
+	</File>
+	<File name="app\flash_write_protect.c" open="1" top="0" tabpos="29" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\touch_panel\hynitron_core.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1083" topLine="28" />
+		</Cursor>
+	</File>
+	<File name="include_lib\system\cpu\AC521x\asm\lcd_config.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1296" topLine="42" />
+		</Cursor>
+	</File>
+	<File name="include_lib\system\cpu\AC521x\asm\cpu.h" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="82" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\touch_panel\hynitron_firmware.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="175533" topLine="1987" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\include\cpu_config.h" open="1" top="0" tabpos="23" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="66" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\include\face_detect.h" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="204" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\app_main.c" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="15037" topLine="482" />
+		</Cursor>
+	</File>
+	<File name="include_lib\ui\ui\ui_core.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10395" topLine="33" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\video_photo.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="38865" topLine="1426" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\upgrade.c" open="0" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4037" topLine="203" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\include\app_database.h" open="1" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="87" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include_lib\system\event.h" open="0" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\include\GT911.h" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="7" />
+		</Cursor>
+	</File>
+	<File name="cpu\AC521x\power_inf.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7005" topLine="183" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\video_rec.c" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="70841" topLine="2624" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\ui\ui_action_animation.c" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="344" topLine="63" />
+		</Cursor>
+	</File>
+	<File name="include_lib\system\cpu\AC521x\asm\imd.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="19989" topLine="659" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\include\video_rec.h" open="1" top="0" tabpos="24" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="812" topLine="21" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\include\action.h" open="1" top="0" tabpos="25" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="536" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include_lib\system\device\sdio_host_init.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="809" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include_lib\system\device\uart.h" open="1" top="0" tabpos="28" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1013" topLine="37" />
+		</Cursor>
+	</File>
+	<File name="cpu\AC521x\setup.c" open="1" top="0" tabpos="20" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="cpu\AC521x\iokey.c" open="1" top="0" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="965" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include_lib\system\cpu\AC521x\asm\gpio.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="496" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include_lib\ui\res\resfile.h" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="895" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\key_voice.c" open="1" top="0" tabpos="19" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="49988" topLine="532" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\ui\style_JL02\ui_action_sys.c" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="74814" topLine="2502" />
+		</Cursor>
+	</File>
+	<File name="include_lib\system\cpu\AC521x\asm\dsi.h" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4685" topLine="136" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\include\touch_panel_manager.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1016" topLine="24" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\backlight.c" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="331" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\video_rec_cfg.c" open="1" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4256" topLine="199" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\ui\style_JL02\ui_action_usb.c" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3477" topLine="127" />
+		</Cursor>
+	</File>
+	<File name="include_lib\system\cpu\AC521x\asm\uart.h" open="1" top="0" tabpos="27" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="342" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include_lib\system\cpu\AC521x\asm\iic.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2272" topLine="78" />
+		</Cursor>
+	</File>
+	<File name="include_lib\ui\ui\ui_operate.h" open="1" top="0" tabpos="26" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1364" topLine="34" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\app_database.c" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3454" topLine="60" />
+		</Cursor>
+	</File>
+	<File name="include_lib\system\generic\typedef.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3290" topLine="108" />
+		</Cursor>
+	</File>
+	<File name="include_lib\system\os\FreeRTOS\FreeRTOS.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="28707" topLine="927" />
+		</Cursor>
+	</File>
+	<File name="include_lib\system\os\FreeRTOS\pi32v2\portmacro.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4477" topLine="77" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\ui\style_JL02\ui_action_rec.c" open="1" top="0" tabpos="10" split="2" active="1" splitpos="750" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="14511" topLine="547" />
+			<Cursor2 position="82033" topLine="2725" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\include\res.h" open="1" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="89" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="cpu\AC521x\board\board_5211B_dev_20181116.c" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1171" topLine="9" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\video_dec_cfg.c" open="0" top="0" tabpos="21" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2935" topLine="116" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\include\vrec_osd.h" open="1" top="0" tabpos="22" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="56762" topLine="585" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\video_system_cfg.c" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="421" topLine="5" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\ui\style_JL02\ui_action_main.c" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5432" topLine="180" />
+		</Cursor>
+	</File>
+	<File name="app\car_camera\include\app_config.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="384" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="cpu\AC521x\mipi_lcd_driver\dsi_vdo_2lane_24bit.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8361" topLine="214" />
+		</Cursor>
+	</File>
+	<File name="include_lib\system\cpu\AC521x\asm\hwi.h" open="0" top="0" tabpos="22" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2099" topLine="64" />
+		</Cursor>
+	</File>
+	<File name="include_lib\ui\ui\ui_button.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="98" topLine="0" />
+		</Cursor>
+	</File>
+</CodeBlocks_layout_file>
