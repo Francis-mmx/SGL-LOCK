@@ -1,8 +1,2 @@
-main_3.png|H:/2021Work/work/XD_G1W5_MAIN_V03(5211+MIPI)/AC521X_release_sdk_V2.0.0/UI工程/ui_1280x480_touch_screen/模式界面/project/config/UI_1280_480/new ui/main_3.pngbaskslash equal zero else
-config/UI_1280_480/new ui/main_3.png
-main_1.png|H:/2021Work/work/XD_G1W5_MAIN_V03(5211+MIPI)/AC521X_release_sdk_V2.0.0/UI工程/ui_1280x480_touch_screen/模式界面/project/config/UI_1280_480/new ui/main_1.pngbaskslash equal zero else
-config/UI_1280_480/new ui/main_1.png
-main_4.png|H:/2021Work/work/XD_G1W5_MAIN_V03(5211+MIPI)/AC521X_release_sdk_V2.0.0/UI工程/ui_1280x480_touch_screen/模式界面/project/config/UI_1280_480/new ui/main_4.pngbaskslash equal zero else
-config/UI_1280_480/new ui/main_4.png
-main_2.png|H:/2021Work/work/XD_G1W5_MAIN_V03(5211+MIPI)/AC521X_release_sdk_V2.0.0/UI工程/ui_1280x480_touch_screen/模式界面/project/config/UI_1280_480/new ui/main_2.pngbaskslash equal zero else
-config/UI_1280_480/new ui/main_2.png
+set_right.png|D:/Work Document/SGL-LOCK/UI工程/ui_1280x480_touch_screen/模式界面/project/config/UI_1280_480/new ui/set/page1/set_right.pngbaskslash equal zero else
+config/UI_1280_480/new ui/set/page1/set_right.png

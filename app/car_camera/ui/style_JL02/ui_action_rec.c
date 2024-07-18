@@ -1474,8 +1474,8 @@ static int rec_LAY_BTN_2_ontouch(void *ctr, struct element_touch_event *e)
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         if(page_pic_flag == 0){
-//            ui_hide(ENC_LAY_PAGE);
-//            ui_show(ENC_LAY_USER_PAGE);
+            ui_hide(ENC_LAY_PAGE);
+            ui_show(ENC_LAY_RECORD_PAGE);
         }else{
             ui_hide(ENC_LAY_PAGE);
             ui_show(ENC_LAY_SYS_INFO_PAGE);
@@ -2329,6 +2329,244 @@ static int rec_facial_return_btn_ontouch(void *ctr, struct element_touch_event *
 REGISTER_UI_EVENT_HANDLER(FACIAL_RETURN_BTN)
 .ontouch = rec_facial_return_btn_ontouch,
 };
+
+
+/***************************** 记录查询界面 ************************************/
+const int lay_record_list[]={
+    ENC_RECORD_INFOR_LIST_1,
+    ENC_RECORD_INFOR_LIST_2,
+    ENC_RECORD_INFOR_LIST_3,
+    ENC_RECORD_INFOR_LIST_4,
+    ENC_RECORD_INFOR_LIST_5,
+};
+
+static int rec_lay_record_page_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    switch (e) {
+    case ON_CHANGE_INIT:
+        break;
+    case ON_CHANGE_RELEASE:
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        ui_show(ENC_RECORD_INFOR);
+        for(int i=0;i<name_array_num;i++){
+            ui_show(lay_record_list[i]);
+            if(i>4){
+                break;
+            }
+        }
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_LAY_RECORD_PAGE)
+.onchange = rec_lay_record_page_onchange,
+};
+
+
+/***************************** 记录查询界面 返回按钮 ************************************/
+static int rec_record_page_return_btn_ontouch(void *ctr, struct element_touch_event *e)
+{
+    UI_ONTOUCH_DEBUG("**rec_record_page_return_btn_ontouch**");
+    struct intent it;
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        ui_hide(ENC_LAY_RECORD_PAGE);
+        ui_show(ENC_LAY_PAGE);
+        break;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_RECORD_RETURN)
+.ontouch = rec_record_page_return_btn_ontouch,
+};
+
+
+/*****************************记录查询年月日 ************************************/
+static int timer_record_ymd_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct ui_time *time = (struct ui_time *)ctr;
+    struct sys_time sys_time;
+    int temp  = 0;
+    static int last_temp = 10;
+    switch (e) {
+    case ON_CHANGE_SHOW_PROBE:
+        get_system_time(&sys_time);
+        temp = ReturnWeekDay(sys_time.year, sys_time.month, sys_time.day) - 1;
+        if(temp!=last_temp){
+            last_temp = temp;
+            ui_text_show_index_by_id(REC_TXT_WEEKDAY, last_temp);
+        }
+        get_system_time(&sys_time);
+        time->year = sys_time.year;
+        time->month = sys_time.month;
+        time->day = sys_time.day;
+        time->hour = sys_time.hour;
+        time->min = sys_time.min;
+        time->sec = sys_time.sec;
+        break;
+    case ON_CHANGE_INIT:
+        get_system_time(&sys_time);
+        time->year = sys_time.year;
+        time->month = sys_time.month;
+        time->day = sys_time.day;
+        time->hour = sys_time.hour;
+        time->min = sys_time.min;
+        time->sec = sys_time.sec;
+        break;
+
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_RECORD_TIME_YMD)
+.onchange = timer_record_ymd_onchange,
+};
+
+
+/****************************记录时间控件动作 ************************************/
+static int timer_record_infor_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct ui_time *time = (struct ui_time *)ctr;
+    struct sys_time sys_time;
+
+    switch (e) {
+    case ON_CHANGE_SHOW_PROBE:
+        get_system_time(&sys_time);
+        time->year = sys_time.year;
+        time->month = sys_time.month;
+        time->day = sys_time.day;
+        time->hour = sys_time.hour;
+        time->min = sys_time.min;
+        time->sec = sys_time.sec;
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        get_system_time(&sys_time);
+        time->year = sys_time.year;
+        time->month = sys_time.month;
+        time->day = sys_time.day;
+        time->hour = sys_time.hour;
+        time->min = sys_time.min;
+        time->sec = sys_time.sec;
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_RECORD_INFOR_TIME_1)
+.onchange = timer_record_infor_onchange,
+ .ontouch = NULL,
+};
+
+
+
+
+/***************************** 记录列表显示 ************************************/
+static int rec_record_infor_list_1_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    switch (e) {
+    case ON_CHANGE_INIT:
+        break;
+    case ON_CHANGE_RELEASE:
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        ui_text_set_str_by_id(ENC_RECORD_INFOR_TXT_1, "ascii", &user_name_arrsy[(list_page_num*5)+0]);
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_RECORD_INFOR_LIST_1)
+.onchange = rec_record_infor_list_1_onchange,
+};
+static int rec_record_infor_list_2_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    switch (e) {
+    case ON_CHANGE_INIT:
+        break;
+    case ON_CHANGE_RELEASE:
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        ui_text_set_str_by_id(ENC_RECORD_INFOR_TXT_2, "ascii", &user_name_arrsy[(list_page_num*5)+1]);
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_RECORD_INFOR_LIST_2)
+.onchange = rec_record_infor_list_2_onchange,
+};
+static int rec_record_infor_list_3_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    switch (e) {
+    case ON_CHANGE_INIT:
+        break;
+    case ON_CHANGE_RELEASE:
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        ui_text_set_str_by_id(ENC_RECORD_INFOR_TXT_3, "ascii", &user_name_arrsy[(list_page_num*5)+2]);
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_RECORD_INFOR_LIST_3)
+.onchange = rec_record_infor_list_3_onchange,
+};
+static int rec_record_infor_list_4_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    switch (e) {
+    case ON_CHANGE_INIT:
+        break;
+    case ON_CHANGE_RELEASE:
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        ui_text_set_str_by_id(ENC_RECORD_INFOR_TXT_4, "ascii", &user_name_arrsy[(list_page_num*5)+3]);
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_RECORD_INFOR_LIST_4)
+.onchange = rec_record_infor_list_4_onchange,
+};
+static int rec_record_infor_list_5_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    switch (e) {
+    case ON_CHANGE_INIT:
+        break;
+    case ON_CHANGE_RELEASE:
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        ui_text_set_str_by_id(ENC_RECORD_INFOR_TXT_5, "ascii", &user_name_arrsy[(list_page_num*5)+4]);
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_RECORD_INFOR_LIST_5)
+.onchange = rec_record_infor_list_5_onchange,
+};
+
 
 
 /***************************** 系统信息界面 返回按钮 ************************************/

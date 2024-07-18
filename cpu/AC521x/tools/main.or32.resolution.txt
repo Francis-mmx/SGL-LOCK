@@ -471,6 +471,7 @@ obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o
 -r=obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o,asterisk_number,pl
 -r=obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o,get_password_code,pl
 -r=obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o,lay_user_list,pl
+-r=obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o,lay_record_list,pl
 -r=obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o,door_lock_page_flag,pl
 -r=obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o,now_fb,l
 -r=obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o,if_in_rec,pl

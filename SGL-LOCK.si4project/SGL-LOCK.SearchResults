@@ -1,0 +1,5 @@
+---- REC_TIM_DATE Matches (4 in 4 files) ----
+ename.h (UI工程\ui_1280x480_touch_screen\模式界面\project) line 361 : #define REC_TIM_DATE 0XAB030F1
+style_jl02.h (app\car_camera\include) line 361 : #define REC_TIM_DATE 0XAB030F1
+ui_action_rec.c (app\car_camera\ui\style_JL02) line 531 : REGISTER_UI_EVENT_HANDLER(REC_TIM_DATE)
+UI_TOUCH_1280_480.json (UI工程\ui_1280x480_touch_screen\模式界面\project) line 1188 :                                                     "ename": "REC_TIM_DATE",

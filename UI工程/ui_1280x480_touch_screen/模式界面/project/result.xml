@@ -4,8 +4,8 @@
         <Page id="0">
             <ColorList>
                 <Color id="0">55AAA5</Color>
-                <Color id="1">212121</Color>
-                <Color id="2">000000</Color>
+                <Color id="1">000000</Color>
+                <Color id="2">212121</Color>
             </ColorList>
             <PictureList/>
             <CellList/>
@@ -13,11 +13,11 @@
         <Page id="1">
             <ColorList>
                 <Color id="0">55AAA5</Color>
-                <Color id="1">DFDFDF</Color>
-                <Color id="2">FFFFFF</Color>
-                <Color id="3">000000</Color>
+                <Color id="1">000000</Color>
+                <Color id="2">2EE79B</Color>
+                <Color id="3">FFFFFF</Color>
                 <Color id="4">949494</Color>
-                <Color id="5">2EE79B</Color>
+                <Color id="5">DFDFDF</Color>
                 <Color id="6">030406</Color>
                 <Color id="7">121722</Color>
                 <Color id="8">0D231C</Color>
@@ -270,94 +270,94 @@
                 <Color id="255">FDFDFD</Color>
             </ColorList>
             <PictureList>
-                <Picture fmt="OSD8" id="1">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\add.png</Picture>
-                <Picture fmt="OSD8" id="2">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\back.png</Picture>
-                <Picture fmt="OSD8" id="3">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\back-1.png</Picture>
-                <Picture fmt="OSD8" id="4">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\back_1.png</Picture>
-                <Picture fmt="OSD8" id="5">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\back_2.png</Picture>
-                <Picture fmt="OSD8" id="6">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\back_3.png</Picture>
-                <Picture fmt="OSD8" id="7">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\back_4.png</Picture>
-                <Picture fmt="OSD8" id="8">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\dat_1.png</Picture>
-                <Picture fmt="OSD8" id="9">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\dat_2.png</Picture>
-                <Picture fmt="OSD8" id="10">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\dat_3.png</Picture>
-                <Picture fmt="OSD8" id="11">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\dat_4.png</Picture>
-                <Picture fmt="OSD8" id="12">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\dat_5.png</Picture>
-                <Picture fmt="OSD8" id="13">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\delete.png</Picture>
-                <Picture fmt="OSD8" id="14">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\face_recognition.png</Picture>
-                <Picture fmt="OSD8A" id="15">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\facial.png</Picture>
-                <Picture fmt="OSD8" id="16">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\fingerprint.png</Picture>
-                <Picture fmt="OSD8" id="17">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\frame_back.png</Picture>
-                <Picture fmt="OSD8" id="18">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\goto.png</Picture>
-                <Picture fmt="OSD8" id="19">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_0d.png</Picture>
-                <Picture fmt="OSD8" id="20">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_0u.png</Picture>
-                <Picture fmt="OSD8" id="21">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_1d.png</Picture>
-                <Picture fmt="OSD8" id="22">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_1u.png</Picture>
-                <Picture fmt="OSD8" id="23">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_2d.png</Picture>
-                <Picture fmt="OSD8" id="24">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_2u.png</Picture>
-                <Picture fmt="OSD8" id="25">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_3d.png</Picture>
-                <Picture fmt="OSD8" id="26">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_3u.png</Picture>
-                <Picture fmt="OSD8" id="27">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_4d.png</Picture>
-                <Picture fmt="OSD8" id="28">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_4u.png</Picture>
-                <Picture fmt="OSD8" id="29">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_5d.png</Picture>
-                <Picture fmt="OSD8" id="30">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_5u.png</Picture>
-                <Picture fmt="OSD8" id="31">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_6d.png</Picture>
-                <Picture fmt="OSD8" id="32">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_6u.png</Picture>
-                <Picture fmt="OSD8" id="33">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_7d.png</Picture>
-                <Picture fmt="OSD8" id="34">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_7u.png</Picture>
-                <Picture fmt="OSD8" id="35">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_8d.png</Picture>
-                <Picture fmt="OSD8" id="36">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_8u.png</Picture>
-                <Picture fmt="OSD8" id="37">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_9d.png</Picture>
-                <Picture fmt="OSD8" id="38">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_9u.png</Picture>
-                <Picture fmt="OSD8" id="39">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_okd.png</Picture>
-                <Picture fmt="OSD8" id="40">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_oku.png</Picture>
-                <Picture fmt="OSD8" id="41">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_setd.png</Picture>
-                <Picture fmt="OSD8" id="42">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_setu.png</Picture>
-                <Picture fmt="OSD8" id="43">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\kong.png</Picture>
-                <Picture fmt="OSD8" id="44">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\kuang.png</Picture>
-                <Picture fmt="OSD8" id="45">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\kuang_H.png</Picture>
-                <Picture fmt="OSD8" id="46">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\door_lock\lock_down.png</Picture>
-                <Picture fmt="OSD8" id="47">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\door_lock\lock_up.png</Picture>
-                <Picture fmt="OSD8" id="48">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\logo.png</Picture>
-                <Picture fmt="OSD8" id="49">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_1.png</Picture>
-                <Picture fmt="OSD8" id="50">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_2.png</Picture>
-                <Picture fmt="OSD8" id="51">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_3.png</Picture>
-                <Picture fmt="OSD8" id="52">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_4.png</Picture>
-                <Picture fmt="OSD8" id="53">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num0.png</Picture>
-                <Picture fmt="OSD8" id="54">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num1.png</Picture>
-                <Picture fmt="OSD8" id="55">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num2.png</Picture>
-                <Picture fmt="OSD8" id="56">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num3.png</Picture>
-                <Picture fmt="OSD8" id="57">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num4.png</Picture>
-                <Picture fmt="OSD8" id="58">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num5.png</Picture>
-                <Picture fmt="OSD8" id="59">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num6.png</Picture>
-                <Picture fmt="OSD8" id="60">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num7.png</Picture>
-                <Picture fmt="OSD8" id="61">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num8.png</Picture>
-                <Picture fmt="OSD8" id="62">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num9.png</Picture>
-                <Picture fmt="OSD8" id="63">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\numm.png</Picture>
-                <Picture fmt="OSD8" id="64">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\off_bottom.png</Picture>
-                <Picture fmt="OSD8" id="65">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\OK.png</Picture>
-                <Picture fmt="OSD8" id="66">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\on_bottom.png</Picture>
-                <Picture fmt="OSD8" id="67">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\password.png</Picture>
-                <Picture fmt="OSD8" id="68">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\return.png</Picture>
-                <Picture fmt="OSD8A" id="69">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\return.png</Picture>
-                <Picture fmt="OSD8" id="70">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set1.png</Picture>
-                <Picture fmt="OSD8" id="71">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set2.png</Picture>
-                <Picture fmt="OSD8" id="72">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set3.png</Picture>
-                <Picture fmt="OSD8" id="73">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set4.png</Picture>
-                <Picture fmt="OSD8" id="74">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_left.png</Picture>
-                <Picture fmt="OSD8" id="75">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_page1.png</Picture>
-                <Picture fmt="OSD8" id="76">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_page2.png</Picture>
-                <Picture fmt="OSD8" id="77">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_right.png</Picture>
-                <Picture fmt="OSD8" id="78">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\shurufa.png</Picture>
-                <Picture fmt="OSD8" id="79">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\door_lock\slider.png</Picture>
-                <Picture fmt="OSD8" id="80">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_1.png</Picture>
-                <Picture fmt="OSD8" id="81">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_2.png</Picture>
-                <Picture fmt="OSD8" id="82">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_3.png</Picture>
-                <Picture fmt="OSD8" id="83">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_4.png</Picture>
-                <Picture fmt="OSD8" id="84">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_5.png</Picture>
-                <Picture fmt="OSD8" id="85">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_6.png</Picture>
-                <Picture fmt="OSD8" id="86">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\user_pic.png</Picture>
-                <Picture fmt="OSD8" id="87">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\wifi_off.png</Picture>
-                <Picture fmt="OSD8" id="88">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\wifi_on.png</Picture>
+                <Picture fmt="OSD8" id="1">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\add.png</Picture>
+                <Picture fmt="OSD8" id="2">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\back.png</Picture>
+                <Picture fmt="OSD8" id="3">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\back-1.png</Picture>
+                <Picture fmt="OSD8" id="4">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\back_1.png</Picture>
+                <Picture fmt="OSD8" id="5">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\back_2.png</Picture>
+                <Picture fmt="OSD8" id="6">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\back_3.png</Picture>
+                <Picture fmt="OSD8" id="7">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\back_4.png</Picture>
+                <Picture fmt="OSD8" id="8">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\dat_1.png</Picture>
+                <Picture fmt="OSD8" id="9">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\dat_2.png</Picture>
+                <Picture fmt="OSD8" id="10">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\dat_3.png</Picture>
+                <Picture fmt="OSD8" id="11">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\dat_4.png</Picture>
+                <Picture fmt="OSD8" id="12">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\dat_5.png</Picture>
+                <Picture fmt="OSD8" id="13">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\delete.png</Picture>
+                <Picture fmt="OSD8" id="14">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\face_recognition.png</Picture>
+                <Picture fmt="OSD8A" id="15">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\facial.png</Picture>
+                <Picture fmt="OSD8" id="16">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\fingerprint.png</Picture>
+                <Picture fmt="OSD8" id="17">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\frame_back.png</Picture>
+                <Picture fmt="OSD8" id="18">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\goto.png</Picture>
+                <Picture fmt="OSD8" id="19">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_0d.png</Picture>
+                <Picture fmt="OSD8" id="20">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_0u.png</Picture>
+                <Picture fmt="OSD8" id="21">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_1d.png</Picture>
+                <Picture fmt="OSD8" id="22">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_1u.png</Picture>
+                <Picture fmt="OSD8" id="23">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_2d.png</Picture>
+                <Picture fmt="OSD8" id="24">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_2u.png</Picture>
+                <Picture fmt="OSD8" id="25">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_3d.png</Picture>
+                <Picture fmt="OSD8" id="26">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_3u.png</Picture>
+                <Picture fmt="OSD8" id="27">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_4d.png</Picture>
+                <Picture fmt="OSD8" id="28">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_4u.png</Picture>
+                <Picture fmt="OSD8" id="29">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_5d.png</Picture>
+                <Picture fmt="OSD8" id="30">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_5u.png</Picture>
+                <Picture fmt="OSD8" id="31">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_6d.png</Picture>
+                <Picture fmt="OSD8" id="32">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_6u.png</Picture>
+                <Picture fmt="OSD8" id="33">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_7d.png</Picture>
+                <Picture fmt="OSD8" id="34">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_7u.png</Picture>
+                <Picture fmt="OSD8" id="35">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_8d.png</Picture>
+                <Picture fmt="OSD8" id="36">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_8u.png</Picture>
+                <Picture fmt="OSD8" id="37">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_9d.png</Picture>
+                <Picture fmt="OSD8" id="38">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_9u.png</Picture>
+                <Picture fmt="OSD8" id="39">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_okd.png</Picture>
+                <Picture fmt="OSD8" id="40">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_oku.png</Picture>
+                <Picture fmt="OSD8" id="41">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_setd.png</Picture>
+                <Picture fmt="OSD8" id="42">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_setu.png</Picture>
+                <Picture fmt="OSD8" id="43">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\kong.png</Picture>
+                <Picture fmt="OSD8" id="44">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\kuang.png</Picture>
+                <Picture fmt="OSD8" id="45">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\kuang_H.png</Picture>
+                <Picture fmt="OSD8" id="46">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\door_lock\lock_down.png</Picture>
+                <Picture fmt="OSD8" id="47">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\door_lock\lock_up.png</Picture>
+                <Picture fmt="OSD8" id="48">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\logo.png</Picture>
+                <Picture fmt="OSD8" id="49">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_1.png</Picture>
+                <Picture fmt="OSD8" id="50">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_2.png</Picture>
+                <Picture fmt="OSD8" id="51">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_3.png</Picture>
+                <Picture fmt="OSD8" id="52">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_4.png</Picture>
+                <Picture fmt="OSD8" id="53">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num0.png</Picture>
+                <Picture fmt="OSD8" id="54">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num1.png</Picture>
+                <Picture fmt="OSD8" id="55">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num2.png</Picture>
+                <Picture fmt="OSD8" id="56">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num3.png</Picture>
+                <Picture fmt="OSD8" id="57">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num4.png</Picture>
+                <Picture fmt="OSD8" id="58">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num5.png</Picture>
+                <Picture fmt="OSD8" id="59">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num6.png</Picture>
+                <Picture fmt="OSD8" id="60">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num7.png</Picture>
+                <Picture fmt="OSD8" id="61">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num8.png</Picture>
+                <Picture fmt="OSD8" id="62">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num9.png</Picture>
+                <Picture fmt="OSD8" id="63">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\numm.png</Picture>
+                <Picture fmt="OSD8" id="64">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\off_bottom.png</Picture>
+                <Picture fmt="OSD8" id="65">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\OK.png</Picture>
+                <Picture fmt="OSD8" id="66">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\on_bottom.png</Picture>
+                <Picture fmt="OSD8" id="67">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\password.png</Picture>
+                <Picture fmt="OSD8" id="68">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\return.png</Picture>
+                <Picture fmt="OSD8A" id="69">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\return.png</Picture>
+                <Picture fmt="OSD8" id="70">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set1.png</Picture>
+                <Picture fmt="OSD8" id="71">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set2.png</Picture>
+                <Picture fmt="OSD8" id="72">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set3.png</Picture>
+                <Picture fmt="OSD8" id="73">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set4.png</Picture>
+                <Picture fmt="OSD8" id="74">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_left.png</Picture>
+                <Picture fmt="OSD8" id="75">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_page1.png</Picture>
+                <Picture fmt="OSD8" id="76">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_page2.png</Picture>
+                <Picture fmt="OSD8" id="77">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_right.png</Picture>
+                <Picture fmt="OSD8" id="78">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\shurufa.png</Picture>
+                <Picture fmt="OSD8" id="79">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\door_lock\slider.png</Picture>
+                <Picture fmt="OSD8" id="80">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_1.png</Picture>
+                <Picture fmt="OSD8" id="81">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_2.png</Picture>
+                <Picture fmt="OSD8" id="82">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_3.png</Picture>
+                <Picture fmt="OSD8" id="83">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_4.png</Picture>
+                <Picture fmt="OSD8" id="84">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_5.png</Picture>
+                <Picture fmt="OSD8" id="85">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_6.png</Picture>
+                <Picture fmt="OSD8" id="86">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\user_pic.png</Picture>
+                <Picture fmt="OSD8" id="87">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\wifi_off.png</Picture>
+                <Picture fmt="OSD8" id="88">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\wifi_on.png</Picture>
             </PictureList>
             <CellList>
                 <Cell id="1">m1</Cell>
@@ -425,10 +425,10 @@
         <Page id="2">
             <ColorList>
                 <Color id="0">55AAA5</Color>
-                <Color id="1">353535</Color>
-                <Color id="2">FFC046</Color>
-                <Color id="3">FFFFFF</Color>
-                <Color id="4">000000</Color>
+                <Color id="1">FFC046</Color>
+                <Color id="2">000000</Color>
+                <Color id="3">353535</Color>
+                <Color id="4">FFFFFF</Color>
             </ColorList>
             <PictureList/>
             <CellList>
@@ -509,9 +509,9 @@
         <Page id="4">
             <ColorList>
                 <Color id="0">55AAA5</Color>
-                <Color id="1">FFFFFF</Color>
-                <Color id="2">212121</Color>
-                <Color id="3">000000</Color>
+                <Color id="1">212121</Color>
+                <Color id="2">000000</Color>
+                <Color id="3">FFFFFF</Color>
                 <Color id="4">020202</Color>
                 <Color id="5">040404</Color>
                 <Color id="6">060606</Color>
@@ -766,10 +766,10 @@
                 <Color id="255">F8F8F8</Color>
             </ColorList>
             <PictureList>
-                <Picture fmt="OSD8" id="1">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\USB\bar.png</Picture>
-                <Picture fmt="OSD8" id="2">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\USB\c_bar.png</Picture>
-                <Picture fmt="OSD8" id="3">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\USB\pc_cam.png</Picture>
-                <Picture fmt="OSD8" id="4">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\USB\usb_mod.png</Picture>
+                <Picture fmt="OSD8" id="1">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\USB\bar.png</Picture>
+                <Picture fmt="OSD8" id="2">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\USB\c_bar.png</Picture>
+                <Picture fmt="OSD8" id="3">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\USB\pc_cam.png</Picture>
+                <Picture fmt="OSD8" id="4">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\USB\usb_mod.png</Picture>
             </PictureList>
             <CellList>
                 <Cell id="11">m14</Cell>
@@ -780,11 +780,11 @@
         <Page id="5">
             <ColorList>
                 <Color id="0">55AAA5</Color>
-                <Color id="1">353535</Color>
+                <Color id="1">000000</Color>
                 <Color id="2">B3B3B3</Color>
                 <Color id="3">FFFFFF</Color>
                 <Color id="4">AEAEAE</Color>
-                <Color id="5">000000</Color>
+                <Color id="5">353535</Color>
                 <Color id="6">FFC046</Color>
                 <Color id="7">AAAAAA</Color>
             </ColorList>
@@ -863,9 +863,9 @@
         <Page id="7">
             <ColorList>
                 <Color id="0">55AAA5</Color>
-                <Color id="1">000000</Color>
-                <Color id="2">00C4FF</Color>
-                <Color id="3">FFF795</Color>
+                <Color id="1">FFF795</Color>
+                <Color id="2">000000</Color>
+                <Color id="3">00C4FF</Color>
                 <Color id="4">353535</Color>
             </ColorList>
             <PictureList/>
