@@ -688,6 +688,136 @@ REGISTER_UI_EVENT_HANDLER(ENC_SET_RETURN)
 .ontouch = rec_set_goto_paw_page_ontouch,
 };
 
+/***************************** 设置界面 时间设置按钮 ************************************/
+static int rec_goto_set_time_ontouch(void *ctr, struct element_touch_event *e)
+{
+    UI_ONTOUCH_DEBUG("**rec_goto_set_time_ontouch**");
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        ui_show(SET_TIME_LAY);
+        break;
+    }
+    return false;
+}
+
+REGISTER_UI_EVENT_HANDLER(SET_TIME_BTN)
+.ontouch = rec_goto_set_time_ontouch,
+};
+
+/***************************** 时间设置界面 ************************************/
+static int rec_set_date_time_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct layout *layout = (struct layout *)ctr;
+    switch (e) {
+    case ON_CHANGE_INIT:
+        ui_ontouch_lock(layout);
+        break;
+    case ON_CHANGE_RELEASE:
+        ui_ontouch_unlock(layout);
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        ui_highlight_element_by_id(SET_TIME_DATE_HIGH_LIGHT);
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(SET_TIME_LAY)
+.onchange = rec_set_date_time_onchange,
+};
+
+
+/*****************************设置日期控件动作 ************************************/
+static int sys_set_date_year_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct ui_time *time = (struct ui_time *)ctr;
+    struct sys_time sys_time;
+    int temp  = 0;
+    static int last_temp = 10;
+    switch (e) {
+    case ON_CHANGE_SHOW_PROBE:
+        get_system_time(&sys_time);
+        time->year = sys_time.year;
+        break;
+    case ON_CHANGE_INIT:
+        get_system_time(&sys_time);
+        time->year = sys_time.year;
+        break;
+
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(SET_TIME_DATE_YEAR_CUR)
+.onchange = sys_set_date_year_onchange,
+};
+
+static int sys_set_date_month_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct ui_time *time = (struct ui_time *)ctr;
+    struct sys_time sys_time;
+    int temp  = 0;
+    static int last_temp = 10;
+    switch (e) {
+    case ON_CHANGE_SHOW_PROBE:
+        get_system_time(&sys_time);
+        time->month = sys_time.month;
+        break;
+    case ON_CHANGE_INIT:
+        get_system_time(&sys_time);
+        time->month = sys_time.month;
+        break;
+
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(SET_TIME_DATE_MONTH_CUR)
+.onchange = sys_set_date_month_onchange,
+};
+
+static int sys_set_date_day_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct ui_time *time = (struct ui_time *)ctr;
+    struct sys_time sys_time;
+    int temp  = 0;
+    static int last_temp = 10;
+    switch (e) {
+    case ON_CHANGE_SHOW_PROBE:
+        get_system_time(&sys_time);
+        time->day = sys_time.day;
+        break;
+    case ON_CHANGE_INIT:
+        get_system_time(&sys_time);
+        time->day = sys_time.day;
+        break;
+
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(SET_TIME_DATE_DAY_CUR)
+.onchange = sys_set_date_day_onchange,
+};
+
+
+
+
+
 /***************************** 设置界面 语言设置按钮 ************************************/
 static int rec_goto_set_lang_ontouch(void *ctr, struct element_touch_event *e)
 {
@@ -947,6 +1077,7 @@ REGISTER_UI_EVENT_HANDLER(SET_BTN_VOL_3)
 const static int menu_off_btn_id[] = {
         SET_LANG_OFF_BTN,
         SET_VOL_OFF_BTN,
+        SET_TIME_OFF_BTN,
 };
 static int rec_set_two_menu_off_ontouch(void *ctr, struct element_touch_event *e)
 {
@@ -985,6 +1116,9 @@ static int rec_set_two_menu_off_ontouch(void *ctr, struct element_touch_event *e
             ui_hide(SET_VOLUME_LAY);
             ui_text_show_index_by_id(SET_SOUND_TXT,__this->volume_lv);
             break;
+        case 2:
+            ui_hide(SET_TIME_LAY);
+            break;
         default:
             break;
         }
@@ -999,6 +1133,10 @@ REGISTER_UI_EVENT_HANDLER(SET_LANG_OFF_BTN)
 REGISTER_UI_EVENT_HANDLER(SET_VOL_OFF_BTN)
 .ontouch = rec_set_two_menu_off_ontouch,
 };
+REGISTER_UI_EVENT_HANDLER(SET_TIME_OFF_BTN)
+.ontouch = rec_set_two_menu_off_ontouch,
+};
+
 
 /***************************** 设置界面 壁纸设置按钮 ************************************/
 static int rec_goto_set_paper_ontouch(void *ctr, struct element_touch_event *e)
@@ -2438,7 +2576,55 @@ REGISTER_UI_EVENT_HANDLER(ENC_RECORD_TIME_YMD)
 
 
 /****************************记录时间控件动作 ************************************/
-static int timer_record_infor_onchange(void *ctr, enum element_change_event e, void *arg)
+static int timer_1_record_infor_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct ui_time *time = (struct ui_time *)ctr;
+    struct sys_time sys_time;
+
+    switch (e) {
+    case ON_CHANGE_FIRST_SHOW:
+        get_system_time(&sys_time);
+        time->year = sys_time.year;
+        time->month = sys_time.month;
+        time->day = sys_time.day;
+        time->hour = sys_time.hour;
+        time->min = sys_time.min;
+        time->sec = sys_time.sec;
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_RECORD_INFOR_TIME_1)
+.onchange = timer_1_record_infor_onchange,
+};
+
+static int timer_2_record_infor_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct ui_time *time = (struct ui_time *)ctr;
+    struct sys_time sys_time;
+
+    switch (e) {
+    case ON_CHANGE_SHOW_PROBE:
+        get_system_time(&sys_time);
+        time->year = sys_time.year;
+        time->month = sys_time.month;
+        time->day = sys_time.day;
+        time->hour = sys_time.hour;
+        time->min = sys_time.min;
+        time->sec = sys_time.sec;
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_RECORD_INFOR_TIME_2)
+.onchange = timer_2_record_infor_onchange,
+};
+
+static int timer_3_record_infor_onchange(void *ctr, enum element_change_event e, void *arg)
 {
     struct ui_time *time = (struct ui_time *)ctr;
     struct sys_time sys_time;
@@ -2467,12 +2653,75 @@ static int timer_record_infor_onchange(void *ctr, enum element_change_event e, v
     }
     return false;
 }
-REGISTER_UI_EVENT_HANDLER(ENC_RECORD_INFOR_TIME_1)
-.onchange = timer_record_infor_onchange,
- .ontouch = NULL,
+REGISTER_UI_EVENT_HANDLER(ENC_RECORD_INFOR_TIME_3)
+.onchange = timer_3_record_infor_onchange,
 };
 
+static int timer_4_record_infor_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct ui_time *time = (struct ui_time *)ctr;
+    struct sys_time sys_time;
 
+    switch (e) {
+    case ON_CHANGE_SHOW_PROBE:
+        get_system_time(&sys_time);
+        time->year = sys_time.year;
+        time->month = sys_time.month;
+        time->day = sys_time.day;
+        time->hour = sys_time.hour;
+        time->min = sys_time.min;
+        time->sec = sys_time.sec;
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        get_system_time(&sys_time);
+        time->year = sys_time.year;
+        time->month = sys_time.month;
+        time->day = sys_time.day;
+        time->hour = sys_time.hour;
+        time->min = sys_time.min;
+        time->sec = sys_time.sec;
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_RECORD_INFOR_TIME_4)
+.onchange = timer_4_record_infor_onchange,
+};
+
+static int timer_5_record_infor_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct ui_time *time = (struct ui_time *)ctr;
+    struct sys_time sys_time;
+
+    switch (e) {
+    case ON_CHANGE_SHOW_PROBE:
+        get_system_time(&sys_time);
+        time->year = sys_time.year;
+        time->month = sys_time.month;
+        time->day = sys_time.day;
+        time->hour = sys_time.hour;
+        time->min = sys_time.min;
+        time->sec = sys_time.sec;
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        get_system_time(&sys_time);
+        time->year = sys_time.year;
+        time->month = sys_time.month;
+        time->day = sys_time.day;
+        time->hour = sys_time.hour;
+        time->min = sys_time.min;
+        time->sec = sys_time.sec;
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_RECORD_INFOR_TIME_5)
+.onchange = timer_5_record_infor_onchange,
+};
 
 
 /***************************** 记录列表显示 ************************************/
