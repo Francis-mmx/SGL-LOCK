@@ -1,3 +1,6 @@
 *.o
 map.txt
-
+AC52N_CAR_CAMERA.depend
+AC52N_CAR_CAMERA.layout
+SGL-LOCK.si4project
+main.or32*
