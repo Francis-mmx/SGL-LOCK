@@ -19,7 +19,7 @@ struct uart_outport {
 
 extern void putbyte(char a);
 
-
+#define  KEY_SOUND  0xA001
 
 
 enum uart_clk_src {

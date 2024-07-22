@@ -7,6 +7,8 @@
 #include "system/includes.h"
 /* #include "menu_parm_api.h" */
 #include "app_database.h"
+#include "system/device/uart.h"
+
 
 #ifdef CONFIG_UI_STYLE_JL02_ENABLE
 
@@ -57,6 +59,13 @@ static struct rec_menu_info handler = {0};
 #define sizeof_this     (sizeof(struct rec_menu_info))
 
 
+extern int spec_uart_send(char *buf, u32 len);
+extern int spec_uart_recv(char *buf, u32 len);
+
+static u8 ui_command[] = {
+    KEY_SOUND,
+
+};
 
 extern int storage_device_ready();
 int sys_cur_mod;
@@ -539,6 +548,7 @@ REGISTER_UI_EVENT_HANDLER(REC_TIM_DATE)
 /***************************** 进入密码界面按钮 ************************************/
 static int rec_goto_password_page_ontouch(void *ctr, struct element_touch_event *e)
 {
+    u32 test_tx = 0xa533;
     UI_ONTOUCH_DEBUG("**rec_goto_password_page_ontouch**");
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
@@ -558,6 +568,7 @@ static int rec_goto_password_page_ontouch(void *ctr, struct element_touch_event 
         ui_hide(ENC_LAY_BACK);
         ui_show(ENC_PASSWORD_LAY);
         reset_up_ui_func();
+        spec_uart_send(&test_tx,2);
         break;
     }
     return false;
@@ -570,6 +581,7 @@ REGISTER_UI_EVENT_HANDLER(REC_PASSWORD_BTN)
 /***************************** 退出密码界面返回壁纸界面按钮 ************************************/
 static int rec_goto_back_page_ontouch(void *ctr, struct element_touch_event *e)
 {
+    u32 test_tx = 0x3344;
     UI_ONTOUCH_DEBUG("**rec_goto_back_page_ontouch**");
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
@@ -587,6 +599,7 @@ static int rec_goto_back_page_ontouch(void *ctr, struct element_touch_event *e)
         ui_hide(ENC_PASSWORD_LAY);
         ui_show(ENC_LAY_BACK);
         reset_up_ui_func();
+        spec_uart_send(&test_tx,2);
         break;
     }
     return false;
@@ -704,7 +717,7 @@ static int rec_goto_set_time_ontouch(void *ctr, struct element_touch_event *e)
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-        ui_show(SET_TIME_LAY);
+        ui_show(SET_DATE_LAY);
         break;
     }
     return false;
@@ -733,11 +746,12 @@ static int rec_set_date_time_onchange(void *ctr, enum element_change_event e, vo
     }
     return false;
 }
-REGISTER_UI_EVENT_HANDLER(SET_TIME_LAY)
+REGISTER_UI_EVENT_HANDLER(SET_DATE_LAY)
 .onchange = rec_set_date_time_onchange,
 };
 
 
+//struct ui_time *sys_set_date;
 /*****************************设置日期控件动作 ************************************/
 static int sys_set_date_year_onchange(void *ctr, enum element_change_event e, void *arg)
 {
@@ -753,6 +767,7 @@ static int sys_set_date_year_onchange(void *ctr, enum element_change_event e, vo
     case ON_CHANGE_INIT:
         get_system_time(&sys_time);
         time->year = sys_time.year;
+        //sys_set_date->year  = sys_time.year;
         break;
 
     default:
@@ -760,9 +775,10 @@ static int sys_set_date_year_onchange(void *ctr, enum element_change_event e, vo
     }
     return false;
 }
-REGISTER_UI_EVENT_HANDLER(SET_TIME_DATE_YEAR_CUR)
+REGISTER_UI_EVENT_HANDLER(SET_DATE_YEAR_CUR)
 .onchange = sys_set_date_year_onchange,
 };
+
 
 static int sys_set_date_month_onchange(void *ctr, enum element_change_event e, void *arg)
 {
@@ -778,6 +794,7 @@ static int sys_set_date_month_onchange(void *ctr, enum element_change_event e, v
     case ON_CHANGE_INIT:
         get_system_time(&sys_time);
         time->month = sys_time.month;
+        //sys_set_date->month  = sys_time.month;
         break;
 
     default:
@@ -785,7 +802,7 @@ static int sys_set_date_month_onchange(void *ctr, enum element_change_event e, v
     }
     return false;
 }
-REGISTER_UI_EVENT_HANDLER(SET_TIME_DATE_MONTH_CUR)
+REGISTER_UI_EVENT_HANDLER(SET_DATE_MONTH_CUR)
 .onchange = sys_set_date_month_onchange,
 };
 
@@ -803,6 +820,7 @@ static int sys_set_date_day_onchange(void *ctr, enum element_change_event e, voi
     case ON_CHANGE_INIT:
         get_system_time(&sys_time);
         time->day = sys_time.day;
+        //sys_set_date->day  = sys_time.day;
         break;
 
     default:
@@ -810,12 +828,33 @@ static int sys_set_date_day_onchange(void *ctr, enum element_change_event e, voi
     }
     return false;
 }
-REGISTER_UI_EVENT_HANDLER(SET_TIME_DATE_DAY_CUR)
+REGISTER_UI_EVENT_HANDLER(SET_DATE_DAY_CUR)
 .onchange = sys_set_date_day_onchange,
+}; 
+
+/*****************************显示设置日期控件 ************************************/
+/*
+static int show_set_date_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct ui_time *time = (struct ui_time *)ctr;
+    switch (e) {
+    case ON_CHANGE_SHOW_PROBE:
+        break;
+    case ON_CHANGE_INIT:
+        time->year = sys_set_date->year;
+        time->month = sys_set_date->month;
+        time->day = sys_set_date->day;
+        break;
+
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(SET_DATE_CURRENT)
+.onchange = sys_set_date_year_onchange,
 };
-
-
-
+*/
 
 
 /***************************** 设置界面 语言设置按钮 ************************************/
@@ -1117,7 +1156,7 @@ static int rec_set_two_menu_off_ontouch(void *ctr, struct element_touch_event *e
             ui_text_show_index_by_id(SET_SOUND_TXT,__this->volume_lv);
             break;
         case 2:
-            ui_hide(SET_TIME_LAY);
+            ui_hide(SET_DATE_LAY);
             break;
         default:
             break;
@@ -1404,6 +1443,8 @@ REGISTER_UI_EVENT_HANDLER(PWD_DEL_KEY)
 /***************************** 密码界面 密码确认按钮 ************************************/
 static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
 {
+    u8 pw[PAW_NUM] = {0};
+    u8 i;
     UI_ONTOUCH_DEBUG("**rec_password_ok_ontouch**");
     int tmp = 0;
     switch (e->event) {
@@ -1420,6 +1461,9 @@ static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         put_buf(get_password_code,PAW_NUM);             //输出密码
         put_buf(password_code,PAW_NUM);             //输出输入密码
+        for(i=0;i<4;i++){
+            pw[i] = db_select("PWD_1")
+        }
 //        tmp = strncmp(password_code,get_password_code, 8);
         tmp = strcmp(password_code,get_password_code);
         if(tmp == 0){

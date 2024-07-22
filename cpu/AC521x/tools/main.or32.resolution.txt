@@ -432,6 +432,7 @@ obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o
 -r=obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o,ui_text_show_index_by_id,l
 -r=obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o,log_print,l
 -r=obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o,ui_hide,l
+-r=obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o,spec_uart_send,l
 -r=obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o,index_of_table8,l
 -r=obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o,db_select,l
 -r=obj/Release/app/car_camera/ui/style_JL02/ui_action_rec.o,ui_ontouch_lock,l

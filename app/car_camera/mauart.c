@@ -7,7 +7,7 @@
 #include "device/av10_spi.h"
 #include "asm/ldo.h"
 #include "app_database.h"
-
+#include "system/device/uart.h"
 
 
 static void *uart_dev_handle;
@@ -33,6 +33,7 @@ static void uart_rec_function_task(void *arg)
     static  u8 yun_cnt= 0;
     static u8 buf[512];
     puts("\nuart_rec_function_task>>>>>>>>\n");
+    printf("XXXXXX\n");
     while(1){
         len = spec_uart_recv(buf, 200);
         if(len > 0){
