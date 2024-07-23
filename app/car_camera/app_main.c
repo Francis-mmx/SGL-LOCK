@@ -495,7 +495,15 @@ int spec_uart_send(char *buf, u32 len) ;//串口发送
 int uart_receive_package(u8 *buf, int len)  //串口接收
 {
    if(len>0){
-     put_buf(buf,len);//打印接收值
+    put_buf(buf,len);//打印接收值
+    if((len==4) && (buf[0]==0xAA))
+    {
+       buf[0] = 0xAA;
+       buf[1] = 0xBB;
+       buf[2] = 0xCC;
+       buf[3] = 0xDD;
+    }
+     put_buf(buf,4);//打印接收值
  }
 }
 
@@ -587,6 +595,7 @@ void app_main()
     sys_key_event_enable();
     sys_touch_event_enable();
 #endif
+    spec_uart_send(create_packet(voice,powered),PACKET_LEN);
 
     sys_power_auto_shutdown_start(db_select("aff") * 60);
     sys_power_low_voltage_shutdown(320, PWR_DELAY_INFINITE);

@@ -58,40 +58,13 @@ static struct rec_menu_info handler = {0};
 #define __this 	(&handler)
 #define sizeof_this     (sizeof(struct rec_menu_info))
 
-static u32 test_tx = 0xa533;
+//static u32 test_tx = 0xa533;
 
 extern int spec_uart_send(char *buf, u32 len);
 extern int spec_uart_recv(char *buf, u32 len);
 
 
-/*数据包：报头、模式、命令、校验*/
-typedef struct {
-    u8 header;      // 报头，1字节        0xCD
-    u8 mode;        // 模式，1字节
-    u16 command;    // 命令，2字节
-}Data;
 
-typedef struct {
-    Data data[4];   // 数据，4字节
-    u8 check;       // 校验，1字节
-}Packet;
-
-#define  PACKET_LEN  5
-
-typedef enum {
-    key_sound = 0xA1,   //按键音
-    unlock_mode,        //解锁方式
-    door_bell,          //门铃
-    other_msg = 0xAA    //待定义的消息
-}Mode;
-
-typedef enum {
-    command_0 = 0xF101,     //命令
-    command_1,
-    command_2,
-    command_3,
-    command_4
-}Command;
 
 
 extern int storage_device_ready();
@@ -251,24 +224,26 @@ enum {
 };
 
 /*****************************校验位 ************************************/
-u8 calculate_checksum(u8 *array, u8 length) {
-    u8 checksum = 0;
-    for (u8 i = 0; i < length; i++) {
-        printf("arr[%d] = %x",i,array[i]);
-        checksum += array[i];
+u16 calculate_checksum(u8 *array, u8 length) {
+    u16 sum = 0;
+    u8 temp_h,temp_l;
+    for (int i = 0; i < length; i++) {
+        sum += array[i];
+        //printf("checksum %d",sum);
     }
-    printf("checksum %x",checksum);
-    return checksum;
+    //temp_h = sum >> 8;
+    //temp_l = sum & 0xFF;
+    //printf("checksumH %x temp_l %x ",temp_h,temp_l);
+    return sum;
 }
 
 
 /*****************************创建数据包 ************************************/
 u8 *create_packet(Mode mode, Command command)
 {
-    
     Data uart_msg;
     Packet packet;
-    uart_msg.header = 0xCD;       // 固定的报头值
+    uart_msg.header = 0xCD;       
     uart_msg.mode = mode;
     uart_msg.command = command;
 
@@ -281,7 +256,8 @@ u8 *create_packet(Mode mode, Command command)
     packet.check = calculate_checksum(packet.data,sizeof(Data)/sizeof(uart_msg.header));
     printf("packet.check %x",packet.check);
     memcpy(data_packet, &packet, sizeof(Packet)/sizeof(packet.check));
-    data_packet[PACKET_LEN-1] = packet.check;
+    data_packet[PACKET_LEN-2] = packet.check >> 8;
+    data_packet[PACKET_LEN-1] = packet.check & 0xFF;
 
     return data_packet;
 }
@@ -614,6 +590,7 @@ REGISTER_UI_EVENT_HANDLER(REC_TIM_DATE)
 /***************************** 进入密码界面按钮 ************************************/
 static int rec_goto_password_page_ontouch(void *ctr, struct element_touch_event *e)
 {
+    u8 rx_buf[8] = {0};
     UI_ONTOUCH_DEBUG("**rec_goto_password_page_ontouch**");
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
@@ -633,7 +610,8 @@ static int rec_goto_password_page_ontouch(void *ctr, struct element_touch_event 
         ui_hide(ENC_LAY_BACK);
         ui_show(ENC_PASSWORD_LAY);
         reset_up_ui_func();
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,input_admin_infor),PACKET_LEN);
+        //uart_receive_package(rx_buf, 6);
         break;
     }
     return false;
@@ -663,7 +641,7 @@ static int rec_goto_back_page_ontouch(void *ctr, struct element_touch_event *e)
         ui_hide(ENC_PASSWORD_LAY);
         ui_show(ENC_LAY_BACK);
         reset_up_ui_func();
-        spec_uart_send(create_packet(key_sound,command_1),PACKET_LEN);
+        spec_uart_send(create_packet(voice,operate_success),PACKET_LEN);
         break;
     }
     return false;
@@ -692,7 +670,7 @@ static int rec_goto_set_page_ontouch(void *ctr, struct element_touch_event *e)
 
         ui_hide(ENC_PASSWORD_LAY);
         ui_show(ENC_LAY_PAGE);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,enter_admin_mode),PACKET_LEN);
         break;
     }
     return false;
@@ -702,7 +680,7 @@ REGISTER_UI_EVENT_HANDLER(PWD_NUM_BTN_SET)
 .ontouch = rec_goto_set_page_ontouch,
 };
 
-/***************************** 设置界面返回密码界面按钮 ************************************/
+/***************************** 设置界面返回密码界面 ************************************/
 static int rec_set_list_lay_onchange(void *ctr, enum element_change_event e, void *arg)
 {
     struct layout *layout = (struct layout *)ctr;
@@ -756,7 +734,7 @@ static int rec_set_goto_paw_page_ontouch(void *ctr, struct element_touch_event *
             ui_text_show_index_by_id(ENC_SET_TXT,0);
             ui_hide(ENC_PAPER_SET_PIC);
         }
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,command_0),PACKET_LEN);
         break;
     }
     return false;
@@ -783,7 +761,7 @@ static int rec_goto_set_time_ontouch(void *ctr, struct element_touch_event *e)
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_show(SET_DATE_LAY);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -940,7 +918,7 @@ static int rec_goto_set_lang_ontouch(void *ctr, struct element_touch_event *e)
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_show(SET_LANG_LAY);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -1039,7 +1017,7 @@ static int rec_language_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_SET_TXT);
         ui_hide(SET_TEXT_LANG_LAY);
         ui_show(SET_TEXT_LANG_LAY);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -1068,7 +1046,7 @@ static int rec_goto_set_vol_ontouch(void *ctr, struct element_touch_event *e)
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_show(SET_VOLUME_LAY);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -1165,7 +1143,7 @@ static int rec_volume_ontouch(void *ctr, struct element_touch_event *e)
             }
         }
         menu_rec_volume_set(sel_item);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -1230,7 +1208,7 @@ static int rec_set_two_menu_off_ontouch(void *ctr, struct element_touch_event *e
         default:
             break;
         }
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -1266,7 +1244,7 @@ static int rec_goto_set_paper_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_PAPER_LIST_LAY);
         ui_text_show_index_by_id(ENC_SET_TXT,1);
         ui_show(ENC_PAPER_SET_PIC);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -1350,7 +1328,7 @@ static int rec_set_paper_ui_ontouch(void *ctr, struct element_touch_event *e)
         printf("================= paper num:%d\n",db_select("back"));
         ui_pic_show_image_by_id(ENC_PAPER_SET_PIC,sel_item);
         ui_pic_show_image_by_id(REC_SET_PAPER_PIC[db_select("back")],1);        //显示选中选项
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -1441,7 +1419,7 @@ static int rec_password_in_ontouch(void *ctr, struct element_touch_event *e)
         put_buf(password_code,PAW_NUM);             //输出当前输入的密码
         password_num++;
         ui_text_set_str_by_id(ENC_PASSWORD_TXT, "ascii", &asterisk_number[PAW_NUM-password_num]);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -1502,7 +1480,7 @@ static int rec_password_del_ontouch(void *ctr, struct element_touch_event *e)
         printf("============== del pwd:");
         put_buf(password_code,PAW_NUM);             //输出当前输入的密码
         ui_text_set_str_by_id(ENC_PASSWORD_TXT, "ascii", &asterisk_number[PAW_NUM-password_num]);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -1515,8 +1493,8 @@ REGISTER_UI_EVENT_HANDLER(PWD_DEL_KEY)
 /***************************** 密码界面 密码确认按钮 ************************************/
 static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
 {
-    u8 pw[PAW_NUM] = {0};
-    u8 i;
+    u8 pw[PAW_NUM+1] = {0};
+    u8 i,j;
     UI_ONTOUCH_DEBUG("**rec_password_ok_ontouch**");
     int tmp = 0;
     switch (e->event) {
@@ -1533,17 +1511,47 @@ static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         put_buf(get_password_code,PAW_NUM);             //输出密码
         put_buf(password_code,PAW_NUM);             //输出输入密码
-        for(i=0;i<4;i++){
-            pw[i] = db_select("PWD_1");
+#if 0
+        pw[0] = (db_select("pwd1") >> 24) & 0xFF - 48; 
+        printf("password[0]  %d\n",pw[0]);
+        pw[1] = (db_select("pwd1") >> 16) & 0xFF - 48; 
+        printf("password[1]  %d\n",pw[1]);
+        pw[2] = (db_select("pwd1") >> 8) & 0xFF - 48; 
+        printf("password[2]  %d\n",pw[2]);
+        pw[3] = (db_select("pwd1") >> 0) & 0xFF - 48; 
+        printf("password[3]  %d\n",pw[3]);
+
+        pw[4] = (db_select("pwd2") >> 24) & 0xFF - 48; 
+        printf("password[4]  %d\n",pw[4]);
+        pw[5] = (db_select("pwd2") >> 16) & 0xFF - 48; 
+        printf("password[5]  %d\n",pw[5]);
+        pw[6] = (db_select("pwd2") >> 8) & 0xFF - 48; 
+        printf("password[6]  %d\n",pw[6]);
+        pw[7] = (db_select("pwd2") >> 0) & 0xFF - 48; 
+        printf("password[7]  %d\n",pw[7]);
+#else        
+        for (i = 0; i < 4; i++) {
+            pw[i] = (db_select("pwd1") >> (24 - i * 8)) & 0xFF - 48;
+            printf("password[%d]  %d\n", i, pw[i]);
         }
-//        tmp = strncmp(password_code,get_password_code, 8);
-        tmp = strcmp(password_code,get_password_code);
+        
+        for (i = 0; i < 4; i++) {
+            pw[i+4] = (db_select("pwd2") >> (24 - i * 8)) & 0xFF - 48;
+            printf("password[%d]  %d\n", i+4, pw[i+4]);
+        }
+#endif
+        pw[PAW_NUM] = '\0';
+
+        for(i=0;i<PAW_NUM;i++){
+            printf("input_paw[%d] %d\n",i,password_code[i]);
+        }
+        tmp = strcmp(password_code,pw);
         if(tmp == 0){
             printf("================== pwd check succ\n");
         }else{
             printf("================== pwd check err\n");
         }
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,unlocked),PACKET_LEN);
         break;
     }
     return false;
@@ -1670,7 +1678,7 @@ static int rec_page_left_right_ontouch(void *ctr, struct element_touch_event *e)
         ui_text_show_index_by_id(ENC_LAY_PAGE_TXT2,page_pic_flag);
         ui_pic_show_image_by_id(ENC_LAY_SET_PIC,page_pic_flag);
         reset_up_ui_func();
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -1703,7 +1711,7 @@ static int rec_LAY_BTN_1_ontouch(void *ctr, struct element_touch_event *e)
             ui_hide(ENC_LAY_PAGE);
             ui_show(ENC_LAY_DOOR_LOCK_PAGE);
         }
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -1736,7 +1744,7 @@ static int rec_LAY_BTN_2_ontouch(void *ctr, struct element_touch_event *e)
             ui_hide(ENC_LAY_PAGE);
             ui_show(ENC_LAY_SYS_INFO_PAGE);
         }
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -1764,7 +1772,7 @@ static int rec_LAY_BTN_3_ontouch(void *ctr, struct element_touch_event *e)
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_hide(ENC_LAY_PAGE);
         ui_show(ENC_SET_LAY);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -1790,7 +1798,7 @@ static int rec_LAY_BTN_4_ontouch(void *ctr, struct element_touch_event *e)
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -1799,9 +1807,10 @@ REGISTER_UI_EVENT_HANDLER(ENC_LAY_BTN_4)
 .ontouch = rec_LAY_BTN_4_ontouch,
 };
 
-/***************************** 系统主界面返回密码界面按钮 ************************************/
+/***************************** 设置界面返回密码界面按钮 ************************************/
 static int rec_lay_page_btn_ontouch(void *ctr, struct element_touch_event *e)
 {
+    
     UI_ONTOUCH_DEBUG("**rec_lay_page_btn_ontouch**");
 
     switch (e->event) {
@@ -1820,7 +1829,8 @@ static int rec_lay_page_btn_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_PASSWORD_LAY);
         reset_up_ui_func();
         page_pic_flag = 0;
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,exit_admin_mode),PACKET_LEN);
+        
         break;
     }
     return false;
@@ -1977,7 +1987,7 @@ static int rec_set_return_user_ontouch(void *ctr, struct element_touch_event *e)
             ui_hide(ENC_LAY_USER_DETAILS);
             ui_show(ENC_LAY_USER_LIST);
         }
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -2006,7 +2016,7 @@ static int rec_set_new_user_ontouch(void *ctr, struct element_touch_event *e)
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_hide(ENC_LAY_USER_LIST);
         ui_show(ENC_LAY_USER_INPUT);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -2145,7 +2155,7 @@ static int rec_user_name_btn_ontouch(void *ctr, struct element_touch_event *e)
 
         ui_hide(ENC_LAY_USER_LIST);
         ui_show(ENC_LAY_USER_DETAILS);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -2311,7 +2321,7 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
             if(user_name_num<0){
                 user_name_num = 0;
                 user_name[0] = '\0';
-                spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+                spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
                 ui_hide(ENC_USER_NAME_TXT);
                 ui_show(ENC_PLASE_INPUT_TXT);
                 return false;
@@ -2327,7 +2337,7 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
             if(name_array_num>9){
                 name_array_num = 0;
             }
-            spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+            spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
             ui_hide(ENC_LAY_USER_INPUT);
             ui_show(ENC_LAY_USER_DETAILS);
             return false;
@@ -2342,7 +2352,7 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
         if(/*(btn->elm.id != BTN_USER_BACK) &&*/ (btn->elm.id != BTN_USER_OK)){
             user_name_num++;
         }
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -2491,7 +2501,7 @@ static int rec_user_push_btn_ontouch(void *ctr, struct element_touch_event *e)
         ui_pic_show_image_by_id(ENC_USER_PUSH_PIC,user_function_array[(list_page_num*5)+now_btn_user][0]);
         ui_text_show_index_by_id(ENC_USER_PUSH_TXT,user_function_array[(list_page_num*5)+now_btn_user][0]);
         break;
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
     }
     return false;
 }
@@ -2520,7 +2530,7 @@ static int rec_user_power_btn_ontouch(void *ctr, struct element_touch_event *e)
 
         ui_pic_show_image_by_id(ENC_USER_POWER_PIC,user_function_array[(list_page_num*5)+now_btn_user][1]);
         ui_text_show_index_by_id(ENC_USER_POWER_TXT,user_function_array[(list_page_num*5)+now_btn_user][1]);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -2554,7 +2564,7 @@ static int rec_user_facial_btn_ontouch(void *ctr, struct element_touch_event *e)
 
         ui_hide(ENC_WIN);
         ui_show(ENC_FACIAL_LAY);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -2588,7 +2598,7 @@ static int rec_facial_return_btn_ontouch(void *ctr, struct element_touch_event *
         goto_facial_page_flag = 1;
         ui_hide(ENC_FACIAL_LAY);
         ui_show(ENC_WIN);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -2652,7 +2662,7 @@ static int rec_record_page_return_btn_ontouch(void *ctr, struct element_touch_ev
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_hide(ENC_LAY_RECORD_PAGE);
         ui_show(ENC_LAY_PAGE);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -2967,7 +2977,7 @@ static int rec_sys_info_return_btn_ontouch(void *ctr, struct element_touch_event
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_hide(ENC_LAY_SYS_INFO_PAGE);
         ui_show(ENC_LAY_PAGE);
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -3025,7 +3035,7 @@ static int rec_door_lock_onoff_btn_ontouch(void *ctr, struct element_touch_event
             ui_pic_show_image_by_id(ENC_LOCK_LIST_PIC_7,lock_array[6]);
             break;
         }
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -3142,7 +3152,7 @@ static int rec_lock_list_page_btn_ontouch(void *ctr, struct element_touch_event 
             ui_show(ENC_LAY_LOCK_LIST_1);
             ui_pic_show_image_by_id(ENC_LOCK_LIST_PAGE_PIC,0);
         }
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -3172,7 +3182,7 @@ static int rec_door_lock_return_btn_ontouch(void *ctr, struct element_touch_even
         ui_hide(ENC_LAY_DOOR_LOCK_PAGE);
         ui_show(ENC_LAY_PAGE);
         door_lock_page_flag = 0;
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -3232,7 +3242,7 @@ static int rec_door_lock_lev_move_btn_ontouch(void *ctr, struct element_touch_ev
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -3260,7 +3270,7 @@ static int rec_rec_power_up_ontouch(void *ctr, struct element_touch_event *e)
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
 
         sys_power_shutdown();
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
         break;
     }
     return false;
@@ -3288,7 +3298,7 @@ static int rec_rec_lock_up_ontouch(void *ctr, struct element_touch_event *e)
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
 
         ui_lcd_light_off();
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,locked),PACKET_LEN);
         break;
     }
     return false;
@@ -3320,7 +3330,7 @@ static int rec_rec_ling_up_ontouch(void *ctr, struct element_touch_event *e)
         if(tmp == 5){
             tmp = 0;
         }
-        spec_uart_send(create_packet(key_sound,command_0),PACKET_LEN);
+        spec_uart_send(create_packet(voice,door_bell),PACKET_LEN);
         break;
     }
     return false;

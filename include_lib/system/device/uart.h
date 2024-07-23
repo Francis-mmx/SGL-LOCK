@@ -156,6 +156,59 @@ struct uart_device {
 };
 
 
+/*数据包：报头、长度、模式、命令、校验*///u8 length;      // 模式命令校验长度
+typedef struct {
+    u8 header;      // 报头，1字节        0xCDCD
+    
+    u8 mode;        // 模式，1字节
+    u16 command;    // 命令，2字节
+}Data;
+
+typedef struct {
+    Data data[4];   // 数据，4字节
+    u16 check;      // 校验，2字节
+}Packet;
+
+#define  PACKET_LEN  6
+
+typedef enum {
+    voice = 0xA0,             //声音
+    unlock_mode,              //解锁方式
+    add_user,                 //添加用户
+    delete_user,              //删除用户
+    record,                   //记录查询
+    other_msg = 0xFE          //待定义的消息
+}Mode;
+
+typedef enum {
+    key_sound = 0xA001,       //按键音
+    door_bell,                //门铃
+    powered,                  //上电
+    input_admin_infor,        //请输入管理员信息
+    locked,                   //已关锁
+    unlocked,                 //已开锁
+    enter_admin_mode,         //进入管理员模式
+    exit_admin_mode,          //退出管理员模式
+    operate_success,          //操作成功
+
+    add_face = 0xA201,        //新增人脸
+    add_password,             //新增密码
+    add_fingerprint,          //新增指纹
+    add_nfc,                  //新增卡片
+    add_other = 0xA2FF,
+
+    delete_face = 0xA301,     //删除人脸
+    delete_password,          //删除密码
+    delete_fingerprint,       //删除指纹
+    delete_nfc,               //删除卡片
+    delete_other = 0xF1FF,
+
+    record_0 = 0xA401,        //
+    command_0,          
+    command_1             
+}Command;
+
+
 
 
 struct uart_operations {
