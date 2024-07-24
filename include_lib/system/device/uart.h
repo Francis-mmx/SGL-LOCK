@@ -158,14 +158,15 @@ struct uart_device {
 
 /*数据包：报头、长度、模式、命令、校验*///u8 length;      // 模式命令校验长度
 typedef struct {
-    u8 header;      // 报头，1字节        0xCDCD
-    
-    u8 mode;        // 模式，1字节
-    u16 command;    // 命令，2字节
+    u16 header;      // 报头，1字节        0xCDCD
+    u16 length;      // 模式+命令+校验的长度
+    u8 *mode;        // 模式，1字节
+    u16 *command;    // 命令，2字节
 }Data;
 
+
 typedef struct {
-    Data data[4];   // 数据，4字节
+    Data data;   // 数据，4字节
     u16 check;      // 校验，2字节
 }Packet;
 
@@ -179,6 +180,7 @@ typedef enum {
     record,                   //记录查询
     other_msg = 0xFE          //待定义的消息
 }Mode;
+
 
 typedef enum {
     key_sound = 0xA001,       //按键音

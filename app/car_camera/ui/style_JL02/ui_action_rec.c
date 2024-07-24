@@ -224,26 +224,94 @@ enum {
 };
 
 /*****************************校验位 ************************************/
-u16 calculate_checksum(u8 *array, u8 length) {
+u16 calculate_checksum(const Data *array, u16 mode_length,u16 command_length)
+{
     u16 sum = 0;
-    u8 temp_h,temp_l;
-    for (int i = 0; i < length; i++) {
-        sum += array[i];
-        //printf("checksum %d",sum);
+    u8 sum_H,sum_L,i;
+    const u8 *head_len_data = (const u8 *)&array->header;
+    for (i = 0; i < sizeof(array->header)+sizeof(array->length); i++)
+    {
+        sum += head_len_data[i];//header、length校验和
     }
-    //temp_h = sum >> 8;
-    //temp_l = sum & 0xFF;
-    //printf("checksumH %x temp_l %x ",temp_h,temp_l);
+    const u8 *mode_data = (const u8 *)array->mode;
+    for(i = 0; i< mode_length * sizeof(u8); i++)
+    {   
+        sum += mode_data[i];
+    }
+    const u8 *com_data = (const u8 *)array->command;
+    for(i = 0; i< command_length * sizeof(u16); i++)
+    {   
+        sum += com_data[i];
+    }
+    //sum_H = sum >> 8;
+    //sum_L = sum & 0xFF;
+    //printf("sumH %x sum_L %x ",sum_H,sum_L);
     return sum;
 }
 
 
 /*****************************创建数据包 ************************************/
+Data *create_packet_1(u8 *mode,u16 mode_len,u16 *command,u16 com_len)
+{
+    Data uart_msg;
+    Packet packet;
+    u8 i;
+    
+    uart_msg.header = 0xCDCD;
+    uart_msg.mode = (u8 *)malloc(mode_len * sizeof(u8));//分配 数组长度 * 类型长度的空间
+    if(uart_msg.mode == NULL)
+    {   
+        free(uart_msg.mode);
+        return NULL;
+    }    
+    memcpy(uart_msg.mode,mode,mode_len * sizeof(u8));
+    
+    uart_msg.command = (u8 *)malloc(com_len * sizeof(u16));//分配 数组长度 * 类型长度的空间
+    if(uart_msg.command == NULL)
+    {   
+        free(uart_msg.command);
+        return NULL;
+    }    
+    memcpy(uart_msg.command,command,com_len * sizeof(u16));
+    
+    uart_msg.length = mode_len * sizeof(u8) + com_len * sizeof(u16);//模式和命令的长度
+    memcpy(&packet.data, &uart_msg, sizeof(uart_msg));
+    /*
+    for(i=0;i<mode_len;i++)
+    {
+        printf("mode %x uart_msg->mode %x  packet.mode[%d] = %x\n",mode[i],uart_msg.mode[i],i,packet.data.mode[i]);
+    }
+    for(i=0;i<com_len;i++)
+    {
+        printf("command %x uart_msg->command %x  packet.command[%d] = %x\n",command[i],uart_msg.command[i],i,packet.data.command[i]);
+    }
+    */
+    packet.check = calculate_checksum(&packet.data,mode_len,com_len);//mode和command的长度加上header和length占的4字节
+    printf("packet.check %x length %x\n",packet.check,uart_msg.length);
+    
+    u8 *data_packet = malloc(sizeof(Packet));
+    if (data_packet == NULL) {
+        return NULL;
+    }
+    memcpy(data_packet, &packet.data.header, 2);
+    memcpy(data_packet+2, &packet.data.length, 2);
+    memcpy(data_packet+4, packet.data.mode, 2);
+    memcpy(data_packet+6, packet.data.command, 8);
+    data_packet[uart_msg.length+4] = packet.check >> 8;
+    data_packet[uart_msg.length+5] = packet.check & 0xFF;
+    for(i=0;i<sizeof(Packet);i++)
+    {
+        printf("data_packet[%d] = %x",i,data_packet[i]);
+    }
+
+    return data_packet;
+}
+
 u8 *create_packet(Mode mode, Command command)
 {
     Data uart_msg;
     Packet packet;
-    uart_msg.header = 0xCD;       
+    uart_msg.header = 0xCD;
     uart_msg.mode = mode;
     uart_msg.command = command;
 
@@ -251,14 +319,15 @@ u8 *create_packet(Mode mode, Command command)
     if (data_packet == NULL) {
         return NULL;
     }
-    memcpy(packet.data, &uart_msg, sizeof(Data));
+    memcpy(&packet.data, &uart_msg, sizeof(Data));
 
-    packet.check = calculate_checksum(packet.data,sizeof(Data)/sizeof(uart_msg.header));
-    printf("packet.check %x",packet.check);
+    packet.check = calculate_checksum(&packet.data,sizeof(Data)/sizeof(uart_msg.header),sizeof(Data));
+    //printf("packet.check %x",packet.check);
     memcpy(data_packet, &packet, sizeof(Packet)/sizeof(packet.check));
     data_packet[PACKET_LEN-2] = packet.check >> 8;
     data_packet[PACKET_LEN-1] = packet.check & 0xFF;
 
+    free(data_packet);
     return data_packet;
 }
 
@@ -591,6 +660,7 @@ REGISTER_UI_EVENT_HANDLER(REC_TIM_DATE)
 static int rec_goto_password_page_ontouch(void *ctr, struct element_touch_event *e)
 {
     u8 rx_buf[8] = {0};
+    u16 m_len,c_len;
     UI_ONTOUCH_DEBUG("**rec_goto_password_page_ontouch**");
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
@@ -610,8 +680,12 @@ static int rec_goto_password_page_ontouch(void *ctr, struct element_touch_event 
         ui_hide(ENC_LAY_BACK);
         ui_show(ENC_PASSWORD_LAY);
         reset_up_ui_func();
-        spec_uart_send(create_packet(voice,input_admin_infor),PACKET_LEN);
-        //uart_receive_package(rx_buf, 6);
+        u8 test_mode[] = {voice,other_msg};
+        u16 test_command[] = {key_sound,door_bell,powered,add_face};
+        m_len = sizeof(test_mode)/sizeof(test_mode[0]);
+        c_len = sizeof(test_command)/sizeof(test_command[0]);
+        spec_uart_send(create_packet_1(test_mode,m_len,test_command,c_len),16);
+        //spec_uart_send(create_packet(voice,input_admin_infor),PACKET_LEN);
         break;
     }
     return false;
@@ -1512,29 +1586,29 @@ static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
         put_buf(get_password_code,PAW_NUM);             //输出密码
         put_buf(password_code,PAW_NUM);             //输出输入密码
 #if 0
-        pw[0] = (db_select("pwd1") >> 24) & 0xFF - 48; 
+        pw[0] = (db_select("pwd1") >> 24) & 0xFF - 48;
         printf("password[0]  %d\n",pw[0]);
-        pw[1] = (db_select("pwd1") >> 16) & 0xFF - 48; 
+        pw[1] = (db_select("pwd1") >> 16) & 0xFF - 48;
         printf("password[1]  %d\n",pw[1]);
-        pw[2] = (db_select("pwd1") >> 8) & 0xFF - 48; 
+        pw[2] = (db_select("pwd1") >> 8) & 0xFF - 48;
         printf("password[2]  %d\n",pw[2]);
-        pw[3] = (db_select("pwd1") >> 0) & 0xFF - 48; 
+        pw[3] = (db_select("pwd1") >> 0) & 0xFF - 48;
         printf("password[3]  %d\n",pw[3]);
 
-        pw[4] = (db_select("pwd2") >> 24) & 0xFF - 48; 
+        pw[4] = (db_select("pwd2") >> 24) & 0xFF - 48;
         printf("password[4]  %d\n",pw[4]);
-        pw[5] = (db_select("pwd2") >> 16) & 0xFF - 48; 
+        pw[5] = (db_select("pwd2") >> 16) & 0xFF - 48;
         printf("password[5]  %d\n",pw[5]);
-        pw[6] = (db_select("pwd2") >> 8) & 0xFF - 48; 
+        pw[6] = (db_select("pwd2") >> 8) & 0xFF - 48;
         printf("password[6]  %d\n",pw[6]);
-        pw[7] = (db_select("pwd2") >> 0) & 0xFF - 48; 
+        pw[7] = (db_select("pwd2") >> 0) & 0xFF - 48;
         printf("password[7]  %d\n",pw[7]);
-#else        
+#else
         for (i = 0; i < 4; i++) {
             pw[i] = (db_select("pwd1") >> (24 - i * 8)) & 0xFF - 48;
             printf("password[%d]  %d\n", i, pw[i]);
         }
-        
+
         for (i = 0; i < 4; i++) {
             pw[i+4] = (db_select("pwd2") >> (24 - i * 8)) & 0xFF - 48;
             printf("password[%d]  %d\n", i+4, pw[i+4]);
@@ -1810,7 +1884,7 @@ REGISTER_UI_EVENT_HANDLER(ENC_LAY_BTN_4)
 /***************************** 设置界面返回密码界面按钮 ************************************/
 static int rec_lay_page_btn_ontouch(void *ctr, struct element_touch_event *e)
 {
-    
+
     UI_ONTOUCH_DEBUG("**rec_lay_page_btn_ontouch**");
 
     switch (e->event) {
@@ -1830,7 +1904,7 @@ static int rec_lay_page_btn_ontouch(void *ctr, struct element_touch_event *e)
         reset_up_ui_func();
         page_pic_flag = 0;
         spec_uart_send(create_packet(voice,exit_admin_mode),PACKET_LEN);
-        
+
         break;
     }
     return false;
