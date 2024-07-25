@@ -170,7 +170,7 @@ typedef struct {
     u16 check;      // 校验，2字节
 }Packet;
 
-#define  PACKET_LEN  6
+#define  PACKET_HLC_LEN  6    //2字节报头、2字节长度、2字节校验
 
 typedef enum {
     voice = 0xA0,             //声音

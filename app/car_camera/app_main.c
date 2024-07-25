@@ -507,6 +507,14 @@ int uart_receive_package(u8 *buf, int len)  //串口接收
  }
 }
 
+int uart_send_package(u8 *mode,u8 mode_len,u16 *command,u8 com_len)
+{
+    u8 total_length = mode_len * sizeof(u8) + com_len * (sizeof(u16)) + PACKET_HLC_LEN;
+    spec_uart_send(create_packet_uncertain_len(mode,mode_len,command,com_len),total_length);
+    return 0;
+}
+
+
 /*
  * 应用程序主函数
  */
@@ -595,7 +603,14 @@ void app_main()
     sys_key_event_enable();
     sys_touch_event_enable();
 #endif
-    spec_uart_send(create_packet(voice,powered),PACKET_LEN);
+
+/*******************************************上电*******************************************/
+    u8 mode_buf[] = {voice};
+    u16 command_buf[] = {powered};
+    u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+    u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+    uart_send_package(mode_buf,m_len,command_buf,c_len);
+/*******************************************上电*******************************************/
 
     sys_power_auto_shutdown_start(db_select("aff") * 60);
     sys_power_low_voltage_shutdown(320, PWR_DELAY_INFINITE);

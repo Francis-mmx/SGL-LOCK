@@ -3871,6 +3871,7 @@ static int video_rec_state_machine(struct application *app, enum app_state state
                 lane_det_setting_disp();
             } else {
                 video_rec_init();
+                printf("video_rec_init \n");
             }
             break;
         case ACTION_VIDEO_REC_SET_CONFIG:

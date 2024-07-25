@@ -9,6 +9,9 @@
 #include "app_database.h"
 #include "system/device/uart.h"
 
+#define PWD1   (('6'    << 24) | ('6' << 16) | ('6' << 8) | ('6' << 0))
+#define PWD2   (('1'    << 24) | ('2' << 16) | ('3' << 8) | ('4' << 0))
+
 
 #ifdef CONFIG_UI_STYLE_JL02_ENABLE
 
@@ -63,6 +66,7 @@ static struct rec_menu_info handler = {0};
 extern int spec_uart_send(char *buf, u32 len);
 extern int spec_uart_recv(char *buf, u32 len);
 
+extern int uart_send_package(u8 *mode,u8 mode_len,u16 *command,u8 com_len);
 
 
 
@@ -251,14 +255,14 @@ u16 calculate_checksum(const Data *array, u16 mode_length,u16 command_length)
 
 
 /*****************************创建数据包 ************************************/
-Data *create_packet_1(u8 *mode,u16 mode_len,u16 *command,u16 com_len)
+Data *create_packet_uncertain_len(u8 *mode,u16 mode_len,u16 *command,u16 com_len)
 {
     Data uart_msg;
     Packet packet;
     u8 i;
     
     uart_msg.header = 0xCDCD;
-    uart_msg.mode = (u8 *)malloc(mode_len * sizeof(u8));//分配 数组长度 * 类型长度的空间
+    uart_msg.mode = (u8 *)malloc(mode_len * sizeof(u8));//分配 数组长度 x 类型长度的空间
     if(uart_msg.mode == NULL)
     {   
         free(uart_msg.mode);
@@ -266,7 +270,7 @@ Data *create_packet_1(u8 *mode,u16 mode_len,u16 *command,u16 com_len)
     }    
     memcpy(uart_msg.mode,mode,mode_len * sizeof(u8));
     
-    uart_msg.command = (u8 *)malloc(com_len * sizeof(u16));//分配 数组长度 * 类型长度的空间
+    uart_msg.command = (u8 *)malloc(com_len * sizeof(u16));//分配 数组长度 x 类型长度的空间
     if(uart_msg.command == NULL)
     {   
         free(uart_msg.command);
@@ -276,37 +280,31 @@ Data *create_packet_1(u8 *mode,u16 mode_len,u16 *command,u16 com_len)
     
     uart_msg.length = mode_len * sizeof(u8) + com_len * sizeof(u16);//模式和命令的长度
     memcpy(&packet.data, &uart_msg, sizeof(uart_msg));
-    /*
-    for(i=0;i<mode_len;i++)
-    {
-        printf("mode %x uart_msg->mode %x  packet.mode[%d] = %x\n",mode[i],uart_msg.mode[i],i,packet.data.mode[i]);
-    }
-    for(i=0;i<com_len;i++)
-    {
-        printf("command %x uart_msg->command %x  packet.command[%d] = %x\n",command[i],uart_msg.command[i],i,packet.data.command[i]);
-    }
-    */
+    
     packet.check = calculate_checksum(&packet.data,mode_len,com_len);//mode和command的长度加上header和length占的4字节
-    printf("packet.check %x length %x\n",packet.check,uart_msg.length);
+//    printf("packet.check %x length %x\n",packet.check,uart_msg.length);
     
     u8 *data_packet = malloc(sizeof(Packet));
     if (data_packet == NULL) {
         return NULL;
     }
-    memcpy(data_packet, &packet.data.header, 2);
-    memcpy(data_packet+2, &packet.data.length, 2);
-    memcpy(data_packet+4, packet.data.mode, 2);
-    memcpy(data_packet+6, packet.data.command, 8);
-    data_packet[uart_msg.length+4] = packet.check >> 8;
+    memcpy(data_packet, &packet.data, 4);//header,length
+    memcpy(data_packet+4, packet.data.mode, mode_len * sizeof(u8));//mode
+    memcpy((data_packet+4 + mode_len * sizeof(u8)), packet.data.command, (com_len * sizeof(u16)));//command 
+    data_packet[uart_msg.length+4] = packet.check >> 8;//check
     data_packet[uart_msg.length+5] = packet.check & 0xFF;
-    for(i=0;i<sizeof(Packet);i++)
-    {
-        printf("data_packet[%d] = %x",i,data_packet[i]);
-    }
+    
+//    for(i=0;i<uart_msg.length+6;i++)
+//    {
+//        printf("data_packet[%d] = %x",i,data_packet[i]);
+//    }
 
     return data_packet;
 }
 
+
+/*****************************创建固定长度数据包 ************************************/
+#if 1
 u8 *create_packet(Mode mode, Command command)
 {
     Data uart_msg;
@@ -324,13 +322,13 @@ u8 *create_packet(Mode mode, Command command)
     packet.check = calculate_checksum(&packet.data,sizeof(Data)/sizeof(uart_msg.header),sizeof(Data));
     //printf("packet.check %x",packet.check);
     memcpy(data_packet, &packet, sizeof(Packet)/sizeof(packet.check));
-    data_packet[PACKET_LEN-2] = packet.check >> 8;
-    data_packet[PACKET_LEN-1] = packet.check & 0xFF;
+    data_packet[PACKET_HLC_LEN-2] = packet.check >> 8;
+    data_packet[PACKET_HLC_LEN-1] = packet.check & 0xFF;
 
     free(data_packet);
     return data_packet;
 }
-
+#endif
 
 void reset_up_ui_func()
 {
@@ -659,8 +657,6 @@ REGISTER_UI_EVENT_HANDLER(REC_TIM_DATE)
 /***************************** 进入密码界面按钮 ************************************/
 static int rec_goto_password_page_ontouch(void *ctr, struct element_touch_event *e)
 {
-    u8 rx_buf[8] = {0};
-    u16 m_len,c_len;
     UI_ONTOUCH_DEBUG("**rec_goto_password_page_ontouch**");
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
@@ -680,12 +676,13 @@ static int rec_goto_password_page_ontouch(void *ctr, struct element_touch_event 
         ui_hide(ENC_LAY_BACK);
         ui_show(ENC_PASSWORD_LAY);
         reset_up_ui_func();
-        u8 test_mode[] = {voice,other_msg};
-        u16 test_command[] = {key_sound,door_bell,powered,add_face};
-        m_len = sizeof(test_mode)/sizeof(test_mode[0]);
-        c_len = sizeof(test_command)/sizeof(test_command[0]);
-        spec_uart_send(create_packet_1(test_mode,m_len,test_command,c_len),16);
-        //spec_uart_send(create_packet(voice,input_admin_infor),PACKET_LEN);
+        
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {input_admin_infor};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
+        
         break;
     }
     return false;
@@ -715,7 +712,11 @@ static int rec_goto_back_page_ontouch(void *ctr, struct element_touch_event *e)
         ui_hide(ENC_PASSWORD_LAY);
         ui_show(ENC_LAY_BACK);
         reset_up_ui_func();
-        spec_uart_send(create_packet(voice,operate_success),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {operate_success};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -744,7 +745,12 @@ static int rec_goto_set_page_ontouch(void *ctr, struct element_touch_event *e)
 
         ui_hide(ENC_PASSWORD_LAY);
         ui_show(ENC_LAY_PAGE);
-        spec_uart_send(create_packet(voice,enter_admin_mode),PACKET_LEN);
+        
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {enter_admin_mode};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -808,7 +814,11 @@ static int rec_set_goto_paw_page_ontouch(void *ctr, struct element_touch_event *
             ui_text_show_index_by_id(ENC_SET_TXT,0);
             ui_hide(ENC_PAPER_SET_PIC);
         }
-        spec_uart_send(create_packet(voice,command_0),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -835,7 +845,11 @@ static int rec_goto_set_time_ontouch(void *ctr, struct element_touch_event *e)
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_show(SET_DATE_LAY);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -992,7 +1006,11 @@ static int rec_goto_set_lang_ontouch(void *ctr, struct element_touch_event *e)
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_show(SET_LANG_LAY);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1091,7 +1109,11 @@ static int rec_language_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_SET_TXT);
         ui_hide(SET_TEXT_LANG_LAY);
         ui_show(SET_TEXT_LANG_LAY);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1120,7 +1142,11 @@ static int rec_goto_set_vol_ontouch(void *ctr, struct element_touch_event *e)
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_show(SET_VOLUME_LAY);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1217,7 +1243,11 @@ static int rec_volume_ontouch(void *ctr, struct element_touch_event *e)
             }
         }
         menu_rec_volume_set(sel_item);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1282,7 +1312,11 @@ static int rec_set_two_menu_off_ontouch(void *ctr, struct element_touch_event *e
         default:
             break;
         }
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1318,7 +1352,11 @@ static int rec_goto_set_paper_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_PAPER_LIST_LAY);
         ui_text_show_index_by_id(ENC_SET_TXT,1);
         ui_show(ENC_PAPER_SET_PIC);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1402,7 +1440,11 @@ static int rec_set_paper_ui_ontouch(void *ctr, struct element_touch_event *e)
         printf("================= paper num:%d\n",db_select("back"));
         ui_pic_show_image_by_id(ENC_PAPER_SET_PIC,sel_item);
         ui_pic_show_image_by_id(REC_SET_PAPER_PIC[db_select("back")],1);        //显示选中选项
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1493,7 +1535,11 @@ static int rec_password_in_ontouch(void *ctr, struct element_touch_event *e)
         put_buf(password_code,PAW_NUM);             //输出当前输入的密码
         password_num++;
         ui_text_set_str_by_id(ENC_PASSWORD_TXT, "ascii", &asterisk_number[PAW_NUM-password_num]);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1554,7 +1600,11 @@ static int rec_password_del_ontouch(void *ctr, struct element_touch_event *e)
         printf("============== del pwd:");
         put_buf(password_code,PAW_NUM);             //输出当前输入的密码
         ui_text_set_str_by_id(ENC_PASSWORD_TXT, "ascii", &asterisk_number[PAW_NUM-password_num]);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1567,6 +1617,7 @@ REGISTER_UI_EVENT_HANDLER(PWD_DEL_KEY)
 /***************************** 密码界面 密码确认按钮 ************************************/
 static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
 {
+    
     u8 pw[PAW_NUM+1] = {0};
     u8 i,j;
     UI_ONTOUCH_DEBUG("**rec_password_ok_ontouch**");
@@ -1585,6 +1636,9 @@ static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         put_buf(get_password_code,PAW_NUM);             //输出密码
         put_buf(password_code,PAW_NUM);             //输出输入密码
+        db_update("pwd1",PWD1);
+        db_update("pwd2",PWD2);
+        db_flush();
 #if 0
         pw[0] = (db_select("pwd1") >> 24) & 0xFF - 48;
         printf("password[0]  %d\n",pw[0]);
@@ -1625,7 +1679,11 @@ static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
         }else{
             printf("================== pwd check err\n");
         }
-        spec_uart_send(create_packet(voice,unlocked),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {unlocked};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1752,7 +1810,11 @@ static int rec_page_left_right_ontouch(void *ctr, struct element_touch_event *e)
         ui_text_show_index_by_id(ENC_LAY_PAGE_TXT2,page_pic_flag);
         ui_pic_show_image_by_id(ENC_LAY_SET_PIC,page_pic_flag);
         reset_up_ui_func();
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1785,7 +1847,11 @@ static int rec_LAY_BTN_1_ontouch(void *ctr, struct element_touch_event *e)
             ui_hide(ENC_LAY_PAGE);
             ui_show(ENC_LAY_DOOR_LOCK_PAGE);
         }
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1818,7 +1884,11 @@ static int rec_LAY_BTN_2_ontouch(void *ctr, struct element_touch_event *e)
             ui_hide(ENC_LAY_PAGE);
             ui_show(ENC_LAY_SYS_INFO_PAGE);
         }
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1846,7 +1916,11 @@ static int rec_LAY_BTN_3_ontouch(void *ctr, struct element_touch_event *e)
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_hide(ENC_LAY_PAGE);
         ui_show(ENC_SET_LAY);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1872,7 +1946,11 @@ static int rec_LAY_BTN_4_ontouch(void *ctr, struct element_touch_event *e)
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -1903,7 +1981,11 @@ static int rec_lay_page_btn_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_PASSWORD_LAY);
         reset_up_ui_func();
         page_pic_flag = 0;
-        spec_uart_send(create_packet(voice,exit_admin_mode),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {exit_admin_mode};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
 
         break;
     }
@@ -2061,7 +2143,11 @@ static int rec_set_return_user_ontouch(void *ctr, struct element_touch_event *e)
             ui_hide(ENC_LAY_USER_DETAILS);
             ui_show(ENC_LAY_USER_LIST);
         }
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -2090,7 +2176,11 @@ static int rec_set_new_user_ontouch(void *ctr, struct element_touch_event *e)
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_hide(ENC_LAY_USER_LIST);
         ui_show(ENC_LAY_USER_INPUT);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -2229,7 +2319,7 @@ static int rec_user_name_btn_ontouch(void *ctr, struct element_touch_event *e)
 
         ui_hide(ENC_LAY_USER_LIST);
         ui_show(ENC_LAY_USER_DETAILS);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_HLC_LEN);
         break;
     }
     return false;
@@ -2395,7 +2485,7 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
             if(user_name_num<0){
                 user_name_num = 0;
                 user_name[0] = '\0';
-                spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+                spec_uart_send(create_packet(voice,key_sound),PACKET_HLC_LEN);
                 ui_hide(ENC_USER_NAME_TXT);
                 ui_show(ENC_PLASE_INPUT_TXT);
                 return false;
@@ -2411,7 +2501,7 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
             if(name_array_num>9){
                 name_array_num = 0;
             }
-            spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+            spec_uart_send(create_packet(voice,key_sound),PACKET_HLC_LEN);
             ui_hide(ENC_LAY_USER_INPUT);
             ui_show(ENC_LAY_USER_DETAILS);
             return false;
@@ -2426,7 +2516,7 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
         if(/*(btn->elm.id != BTN_USER_BACK) &&*/ (btn->elm.id != BTN_USER_OK)){
             user_name_num++;
         }
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_HLC_LEN);
         break;
     }
     return false;
@@ -2575,7 +2665,11 @@ static int rec_user_push_btn_ontouch(void *ctr, struct element_touch_event *e)
         ui_pic_show_image_by_id(ENC_USER_PUSH_PIC,user_function_array[(list_page_num*5)+now_btn_user][0]);
         ui_text_show_index_by_id(ENC_USER_PUSH_TXT,user_function_array[(list_page_num*5)+now_btn_user][0]);
         break;
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
     }
     return false;
 }
@@ -2604,7 +2698,11 @@ static int rec_user_power_btn_ontouch(void *ctr, struct element_touch_event *e)
 
         ui_pic_show_image_by_id(ENC_USER_POWER_PIC,user_function_array[(list_page_num*5)+now_btn_user][1]);
         ui_text_show_index_by_id(ENC_USER_POWER_TXT,user_function_array[(list_page_num*5)+now_btn_user][1]);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -2638,7 +2736,11 @@ static int rec_user_facial_btn_ontouch(void *ctr, struct element_touch_event *e)
 
         ui_hide(ENC_WIN);
         ui_show(ENC_FACIAL_LAY);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -2672,7 +2774,11 @@ static int rec_facial_return_btn_ontouch(void *ctr, struct element_touch_event *
         goto_facial_page_flag = 1;
         ui_hide(ENC_FACIAL_LAY);
         ui_show(ENC_WIN);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -2736,7 +2842,11 @@ static int rec_record_page_return_btn_ontouch(void *ctr, struct element_touch_ev
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_hide(ENC_LAY_RECORD_PAGE);
         ui_show(ENC_LAY_PAGE);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -3051,7 +3161,11 @@ static int rec_sys_info_return_btn_ontouch(void *ctr, struct element_touch_event
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_hide(ENC_LAY_SYS_INFO_PAGE);
         ui_show(ENC_LAY_PAGE);
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -3109,7 +3223,11 @@ static int rec_door_lock_onoff_btn_ontouch(void *ctr, struct element_touch_event
             ui_pic_show_image_by_id(ENC_LOCK_LIST_PIC_7,lock_array[6]);
             break;
         }
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -3226,7 +3344,11 @@ static int rec_lock_list_page_btn_ontouch(void *ctr, struct element_touch_event 
             ui_show(ENC_LAY_LOCK_LIST_1);
             ui_pic_show_image_by_id(ENC_LOCK_LIST_PAGE_PIC,0);
         }
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -3256,7 +3378,11 @@ static int rec_door_lock_return_btn_ontouch(void *ctr, struct element_touch_even
         ui_hide(ENC_LAY_DOOR_LOCK_PAGE);
         ui_show(ENC_LAY_PAGE);
         door_lock_page_flag = 0;
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {key_sound};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -3316,7 +3442,7 @@ static int rec_door_lock_lev_move_btn_ontouch(void *ctr, struct element_touch_ev
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        spec_uart_send(create_packet(voice,key_sound),PACKET_HLC_LEN);
         break;
     }
     return false;
@@ -3344,7 +3470,7 @@ static int rec_rec_power_up_ontouch(void *ctr, struct element_touch_event *e)
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
 
         sys_power_shutdown();
-        spec_uart_send(create_packet(voice,key_sound),PACKET_LEN);
+        //spec_uart_send(create_packet(voice,key_sound),PACKET_HLC_LEN);
         break;
     }
     return false;
@@ -3372,7 +3498,11 @@ static int rec_rec_lock_up_ontouch(void *ctr, struct element_touch_event *e)
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
 
         ui_lcd_light_off();
-        spec_uart_send(create_packet(voice,locked),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {locked};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
@@ -3404,7 +3534,11 @@ static int rec_rec_ling_up_ontouch(void *ctr, struct element_touch_event *e)
         if(tmp == 5){
             tmp = 0;
         }
-        spec_uart_send(create_packet(voice,door_bell),PACKET_LEN);
+        u8 mode_buf[] = {voice};
+        u16 command_buf[] = {door_bell};
+        u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,m_len,command_buf,c_len);
         break;
     }
     return false;
