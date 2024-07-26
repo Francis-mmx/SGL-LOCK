@@ -3835,7 +3835,7 @@ static int video_rec_state_machine(struct application *app, enum app_state state
 {
     int err = 0;
     int len;
-    
+
     switch (state) {
     case APP_STA_CREATE:
         log_d("\n >>>>>>> video_rec: create\n");
@@ -3929,16 +3929,11 @@ static int video_rec_state_machine(struct application *app, enum app_state state
             break;
 /*************************************串口重发*************************************/
         case ACTION_VIDEO_REC_UART_RETRANSMIT:
-            if(tx_flag < MAX_TRANSMIT)
+            if(tx_flag < (MAX_TRANSMIT + 1))//发三次数据包后，同样的时间间隔发一次超时
             {
                 uart_recv_retransmit(it);
-                tx_flag++;
             }
-            else
-            {
-                tx_flag = 0;
-                puts("uart transmit overtime\n");
-            }
+
             break;
 /*************************************串口重发*************************************/
 #endif

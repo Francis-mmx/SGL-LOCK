@@ -496,7 +496,6 @@ void malloc_st(void *p)
 
 /*************************************Changed by liumenghui*************************************/
 /*************************************发送数据包和重发机制*************************************/
-
 extern u8 tx_flag;
 
 int spec_uart_send(char *buf, u32 len) ;//串口发送
@@ -505,13 +504,13 @@ int uart_receive_package(u8 *buf, int len)  //串口接收
     u8 i;
     if(len > 0)
     {
-        if(buf[0] == 0xAA && buf[1] == 0xBB)
+        if(buf[0] == 0xAA && buf[1] == 0xBB )//确认信号
         {
             /*取消重发*/
-            for(i=0;i<tx_flag;i++)
+            for(i=0;i<(tx_flag+1);i++)//在重发第三次的时候同样可以取消
             {
-                sys_timeout_del(uart_timer_handle);
-            
+                sys_timeout_del(uart_timer_handle);//删除添加的超时回调
+
             }
             tx_flag = 0;
             put_buf(buf,len);//打印接收值
@@ -525,15 +524,15 @@ int uart_send_package(u8 *mode,u8 mode_len,u16 *command,u8 com_len)
     u8 total_length = mode_len * sizeof(u8) + com_len * (sizeof(u16)) + PACKET_HLC_LEN;
     const char *packet_buf = create_packet_uncertain_len(mode,mode_len,command,com_len);
     spec_uart_send(packet_buf,total_length);//首次发送
-    
-    //
+
+    //启用新的任务调度
     init_intent(&uart_buf);
     uart_buf.name	= "video_rec";
     uart_buf.action = ACTION_VIDEO_REC_UART_RETRANSMIT;
     uart_buf.data = packet_buf;
     uart_buf.exdata = total_length;
     start_app(&uart_buf);
-    
+
     return 0;
 }
 
@@ -541,15 +540,30 @@ void transmit_callback(struct intent *it)
 {
     spec_uart_send(it->data,it->exdata);//重发数据包
 
+    //再次调度任务
     uart_buf.name	= "video_rec";
     uart_buf.action = ACTION_VIDEO_REC_UART_RETRANSMIT;
     start_app(&uart_buf);
 }
 
+void transmit_overtime(void)//超时处理函数
+{
+    printf("uart transmit overtime\n");
+}
+
 
 int uart_recv_retransmit(struct intent *it)
 {
-    uart_timer_handle = sys_timeout_add(&uart_buf,transmit_callback,100);//超时定时器，100ms后删除
+    if(tx_flag < MAX_TRANSMIT)
+    {
+        tx_flag++;
+        uart_timer_handle = sys_timeout_add(&uart_buf,transmit_callback,1000);//超时定时器，100ms后删除
+    }
+    else
+    {
+        tx_flag = 0;
+        uart_timer_handle = sys_timeout_add(0,transmit_overtime,1000);//超时定时器，100ms后删除
+    }
 }
 /*************************************Changed by liumenghui*************************************/
 
