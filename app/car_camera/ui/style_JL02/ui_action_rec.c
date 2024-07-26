@@ -67,6 +67,7 @@ extern int spec_uart_send(char *buf, u32 len);
 extern int spec_uart_recv(char *buf, u32 len);
 
 extern int uart_send_package(u8 *mode,u8 mode_len,u16 *command,u8 com_len);
+extern int uart_recv_retransmit();
 
 
 
@@ -676,13 +677,13 @@ static int rec_goto_password_page_ontouch(void *ctr, struct element_touch_event 
         ui_hide(ENC_LAY_BACK);
         ui_show(ENC_PASSWORD_LAY);
         reset_up_ui_func();
-        
+        u8 flag;
         u8 mode_buf[] = {voice};
         u16 command_buf[] = {input_admin_infor};
         u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
         u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,m_len,command_buf,c_len);
-        
+        flag = uart_send_package(mode_buf,m_len,command_buf,c_len);
+        //uart_recv_retransmit(flag);
         break;
     }
     return false;

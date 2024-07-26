@@ -63,6 +63,10 @@
 #define LOCK_FILE_PERCENT	40    //0~100
 #define NAME_FILE_BY_DATE   1
 
+extern u32 uart_timer_handle;
+extern int uart_recv_retransmit();
+extern void transmit_callback(struct intent uart_buf);
+
 
 static int video_rec_start();
 static int video_rec_stop(u8 close);
@@ -3821,14 +3825,17 @@ static int video_rec_change_status(struct intent *it)
     return 0;
 }
 
+extern struct intent uart_buf;
+
 /*
  *录像的状态机,进入录像app后就是跑这里
  */
+u8 tx_flag = 0;
 static int video_rec_state_machine(struct application *app, enum app_state state, struct intent *it)
 {
     int err = 0;
     int len;
-
+    
     switch (state) {
     case APP_STA_CREATE:
         log_d("\n >>>>>>> video_rec: create\n");
@@ -3920,6 +3927,20 @@ static int video_rec_state_machine(struct application *app, enum app_state state
         case ACTION_VIDEO_REC_SWITCH_WIN_OFF:       //关闭影像
             video_disp_win_switch(DISP_WIN_SW_SHOW_FRONT, 0);
             break;
+/*************************************串口重发*************************************/
+        case ACTION_VIDEO_REC_UART_RETRANSMIT:
+            if(tx_flag < MAX_TRANSMIT)
+            {
+                uart_recv_retransmit(it);
+                tx_flag++;
+            }
+            else
+            {
+                tx_flag = 0;
+                puts("uart transmit overtime\n");
+            }
+            break;
+/*************************************串口重发*************************************/
 #endif
         }
         break;

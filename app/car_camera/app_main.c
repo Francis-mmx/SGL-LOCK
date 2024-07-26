@@ -15,6 +15,9 @@
 
 u32 spin_lock_cnt[2] = {0};
 
+u32 uart_timer_handle = 0;
+
+
 int upgrade_detect(const char *sdcard_name);
 
 
@@ -489,30 +492,66 @@ void malloc_st(void *p)
     rtos_stack_check_func(NULL);
 }
 
-
 #endif
+
+/*************************************Changed by liumenghui*************************************/
+/*************************************发送数据包和重发机制*************************************/
+
+extern u8 tx_flag;
+
 int spec_uart_send(char *buf, u32 len) ;//串口发送
 int uart_receive_package(u8 *buf, int len)  //串口接收
 {
-   if(len>0){
-    put_buf(buf,len);//打印接收值
-    if((len==4) && (buf[0]==0xAA))
+    u8 i;
+    if(len > 0)
     {
-       buf[0] = 0xAA;
-       buf[1] = 0xBB;
-       buf[2] = 0xCC;
-       buf[3] = 0xDD;
+        if(buf[0] == 0xAA && buf[1] == 0xBB)
+        {
+            /*取消重发*/
+            for(i=0;i<tx_flag;i++)
+            {
+                sys_timeout_del(uart_timer_handle);
+            
+            }
+            tx_flag = 0;
+            put_buf(buf,len);//打印接收值
+        }
     }
-     put_buf(buf,4);//打印接收值
- }
 }
 
+struct intent uart_buf;
 int uart_send_package(u8 *mode,u8 mode_len,u16 *command,u8 com_len)
 {
     u8 total_length = mode_len * sizeof(u8) + com_len * (sizeof(u16)) + PACKET_HLC_LEN;
-    spec_uart_send(create_packet_uncertain_len(mode,mode_len,command,com_len),total_length);
+    const char *packet_buf = create_packet_uncertain_len(mode,mode_len,command,com_len);
+    spec_uart_send(packet_buf,total_length);//首次发送
+    
+    //
+    init_intent(&uart_buf);
+    uart_buf.name	= "video_rec";
+    uart_buf.action = ACTION_VIDEO_REC_UART_RETRANSMIT;
+    uart_buf.data = packet_buf;
+    uart_buf.exdata = total_length;
+    start_app(&uart_buf);
+    
     return 0;
 }
+
+void transmit_callback(struct intent *it)
+{
+    spec_uart_send(it->data,it->exdata);//重发数据包
+
+    uart_buf.name	= "video_rec";
+    uart_buf.action = ACTION_VIDEO_REC_UART_RETRANSMIT;
+    start_app(&uart_buf);
+}
+
+
+int uart_recv_retransmit(struct intent *it)
+{
+    uart_timer_handle = sys_timeout_add(&uart_buf,transmit_callback,100);//超时定时器，100ms后删除
+}
+/*************************************Changed by liumenghui*************************************/
 
 
 /*

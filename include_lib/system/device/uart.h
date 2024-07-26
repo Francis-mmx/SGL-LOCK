@@ -156,6 +156,12 @@ struct uart_device {
 };
 
 
+/*************************************Changed by liumenghui*************************************/
+
+/*确认信号：报头 + OK (ascii码)*/
+/*0xAA,0xBB,0x6F,0x6B*/
+#define MAX_TRANSMIT 3
+
 /*数据包：报头、长度、模式、命令、校验*///u8 length;      // 模式命令校验长度
 typedef struct {
     u16 header;      // 报头，1字节        0xCDCD
@@ -210,7 +216,7 @@ typedef enum {
     command_1             
 }Command;
 
-
+/*************************************Changed by liumenghui*************************************/
 
 
 struct uart_operations {
