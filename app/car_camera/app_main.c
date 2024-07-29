@@ -518,11 +518,11 @@ int uart_receive_package(u8 *buf, int len)  //串口接收
     }
 }
 
-struct intent uart_buf;
-int uart_send_package(u8 *mode,u8 mode_len,u16 *command,u8 com_len)
+static struct intent uart_buf;
+int uart_send_package(u8 mode,u16 *command,u8 com_len)
 {
-    u8 total_length = mode_len * sizeof(u8) + com_len * (sizeof(u16)) + PACKET_HLC_LEN;
-    const char *packet_buf = create_packet_uncertain_len(mode,mode_len,command,com_len);
+    u8 total_length = com_len * (sizeof(u16)) + PACKET_HLC_LEN;
+    const char *packet_buf = create_packet_uncertain_len(mode,command,com_len);
     spec_uart_send(packet_buf,total_length);//首次发送
 
     //启用新的任务调度
@@ -546,23 +546,23 @@ void transmit_callback(struct intent *it)
     start_app(&uart_buf);
 }
 
-void transmit_overtime(void)//超时处理函数
+void transmit_overtime(void)//超时处理函数，后续可新增功能
 {
     printf("uart transmit overtime\n");
 }
 
 
-int uart_recv_retransmit(struct intent *it)
+int uart_recv_retransmit()
 {
     if(tx_flag < MAX_TRANSMIT)
     {
         tx_flag++;
-        uart_timer_handle = sys_timeout_add(&uart_buf,transmit_callback,1000);//超时定时器，100ms后删除
+        uart_timer_handle = sys_timeout_add(&uart_buf,transmit_callback,1000);//定时    重发数据包       100ms后删除
     }
     else
     {
         tx_flag = 0;
-        uart_timer_handle = sys_timeout_add(0,transmit_overtime,1000);//超时定时器，100ms后删除
+        uart_timer_handle = sys_timeout_add(0,transmit_overtime,1000);//超时    超时处理      100ms后删除
     }
 }
 /*************************************Changed by liumenghui*************************************/
@@ -658,11 +658,10 @@ void app_main()
 #endif
 
 /*******************************************上电*******************************************/
-    u8 mode_buf[] = {voice};
+    u8 mode_buf = voice;
     u16 command_buf[] = {powered};
-    u8 m_len = sizeof(mode_buf)/sizeof(mode_buf[0]);
     u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-    uart_send_package(mode_buf,m_len,command_buf,c_len);
+    uart_send_package(mode_buf,command_buf,c_len);
 /*******************************************上电*******************************************/
 
     sys_power_auto_shutdown_start(db_select("aff") * 60);

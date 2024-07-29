@@ -160,13 +160,13 @@ struct uart_device {
 
 /*确认信号：报头 + OK (ascii码)*/
 /*0xAA,0xBB,0x6F,0x6B*/
-#define MAX_TRANSMIT 3
+#define MAX_TRANSMIT 2
 
 /*数据包：报头、长度、模式、命令、校验*///u8 length;      // 模式命令校验长度
 typedef struct {
     u16 header;      // 报头，1字节        0xCDCD
-    u16 length;      // 模式+命令+校验的长度
-    u8 *mode;        // 模式，1字节
+    u8 length;      // 模式+命令+校验的长度
+    u8 mode;         // 模式，1字节
     u16 *command;    // 命令，2字节
 }Data;
 
@@ -176,7 +176,7 @@ typedef struct {
     u16 check;      // 校验，2字节
 }Packet;
 
-#define  PACKET_HLC_LEN  6    //2字节报头、2字节长度、2字节校验
+#define  PACKET_HLC_LEN  6    //2字节报头、1字节长度、2字节校验,1字节模式
 
 typedef enum {
     voice = 0xA0,             //声音

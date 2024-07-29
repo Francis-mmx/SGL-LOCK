@@ -65,7 +65,7 @@
 
 extern u32 uart_timer_handle;
 extern int uart_recv_retransmit();
-extern void transmit_callback(struct intent uart_buf);
+extern void transmit_callback(struct intent *it);
 
 
 static int video_rec_start();
@@ -3931,7 +3931,7 @@ static int video_rec_state_machine(struct application *app, enum app_state state
         case ACTION_VIDEO_REC_UART_RETRANSMIT:
             if(tx_flag < (MAX_TRANSMIT + 1))//发三次数据包后，同样的时间间隔发一次超时
             {
-                uart_recv_retransmit(it);
+                uart_recv_retransmit();
             }
 
             break;
