@@ -499,15 +499,15 @@ void malloc_st(void *p)
 extern u8 tx_flag;
 
 int spec_uart_send(char *buf, u32 len) ;//串口发送
-int uart_receive_package(u8 *buf, int len)  //串口接收
+int uart_receive_package(u8 *buf, int len)  //串口接收   最大接收长度512字节  接收时间580ms左右
 {
     u8 i;
     if(len > 0)
     {
-        if(buf[0] == 0xAA && buf[1] == 0xBB )//确认信号
+        if(buf[0] == 0xAA && buf[1] == 0xBB && buf[2] == 0x6F && buf[3] == 0x6B)//确认信号
         {
             /*取消重发*/
-            for(i=0;i<(tx_flag+1);i++)//在重发第三次的时候同样可以取消
+            for(i=0;i<(tx_flag+1);i++)//在重发第三次的时候同样可以取消，否则进入超时处理
             {
                 sys_timeout_del(uart_timer_handle);//删除添加的超时回调
 
@@ -521,7 +521,7 @@ int uart_receive_package(u8 *buf, int len)  //串口接收
 static struct intent uart_buf;
 int uart_send_package(u8 mode,u16 *command,u8 com_len)
 {
-    u8 total_length = com_len * (sizeof(u16)) + PACKET_HLC_LEN;
+    u8 total_length = com_len * (sizeof(u16)) + PACKET_OTHER_LEN;
     const char *packet_buf = create_packet_uncertain_len(mode,command,com_len);
     spec_uart_send(packet_buf,total_length);//首次发送
 
@@ -557,12 +557,12 @@ int uart_recv_retransmit()
     if(tx_flag < MAX_TRANSMIT)
     {
         tx_flag++;
-        uart_timer_handle = sys_timeout_add(&uart_buf,transmit_callback,1000);//定时    重发数据包       100ms后删除
+        uart_timer_handle = sys_timeout_add(&uart_buf,transmit_callback,100);//定时    重发数据包       100ms后删除
     }
     else
     {
         tx_flag = 0;
-        uart_timer_handle = sys_timeout_add(0,transmit_overtime,1000);//超时    超时处理      100ms后删除
+        uart_timer_handle = sys_timeout_add(0,transmit_overtime,100);//超时    超时处理      100ms后删除
     }
 }
 /*************************************Changed by liumenghui*************************************/

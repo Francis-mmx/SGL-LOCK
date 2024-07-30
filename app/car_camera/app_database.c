@@ -73,8 +73,8 @@ static const struct db_table app_config_table[] = {
 
     {"pwd1",    32,     PWD_1},                     //保存密码前4位
     {"pwd2",    32,     PWD_2},                     //保存密码后4位
-
-    {"dac",     16,     0x55aa},                         // dac_trim
+    
+    {"dac",     16,     0x55aa},                    // dac_trim
 };
 
 

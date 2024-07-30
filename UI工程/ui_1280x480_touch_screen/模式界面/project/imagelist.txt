@@ -1,0 +1,2 @@
+set1.png|D:/Work Document/SGL-LOCK/UI工程/ui_1280x480_touch_screen/模式界面/project/config/UI_1280_480/new ui/set/set1.pngbaskslash equal zero else
+config/UI_1280_480/new ui/set/set1.png

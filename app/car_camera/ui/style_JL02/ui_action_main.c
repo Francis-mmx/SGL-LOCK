@@ -115,6 +115,9 @@ static void get_system_time(struct sys_time *time)
     /* printf("get_sys_time : %d-%d-%d,%d:%d:%d\n", time->year, time->month, time->day, time->hour, time->min, time->sec); */
     dev_close(fd);
 }
+
+
+
 int ReturnWeekDay(unsigned int iYear, unsigned int iMonth, unsigned int iDay)
 {
     int iWeek = 0;

@@ -142,10 +142,10 @@ int video_sys_set_config(struct intent *it)
 
 void set_rtc_default_time(struct sys_time *t)
 {
-    t->year=2024;
+    t->year=2000;
     t->month=1;
     t->day=1;
-    t->hour=8;
+    t->hour=0;
     t->min=0;
     t->sec=0;
 

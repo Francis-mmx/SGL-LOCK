@@ -227,7 +227,7 @@ enum {
     MODE_SW_EXIT,
     HOME_SW_EXIT,
 };
-    
+
 
 /*************************************Changed by liumenghui*************************************/
 /*****************************校验位 ************************************/
@@ -240,12 +240,12 @@ u16 calculate_checksum(const Data *array,u16 command_length)
     {
         sum += head_len_data[i];//header、length校验和
     }
-     
+
     sum += (const u8 *)array->mode;
-    
+
     const u8 *com_data = (const u8 *)array->command;
     for(i = 0; i< command_length * sizeof(u16); i++)
-    {   
+    {
         sum += com_data[i];
     }
 //    sum_H = sum >> 8;
@@ -261,33 +261,33 @@ Data *create_packet_uncertain_len(u8 mode,u16 *command,u16 com_len)
     Data uart_msg;
     Packet packet;
     u8 i;
-    
+
     uart_msg.header = 0xCDCD;
     uart_msg.mode = mode;
-    
+
     uart_msg.command = (u8 *)malloc(com_len * sizeof(u16));//分配 数组长度 x 类型长度的空间
     if(uart_msg.command == NULL)
-    {   
+    {
         free(uart_msg.command);
         return NULL;
-    }    
+    }
     memcpy(uart_msg.command,command,com_len * sizeof(u16));
-    
+
     uart_msg.length = sizeof(u8) + com_len * sizeof(u16);//模式和命令的长度
     memcpy(&packet.data, &uart_msg, sizeof(uart_msg));
-    
+
     packet.check = calculate_checksum(&packet.data,com_len);//mode和command的长度加上header和length占的4字节
 //    printf("packet.check %x length %x\n",packet.check,uart_msg.length);
-    
+
     u8 *data_packet = malloc(sizeof(Packet));
     if (data_packet == NULL) {
         return NULL;
     }
     memcpy(data_packet, &packet.data, 4);//header,length,mode
-    memcpy(data_packet+4, packet.data.command, (com_len * sizeof(u16)));//command 
+    memcpy(data_packet+4, packet.data.command, (com_len * sizeof(u16)));//command
     data_packet[uart_msg.length+3] = packet.check >> 8;//check  2header 1length
     data_packet[uart_msg.length+4] = packet.check & 0xFF;
-    
+
 //    for(i=0;i<uart_msg.length+6;i++)
 //    {
 //        printf("data_packet[%d] = %x",i,data_packet[i]);
@@ -485,6 +485,8 @@ REGISTER_UI_EVENT_HANDLER(ENC_WIN)
  .onkey = enc_onkey,
 };
 
+
+
 /***************************** 星期文字动作 ************************************/
 static void get_system_time(struct sys_time *time)
 {
@@ -494,9 +496,23 @@ static void get_system_time(struct sys_time *time)
         return;
     }
     dev_ioctl(fd, IOCTL_GET_SYS_TIME, (u32)time);
-    /* printf("get_sys_time : %d-%d-%d,%d:%d:%d\n", time->year, time->month, time->day, time->hour, time->min, time->sec); */
+    //printf("get_sys_time : %d-%d-%d,%d:%d:%d\n", time->year, time->month, time->day, time->hour, time->min, time->sec); 
     dev_close(fd);
 }
+
+static void set_system_time(struct sys_time *time)
+{
+    void *fd = dev_open("rtc", NULL);
+    if (!fd) {
+        memset(time, 0, sizeof(*time));
+        return;
+    }
+    dev_ioctl(fd, IOCTL_SET_SYS_TIME, (u32)time);
+    printf("set_sys_time : %d-%d-%d,%d:%d:%d\n", time->year, time->month, time->day, time->hour, time->min, time->sec); 
+    dev_close(fd);
+}
+
+
 static int ReturnWeekDay(unsigned int iYear, unsigned int iMonth, unsigned int iDay)
 {
     int iWeek = 0;
@@ -543,6 +559,9 @@ REGISTER_UI_EVENT_HANDLER(REC_TXT_WEEKDAY)
  .ontouch = NULL,
 };
 
+
+struct sys_time temp_date_time;
+
 /****************************主界面时间控件动作 ************************************/
 static int timer_sys_rec_onchange(void *ctr, enum element_change_event e, void *arg)
 {
@@ -567,6 +586,11 @@ static int timer_sys_rec_onchange(void *ctr, enum element_change_event e, void *
         time->hour = sys_time.hour;
         time->min = sys_time.min;
         time->sec = sys_time.sec;
+        /*
+        temp_date_time.hour = sys_time.hour;
+        temp_date_time.min = sys_time.min;
+        temp_date_time.sec = sys_time.sec;
+		*/
         break;
     default:
         return false;
@@ -608,6 +632,11 @@ static int timer_sys_date_rec_onchange(void *ctr, enum element_change_event e, v
         time->hour = sys_time.hour;
         time->min = sys_time.min;
         time->sec = sys_time.sec;
+		/*
+        temp_date_time.year = sys_time.year;
+        temp_date_time.month = sys_time.month;
+        temp_date_time.day = sys_time.day;
+		*/
         break;
 
     default:
@@ -711,7 +740,7 @@ static int rec_goto_set_page_ontouch(void *ctr, struct element_touch_event *e)
 
         ui_hide(ENC_PASSWORD_LAY);
         ui_show(ENC_LAY_PAGE);
-        
+
         u8 mode_buf = voice;
         u16 command_buf[] = {enter_admin_mode};
         u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
@@ -792,10 +821,13 @@ REGISTER_UI_EVENT_HANDLER(ENC_SET_RETURN)
 .ontouch = rec_set_goto_paw_page_ontouch,
 };
 
-/***************************** 设置界面 时间设置按钮 ************************************/
-static int rec_goto_set_time_ontouch(void *ctr, struct element_touch_event *e)
+
+
+/***************************** 设置界面 日期设置按钮 ************************************/
+static int rec_goto_set_date_ontouch(void *ctr, struct element_touch_event *e)
 {
-    UI_ONTOUCH_DEBUG("**rec_goto_set_time_ontouch**");
+    struct sys_time sys_time;
+    UI_ONTOUCH_DEBUG("**rec_goto_set_date_ontouch**");
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
@@ -809,6 +841,51 @@ static int rec_goto_set_time_ontouch(void *ctr, struct element_touch_event *e)
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_show(SET_DATE_LAY);
+        /*
+        get_system_time(&sys_time);
+        temp_date_time.year = sys_time.year;
+        temp_date_time.month = sys_time.month;
+        temp_date_time.day = sys_time.day;
+        */
+        printf("year %d : month %d : day %d\n",temp_date_time.year,temp_date_time.month,temp_date_time.day);
+        u8 mode_buf = voice;
+        u16 command_buf[] = {key_sound};
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,command_buf,c_len);
+        break;
+    }
+    return false;
+}
+
+REGISTER_UI_EVENT_HANDLER(SET_DATE_BTN)
+.ontouch = rec_goto_set_date_ontouch,
+};
+
+/***************************** 设置界面 时间设置按钮 ************************************/
+static int rec_goto_set_time_ontouch(void *ctr, struct element_touch_event *e)
+{
+    struct sys_time sys_time;
+    UI_ONTOUCH_DEBUG("**rec_goto_set_date_ontouch**");
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        ui_show(SET_TIME_LAY);
+        /*
+        get_system_time(&sys_time);
+        temp_date_time.hour = sys_time.hour;
+        temp_date_time.min = sys_time.min;
+        temp_date_time.sec = sys_time.sec;
+        */
+        printf("hour %d : min %d : sec %d\n",temp_date_time.hour,temp_date_time.min,temp_date_time.sec);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
         u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
@@ -822,10 +899,12 @@ REGISTER_UI_EVENT_HANDLER(SET_TIME_BTN)
 .ontouch = rec_goto_set_time_ontouch,
 };
 
-/***************************** 时间设置界面 ************************************/
-static int rec_set_date_time_onchange(void *ctr, enum element_change_event e, void *arg)
+
+/***************************** 日期设置界面 ************************************/
+static int rec_set_date_onchange(void *ctr, enum element_change_event e, void *arg)
 {
     struct layout *layout = (struct layout *)ctr;
+    struct sys_time sys_time;
     switch (e) {
     case ON_CHANGE_INIT:
         ui_ontouch_lock(layout);
@@ -834,7 +913,12 @@ static int rec_set_date_time_onchange(void *ctr, enum element_change_event e, vo
         ui_ontouch_unlock(layout);
         break;
     case ON_CHANGE_FIRST_SHOW:
-        ui_highlight_element_by_id(SET_TIME_DATE_HIGH_LIGHT);
+        get_system_time(&sys_time);
+        temp_date_time.year = sys_time.year;
+        temp_date_time.month = sys_time.month;
+        temp_date_time.day = sys_time.day;
+        printf("date lay year %d : month %d : day %d\n",temp_date_time.year,temp_date_time.month,temp_date_time.day);
+        ui_highlight_element_by_id(SET_DATE_HIGH_LIGHT);
         break;
     default:
         return false;
@@ -842,27 +926,131 @@ static int rec_set_date_time_onchange(void *ctr, enum element_change_event e, vo
     return false;
 }
 REGISTER_UI_EVENT_HANDLER(SET_DATE_LAY)
-.onchange = rec_set_date_time_onchange,
+.onchange = rec_set_date_onchange,
+};
+
+/***************************** 时间设置界面 ************************************/
+static int rec_set_time_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct layout *layout = (struct layout *)ctr;
+    struct sys_time sys_time;
+    switch (e) {
+    case ON_CHANGE_INIT:
+        ui_ontouch_lock(layout);
+        break;
+    case ON_CHANGE_RELEASE:
+        ui_ontouch_unlock(layout);
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        get_system_time(&sys_time);
+        temp_date_time.hour = sys_time.hour;
+        temp_date_time.min = sys_time.min;
+        temp_date_time.sec = sys_time.sec;
+        printf("hour %d : min %d : sec %d\n",temp_date_time.hour,temp_date_time.min,temp_date_time.sec);
+        ui_highlight_element_by_id(SET_TIME_HIGH_LIGHT);
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(SET_TIME_LAY)
+.onchange = rec_set_time_onchange,
 };
 
 
-//struct ui_time *sys_set_date;
-/*****************************设置日期控件动作 ************************************/
-static int sys_set_date_year_onchange(void *ctr, enum element_change_event e, void *arg)
+/***************************** 显示当前日期 ************************************/
+static int sys_show_cur_date_onchange(void *ctr, enum element_change_event e, void *arg)
 {
     struct ui_time *time = (struct ui_time *)ctr;
     struct sys_time sys_time;
-    int temp  = 0;
-    static int last_temp = 10;
+    switch (e) {
+    case ON_CHANGE_INIT:
+        break;
+    case ON_CHANGE_RELEASE:
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        get_system_time(&sys_time);
+        time->year = sys_time.year;
+        time->month = sys_time.month;
+        time->day = sys_time.day;
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(SET_DATE_CURRENT)
+.onchange = sys_show_cur_date_onchange,
+};
+
+
+/***************************** 显示当前时间 ************************************/
+static int sys_show_cur_time_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct ui_time *time = (struct ui_time *)ctr;
+    struct sys_time sys_time;
+    switch (e) {
+    case ON_CHANGE_INIT:
+        break;
+    case ON_CHANGE_RELEASE:
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        get_system_time(&sys_time);
+        time->hour = sys_time.hour;
+        time->min = sys_time.min;
+        time->sec = sys_time.sec;
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(SET_TIME_CURRENT)
+.onchange = sys_show_cur_time_onchange,
+};
+
+
+/***************************** 判断是否闰年 ************************************/
+int isLeapYear(int year)
+{
+    return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+}
+
+/***************************** 获取月份的天数 ************************************/
+int getMonthDays(int year, int month)
+{
+    switch (month)
+    {
+        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+            return 31;
+        case 4: case 6: case 9: case 11:
+            return 30;
+        case 2:
+            return isLeapYear(year) ? 29 : 28;
+        default:
+            return -1;
+    }
+}
+
+
+/*****************************设置日期控件动作 ************************************/
+static int sys_set_cur_date_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct ui_time *time = (struct ui_time *)ctr;
+    struct sys_time sys_time;
+    get_system_time(&sys_time);
     switch (e) {
     case ON_CHANGE_SHOW_PROBE:
-        get_system_time(&sys_time);
-        time->year = sys_time.year;
+        time->year = temp_date_time.year;
+        time->month = temp_date_time.month;
+        time->day = temp_date_time.day;
         break;
-    case ON_CHANGE_INIT:
-        get_system_time(&sys_time);
+    case ON_CHANGE_FIRST_SHOW:
+        printf("_onchange 111 year %d\n",temp_date_time.year);
         time->year = sys_time.year;
-        //sys_set_date->year  = sys_time.year;
+        time->month = sys_time.month;
+        time->day = sys_time.day;
         break;
 
     default:
@@ -871,25 +1059,65 @@ static int sys_set_date_year_onchange(void *ctr, enum element_change_event e, vo
     return false;
 }
 REGISTER_UI_EVENT_HANDLER(SET_DATE_YEAR_CUR)
-.onchange = sys_set_date_year_onchange,
+.onchange = sys_set_cur_date_onchange,
+};
+REGISTER_UI_EVENT_HANDLER(SET_DATE_MONTH_CUR)
+.onchange = sys_set_cur_date_onchange,
+};
+REGISTER_UI_EVENT_HANDLER(SET_DATE_DAY_CUR)
+.onchange = sys_set_cur_date_onchange,
 };
 
-
-static int sys_set_date_month_onchange(void *ctr, enum element_change_event e, void *arg)
+/*****************************设置时间控件动作 ************************************/
+static int sys_set_cur_time_onchange(void *ctr, enum element_change_event e, void *arg)
 {
     struct ui_time *time = (struct ui_time *)ctr;
     struct sys_time sys_time;
-    int temp  = 0;
-    static int last_temp = 10;
+    get_system_time(&sys_time);
     switch (e) {
     case ON_CHANGE_SHOW_PROBE:
-        get_system_time(&sys_time);
-        time->month = sys_time.month;
+        time->hour = temp_date_time.hour;
+        time->min = temp_date_time.min;
+        time->sec = temp_date_time.sec;
         break;
-    case ON_CHANGE_INIT:
-        get_system_time(&sys_time);
-        time->month = sys_time.month;
-        //sys_set_date->month  = sys_time.month;
+    case ON_CHANGE_FIRST_SHOW:
+        printf("_onchange 111 hour %d\n",temp_date_time.hour);
+        time->hour = sys_time.hour;
+        time->min = sys_time.min;
+        time->sec = sys_time.sec;
+
+        temp_date_time.hour = time->hour;
+        temp_date_time.min = time->min;
+        temp_date_time.sec = time->sec;
+        break;
+
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(SET_TIME_HOUR_CUR)
+.onchange = sys_set_cur_time_onchange,
+};
+REGISTER_UI_EVENT_HANDLER(SET_TIME_MIN_CUR)
+.onchange = sys_set_cur_time_onchange,
+};
+REGISTER_UI_EVENT_HANDLER(SET_TIME_SEC_CUR)
+.onchange = sys_set_cur_time_onchange,
+};
+
+
+
+/*
+static int sys_set_date_month_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct ui_time *time = (struct ui_time *)ctr;
+    switch (e) {
+    case ON_CHANGE_FIRST_SHOW:
+        time->month = temp_date_time.month;
+        break;
+    case ON_CHANGE_SHOW_PROBE:
+        time->month = temp_date_time.month;
         break;
 
     default:
@@ -904,18 +1132,13 @@ REGISTER_UI_EVENT_HANDLER(SET_DATE_MONTH_CUR)
 static int sys_set_date_day_onchange(void *ctr, enum element_change_event e, void *arg)
 {
     struct ui_time *time = (struct ui_time *)ctr;
-    struct sys_time sys_time;
-    int temp  = 0;
-    static int last_temp = 10;
+
     switch (e) {
-    case ON_CHANGE_SHOW_PROBE:
-        get_system_time(&sys_time);
-        time->day = sys_time.day;
+    case ON_CHANGE_FIRST_SHOW:
+        time->day = temp_date_time.day;
         break;
-    case ON_CHANGE_INIT:
-        get_system_time(&sys_time);
-        time->day = sys_time.day;
-        //sys_set_date->day  = sys_time.day;
+    case ON_CHANGE_SHOW_PROBE:
+        time->day = temp_date_time.day;
         break;
 
     default:
@@ -926,30 +1149,254 @@ static int sys_set_date_day_onchange(void *ctr, enum element_change_event e, voi
 REGISTER_UI_EVENT_HANDLER(SET_DATE_DAY_CUR)
 .onchange = sys_set_date_day_onchange,
 };
+*/
+/*****************************设置日期控件动作 ************************************/
 
-/*****************************显示设置日期控件 ************************************/
-/*
-static int show_set_date_onchange(void *ctr, enum element_change_event e, void *arg)
+
+/*****************************设置日期按键，等待确认 ************************************/
+static int sys_date_temp_ontouch(void *ctr, struct element_touch_event *e)
 {
-    struct ui_time *time = (struct ui_time *)ctr;
-    switch (e) {
-    case ON_CHANGE_SHOW_PROBE:
+    struct button *btn = (struct button *)ctr;
+    UI_ONTOUCH_DEBUG("**sys_date_temp_ontouch**");
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
         break;
-    case ON_CHANGE_INIT:
-        time->year = sys_set_date->year;
-        time->month = sys_set_date->month;
-        time->day = sys_set_date->day;
+    case ELM_EVENT_TOUCH_HOLD:
         break;
-
-    default:
-        return false;
+    case ELM_EVENT_TOUCH_MOVE:
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        switch(btn->elm.id){
+        case SET_DATE_NEXT_YEAR:
+            temp_date_time.year += 1;
+            if(temp_date_time.year > 2099)
+            {
+                temp_date_time.year = 2000;
+            }
+            break;
+        case SET_DATE_NEXT_MONTH:
+            temp_date_time.month += 1;
+            if(temp_date_time.month > 12)
+            {
+                temp_date_time.month = 1;
+            }
+            break;
+        case SET_DATE_NEXT_DAY:
+            temp_date_time.day += 1;
+            if(temp_date_time.day > getMonthDays(temp_date_time.year,temp_date_time.month))
+            {
+                temp_date_time.day = 1;
+            }
+            break;
+        case SET_DATE_PRE_YEAR:
+            temp_date_time.year -= 1;
+            if(temp_date_time.year < 2000)
+            {
+                temp_date_time.year = 2099;
+            }
+            break;
+        case SET_DATE_PRE_MONTH:
+            temp_date_time.month -= 1;
+            if(temp_date_time.month < 1)
+            {
+                temp_date_time.month = 12;
+            }
+            break;
+        case SET_DATE_PRE_DAY:
+            temp_date_time.day -= 1;
+            if(temp_date_time.day < 1)
+            {
+                temp_date_time.day = getMonthDays(temp_date_time.year,temp_date_time.month);
+            }
+            break;
+        default:
+            return false;
+        }
+        printf("setting...%d/%d/%d\n",temp_date_time.year,temp_date_time.month,temp_date_time.day);
+        u8 mode_buf = voice;
+        u16 command_buf[] = {key_sound};
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,command_buf,c_len);
+        break;
     }
     return false;
 }
-REGISTER_UI_EVENT_HANDLER(SET_DATE_CURRENT)
-.onchange = sys_set_date_year_onchange,
+
+REGISTER_UI_EVENT_HANDLER(SET_DATE_NEXT_YEAR)
+.ontouch = sys_date_temp_ontouch,
 };
-*/
+REGISTER_UI_EVENT_HANDLER(SET_DATE_NEXT_MONTH)
+.ontouch = sys_date_temp_ontouch,
+};
+REGISTER_UI_EVENT_HANDLER(SET_DATE_NEXT_DAY)
+.ontouch = sys_date_temp_ontouch,
+};
+REGISTER_UI_EVENT_HANDLER(SET_DATE_PRE_YEAR)
+.ontouch = sys_date_temp_ontouch,
+};
+REGISTER_UI_EVENT_HANDLER(SET_DATE_PRE_MONTH)
+.ontouch = sys_date_temp_ontouch,
+};
+REGISTER_UI_EVENT_HANDLER(SET_DATE_PRE_DAY)
+.ontouch = sys_date_temp_ontouch,
+};
+
+
+/*****************************设置时间按键，等待确认 ************************************/
+static int sys_time_temp_ontouch(void *ctr, struct element_touch_event *e)
+{
+    struct button *btn = (struct button *)ctr;
+    UI_ONTOUCH_DEBUG("**sys_time_temp_ontouch**");
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        switch(btn->elm.id){
+        case SET_TIME_NEXT_HOUR:
+            temp_date_time.hour += 1;
+            if(temp_date_time.hour > 23)
+            {
+                temp_date_time.hour = 0;
+            }
+            break;
+        case SET_TIME_NEXT_MIN:
+            temp_date_time.min += 1;
+            if(temp_date_time.min > 59)
+            {
+                temp_date_time.min = 0;
+            }
+            break;
+        case SET_TIME_NEXT_SEC:
+            temp_date_time.sec += 1;
+            if(temp_date_time.sec > 59)
+            {
+                temp_date_time.sec = 0;
+            }
+            break;
+        case SET_TIME_PRE_HOUR:
+            temp_date_time.hour -= 1;
+            if(temp_date_time.hour > 60)
+            {
+                temp_date_time.hour = 23;
+            }
+            break;
+        case SET_TIME_PRE_MIN:
+            temp_date_time.min -= 1;
+            if(temp_date_time.min > 60)
+            {
+                temp_date_time.min = 59;
+            }
+            break;
+        case SET_TIME_PRE_SEC:
+            temp_date_time.sec -= 1;
+            if(temp_date_time.sec > 60)
+            {
+                temp_date_time.sec = 59;
+            }
+            break;
+        default:
+            return false;
+        }
+        printf("setting...%d/%d/%d\n",temp_date_time.hour,temp_date_time.min,temp_date_time.sec);
+
+        u8 mode_buf = voice;
+        u16 command_buf[] = {key_sound};
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,command_buf,c_len);
+        break;
+    }
+    return false;
+}
+
+REGISTER_UI_EVENT_HANDLER(SET_TIME_NEXT_HOUR)
+.ontouch = sys_time_temp_ontouch,
+};
+REGISTER_UI_EVENT_HANDLER(SET_TIME_NEXT_MIN)
+.ontouch = sys_time_temp_ontouch,
+};
+REGISTER_UI_EVENT_HANDLER(SET_TIME_NEXT_SEC)
+.ontouch = sys_time_temp_ontouch,
+};
+REGISTER_UI_EVENT_HANDLER(SET_TIME_PRE_HOUR)
+.ontouch = sys_time_temp_ontouch,
+};
+REGISTER_UI_EVENT_HANDLER(SET_TIME_PRE_MIN)
+.ontouch = sys_time_temp_ontouch,
+};
+REGISTER_UI_EVENT_HANDLER(SET_TIME_PRE_SEC)
+.ontouch = sys_time_temp_ontouch,
+};
+
+
+/*****************************日期确认按钮 ************************************/
+static int sys_date_confirm_ontouch(void *ctr, struct element_touch_event *e)
+{
+    UI_ONTOUCH_DEBUG("**sys_date_confirm_ontouch**");
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        set_system_time(&temp_date_time);
+        ui_hide(SET_DATE_LAY);
+        ui_show(ENC_SET_LAY);
+        u8 mode_buf = voice;
+        u16 command_buf[] = {key_sound};
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,command_buf,c_len);
+        break;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(SET_DATE_COMFIRM_BTN)
+.ontouch = sys_date_confirm_ontouch,
+};
+
+/***************************** 时间确认按钮 ************************************/
+static int sys_time_confirm_ontouch(void *ctr, struct element_touch_event *e)
+{
+    UI_ONTOUCH_DEBUG("**sys_time_confirm_ontouch**");
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        set_system_time(&temp_date_time);
+        ui_hide(SET_TIME_LAY);
+        ui_show(ENC_SET_LAY);
+        u8 mode_buf = voice;
+        u16 command_buf[] = {key_sound};
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,command_buf,c_len);
+        break;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(SET_TIME_COMFIRM_BTN)
+.ontouch = sys_time_confirm_ontouch,
+};
 
 
 /***************************** 设置界面 语言设置按钮 ************************************/
@@ -1226,11 +1673,14 @@ REGISTER_UI_EVENT_HANDLER(SET_BTN_VOL_3)
 const static int menu_off_btn_id[] = {
         SET_LANG_OFF_BTN,
         SET_VOL_OFF_BTN,
-        SET_TIME_OFF_BTN,
+        SET_DATE_CANCEL_BTN,
+        SET_TIME_CANCEL_BTN,
 };
 static int rec_set_two_menu_off_ontouch(void *ctr, struct element_touch_event *e)
 {
     struct button *btn = (struct button *)ctr;
+    struct sys_time sys_time;
+    get_system_time(&sys_time);
     u8 i,j;
     int sel_item = 0;
     UI_ONTOUCH_DEBUG("**rec_set_two_menu_off_ontouch**");
@@ -1266,7 +1716,16 @@ static int rec_set_two_menu_off_ontouch(void *ctr, struct element_touch_event *e
             ui_text_show_index_by_id(SET_SOUND_TXT,__this->volume_lv);
             break;
         case 2:
+            temp_date_time.year = sys_time.year;
+            temp_date_time.month = sys_time.month;
+            temp_date_time.day = sys_time.day;
             ui_hide(SET_DATE_LAY);
+            break;
+        case 3:
+            temp_date_time.hour = sys_time.hour;
+            temp_date_time.min = sys_time.min;
+            temp_date_time.sec = sys_time.sec;
+            ui_hide(SET_TIME_LAY);
             break;
         default:
             break;
@@ -1285,9 +1744,13 @@ REGISTER_UI_EVENT_HANDLER(SET_LANG_OFF_BTN)
 REGISTER_UI_EVENT_HANDLER(SET_VOL_OFF_BTN)
 .ontouch = rec_set_two_menu_off_ontouch,
 };
-REGISTER_UI_EVENT_HANDLER(SET_TIME_OFF_BTN)
+REGISTER_UI_EVENT_HANDLER(SET_DATE_CANCEL_BTN)
 .ontouch = rec_set_two_menu_off_ontouch,
 };
+REGISTER_UI_EVENT_HANDLER(SET_TIME_CANCEL_BTN)
+.ontouch = rec_set_two_menu_off_ontouch,
+};
+
 
 
 /***************************** 设置界面 壁纸设置按钮 ************************************/
@@ -1571,7 +2034,7 @@ REGISTER_UI_EVENT_HANDLER(PWD_DEL_KEY)
 /***************************** 密码界面 密码确认按钮 ************************************/
 static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
 {
-    
+
     u8 pw[PAW_NUM+1] = {0};
     u8 i,j;
     UI_ONTOUCH_DEBUG("**rec_password_ok_ontouch**");
@@ -3396,7 +3859,7 @@ static int rec_door_lock_lev_move_btn_ontouch(void *ctr, struct element_touch_ev
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-        
+
         break;
     }
     return false;
