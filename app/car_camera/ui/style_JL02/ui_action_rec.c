@@ -1171,7 +1171,7 @@ static int sys_date_temp_ontouch(void *ctr, struct element_touch_event *e)
             temp_date_time.year += 1;
             if(temp_date_time.year > 2099)
             {
-                temp_date_time.year = 2000;
+                temp_date_time.year = 2024;
             }
             break;
         case SET_DATE_NEXT_MONTH:
@@ -1190,7 +1190,7 @@ static int sys_date_temp_ontouch(void *ctr, struct element_touch_event *e)
             break;
         case SET_DATE_PRE_YEAR:
             temp_date_time.year -= 1;
-            if(temp_date_time.year < 2000)
+            if(temp_date_time.year < 2024)
             {
                 temp_date_time.year = 2099;
             }
@@ -1342,17 +1342,16 @@ static int sys_date_confirm_ontouch(void *ctr, struct element_touch_event *e)
     UI_ONTOUCH_DEBUG("**sys_date_confirm_ontouch**");
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
         break;
     case ELM_EVENT_TOUCH_HOLD:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
         break;
     case ELM_EVENT_TOUCH_MOVE:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
         break;
     case ELM_EVENT_TOUCH_UP:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        printf("confirm date 111 %d/%d/%d\n",temp_date_time.year,temp_date_time.month,temp_date_time.day);
         set_system_time(&temp_date_time);
+        printf("confirm date 222 %d/%d/%d\n",temp_date_time.year,temp_date_time.month,temp_date_time.day);
+        
         ui_hide(SET_DATE_LAY);
         ui_show(ENC_SET_LAY);
         u8 mode_buf = voice;
