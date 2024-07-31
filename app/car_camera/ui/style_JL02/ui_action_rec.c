@@ -9,8 +9,35 @@
 #include "app_database.h"
 #include "system/device/uart.h"
 
-#define PWD1   (('6'    << 24) | ('6' << 16) | ('6' << 8) | ('6' << 0))
-#define PWD2   (('1'    << 24) | ('2' << 16) | ('3' << 8) | ('4' << 0))
+#define PWD1   (('6' << 24) | ('6' << 16) | ('6' << 8) | ('6' << 0))
+#define PWD2   (('1' << 24) | ('2' << 16) | ('3' << 8) | ('4' << 0))
+
+
+#define MAX_NAME_LEN  10        //名字最长字符数
+#define MAX_REGISTER_NUM  100    //最大注册人数
+
+typedef enum{
+    FACE_UNLOCK,
+    PASSWORD_UNLOCK,
+    FINGER_UNLOCK,
+    NFC_UNLOCK,
+
+    FACE_ADMIN_MODE,
+    PASSWORD_ADMIN_MODE,
+    FINGER_ADMIN_MODE,
+    NFC_ADMIN_MODE,
+}Mode_t;
+
+/*记录解锁信息*/
+typedef struct {
+    u8 name[MAX_NAME_LEN];
+    Mode_t mode;
+    struct sys_time record_time;
+}record_infor;
+
+
+record_infor record_w_infor[MAX_REGISTER_NUM];
+record_infor record_R_infor[MAX_REGISTER_NUM];
 
 
 #ifdef CONFIG_UI_STYLE_JL02_ENABLE
@@ -496,7 +523,7 @@ static void get_system_time(struct sys_time *time)
         return;
     }
     dev_ioctl(fd, IOCTL_GET_SYS_TIME, (u32)time);
-    //printf("get_sys_time : %d-%d-%d,%d:%d:%d\n", time->year, time->month, time->day, time->hour, time->min, time->sec); 
+    //printf("get_sys_time : %d-%d-%d,%d:%d:%d\n", time->year, time->month, time->day, time->hour, time->min, time->sec);
     dev_close(fd);
 }
 
@@ -508,7 +535,7 @@ static void set_system_time(struct sys_time *time)
         return;
     }
     dev_ioctl(fd, IOCTL_SET_SYS_TIME, (u32)time);
-    printf("set_sys_time : %d-%d-%d,%d:%d:%d\n", time->year, time->month, time->day, time->hour, time->min, time->sec); 
+    printf("set_sys_time : %d-%d-%d,%d:%d:%d\n", time->year, time->month, time->day, time->hour, time->min, time->sec);
     dev_close(fd);
 }
 
@@ -841,12 +868,7 @@ static int rec_goto_set_date_ontouch(void *ctr, struct element_touch_event *e)
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_show(SET_DATE_LAY);
-        /*
-        get_system_time(&sys_time);
-        temp_date_time.year = sys_time.year;
-        temp_date_time.month = sys_time.month;
-        temp_date_time.day = sys_time.day;
-        */
+        
         printf("year %d : month %d : day %d\n",temp_date_time.year,temp_date_time.month,temp_date_time.day);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
@@ -879,12 +901,7 @@ static int rec_goto_set_time_ontouch(void *ctr, struct element_touch_event *e)
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_show(SET_TIME_LAY);
-        /*
-        get_system_time(&sys_time);
-        temp_date_time.hour = sys_time.hour;
-        temp_date_time.min = sys_time.min;
-        temp_date_time.sec = sys_time.sec;
-        */
+        
         printf("hour %d : min %d : sec %d\n",temp_date_time.hour,temp_date_time.min,temp_date_time.sec);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
@@ -1351,7 +1368,7 @@ static int sys_date_confirm_ontouch(void *ctr, struct element_touch_event *e)
         printf("confirm date 111 %d/%d/%d\n",temp_date_time.year,temp_date_time.month,temp_date_time.day);
         set_system_time(&temp_date_time);
         printf("confirm date 222 %d/%d/%d\n",temp_date_time.year,temp_date_time.month,temp_date_time.day);
-        
+
         ui_hide(SET_DATE_LAY);
         ui_show(ENC_SET_LAY);
         u8 mode_buf = voice;
@@ -2142,7 +2159,6 @@ static int rec_lay_set_pic_onchange(void *ctr, enum element_change_event e, void
     case ON_CHANGE_RELEASE:
         break;
     case ON_CHANGE_FIRST_SHOW:
-        ui_pic_show_image_by_id(ENC_PAGE_RIGHT_PIC,page_pic_flag);
         break;
     default:
         return false;
@@ -2154,26 +2170,6 @@ REGISTER_UI_EVENT_HANDLER(ENC_LAY_SET_PIC)
 };
 
 /***************************** 设置主界面文字 ************************************/
-static int rec_lay_set_txt1_onchange(void *ctr, enum element_change_event e, void *arg)
-{
-    switch (e) {
-    case ON_CHANGE_INIT:
-        break;
-    case ON_CHANGE_RELEASE:
-        break;
-    case ON_CHANGE_FIRST_SHOW:
-        ui_text_show_index_by_id(ENC_LAY_PAGE_TXT1,page_pic_flag);
-        ui_text_show_index_by_id(ENC_LAY_PAGE_TXT2,page_pic_flag);
-        break;
-    default:
-        return false;
-    }
-    return false;
-}
-REGISTER_UI_EVENT_HANDLER(ENC_LAY_TXT1_PAGE)
-.onchange = rec_lay_set_txt1_onchange,
-};
-
 static int rec_lay_set_txt2_onchange(void *ctr, enum element_change_event e, void *arg)
 {
     switch (e) {
@@ -2194,12 +2190,12 @@ REGISTER_UI_EVENT_HANDLER(ENC_LAY_TXT2_PAGE)
 .onchange = rec_lay_set_txt2_onchange,
 };
 
-/***************************** 主界面切换按钮 ************************************/
-static int rec_page_left_right_ontouch(void *ctr, struct element_touch_event *e)
+/***************************** 主界面切换右按钮 ************************************/
+static int rec_page_right_ontouch(void *ctr, struct element_touch_event *e)
 {
-    UI_ONTOUCH_DEBUG("**rec_page_left_right_ontouch**");
+    UI_ONTOUCH_DEBUG("**rec_page_right_ontouch**");
     struct button *btn = (struct button *)ctr;
-
+    page_pic_flag = 1;
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
@@ -2212,19 +2208,12 @@ static int rec_page_left_right_ontouch(void *ctr, struct element_touch_event *e)
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-        page_pic_flag = !page_pic_flag;
-        if(page_pic_flag == 0){
-            ui_show(ENC_LAY_TXT2_PAGE);
-            ui_text_show_index_by_id(ENC_LAY_PAGE_TXT3,page_pic_flag);
-            ui_text_show_index_by_id(ENC_LAY_PAGE_TXT4,page_pic_flag);
-        }else{
-            ui_hide(ENC_LAY_TXT2_PAGE);
-        }
-        ui_pic_show_image_by_id(ENC_PAGE_RIGHT_PIC,page_pic_flag);
+
+        ui_hide(ENC_LAY_TXT2_PAGE);
         ui_text_show_index_by_id(ENC_LAY_PAGE_TXT1,page_pic_flag);
         ui_text_show_index_by_id(ENC_LAY_PAGE_TXT2,page_pic_flag);
-        ui_pic_show_image_by_id(ENC_LAY_SET_PIC,page_pic_flag);
-        reset_up_ui_func();
+        ui_pic_show_image_by_id(ENC_LAY_SET_PIC,1);
+        
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
         u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
@@ -2234,8 +2223,46 @@ static int rec_page_left_right_ontouch(void *ctr, struct element_touch_event *e)
     return false;
 }
 REGISTER_UI_EVENT_HANDLER(ENC_PAGE_RIGHT_BTN)
-.ontouch = rec_page_left_right_ontouch,
+.ontouch = rec_page_right_ontouch,
 };
+
+/***************************** 主界面切换左按钮 ************************************/
+static int rec_page_left_ontouch(void *ctr, struct element_touch_event *e)
+{
+    UI_ONTOUCH_DEBUG("**rec_page_left_ontouch**");
+    struct button *btn = (struct button *)ctr;
+    page_pic_flag = 0;
+
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        ui_show(ENC_LAY_TXT2_PAGE);
+        ui_text_show_index_by_id(ENC_LAY_PAGE_TXT1,page_pic_flag);
+        ui_text_show_index_by_id(ENC_LAY_PAGE_TXT2,page_pic_flag);
+        ui_pic_show_image_by_id(ENC_LAY_SET_PIC,0);
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+       
+        reset_up_ui_func();
+        u8 mode_buf = voice;
+        u16 command_buf[] = {key_sound};
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,command_buf,c_len);
+        break;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_PAGE_LEFT_BTN)
+.ontouch = rec_page_left_ontouch,
+};
+
 
 /***************************** 主界面选项按钮 1 ************************************/
 static int rec_LAY_BTN_1_ontouch(void *ctr, struct element_touch_event *e)
@@ -2357,6 +2384,8 @@ static int rec_LAY_BTN_4_ontouch(void *ctr, struct element_touch_event *e)
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        ui_hide(ENC_LAY_PAGE);
+        ui_show(ENC_NETWORK_PAGE);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
         u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
@@ -2752,8 +2781,6 @@ REGISTER_UI_EVENT_HANDLER(ENC_USER_NAME_BTN_5)
 
 
 /***************************** 用户名输入界面 ************************************/
-
-
 static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
 {
     u8 input_key = 0;
@@ -3326,7 +3353,7 @@ static int timer_1_record_infor_onchange(void *ctr, enum element_change_event e,
     struct sys_time sys_time;
 
     switch (e) {
-    case ON_CHANGE_FIRST_SHOW:
+    case ON_CHANGE_INIT:
         get_system_time(&sys_time);
         time->year = sys_time.year;
         time->month = sys_time.month;
@@ -3350,7 +3377,7 @@ static int timer_2_record_infor_onchange(void *ctr, enum element_change_event e,
     struct sys_time sys_time;
 
     switch (e) {
-    case ON_CHANGE_SHOW_PROBE:
+    case ON_CHANGE_FIRST_SHOW:
         get_system_time(&sys_time);
         time->year = sys_time.year;
         time->month = sys_time.month;
@@ -3374,15 +3401,6 @@ static int timer_3_record_infor_onchange(void *ctr, enum element_change_event e,
     struct sys_time sys_time;
 
     switch (e) {
-    case ON_CHANGE_SHOW_PROBE:
-        get_system_time(&sys_time);
-        time->year = sys_time.year;
-        time->month = sys_time.month;
-        time->day = sys_time.day;
-        time->hour = sys_time.hour;
-        time->min = sys_time.min;
-        time->sec = sys_time.sec;
-        break;
     case ON_CHANGE_FIRST_SHOW:
         get_system_time(&sys_time);
         time->year = sys_time.year;
@@ -3407,15 +3425,6 @@ static int timer_4_record_infor_onchange(void *ctr, enum element_change_event e,
     struct sys_time sys_time;
 
     switch (e) {
-    case ON_CHANGE_SHOW_PROBE:
-        get_system_time(&sys_time);
-        time->year = sys_time.year;
-        time->month = sys_time.month;
-        time->day = sys_time.day;
-        time->hour = sys_time.hour;
-        time->min = sys_time.min;
-        time->sec = sys_time.sec;
-        break;
     case ON_CHANGE_FIRST_SHOW:
         get_system_time(&sys_time);
         time->year = sys_time.year;
@@ -3440,15 +3449,6 @@ static int timer_5_record_infor_onchange(void *ctr, enum element_change_event e,
     struct sys_time sys_time;
 
     switch (e) {
-    case ON_CHANGE_SHOW_PROBE:
-        get_system_time(&sys_time);
-        time->year = sys_time.year;
-        time->month = sys_time.month;
-        time->day = sys_time.day;
-        time->hour = sys_time.hour;
-        time->min = sys_time.min;
-        time->sec = sys_time.sec;
-        break;
     case ON_CHANGE_FIRST_SHOW:
         get_system_time(&sys_time);
         time->year = sys_time.year;
@@ -3559,6 +3559,265 @@ static int rec_record_infor_list_5_onchange(void *ctr, enum element_change_event
 REGISTER_UI_EVENT_HANDLER(ENC_RECORD_INFOR_LIST_5)
 .onchange = rec_record_infor_list_5_onchange,
 };
+
+/***************************** 网络设置页面 ************************************/
+static int network_set_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct layout *layout = (struct layout *)ctr;
+    switch (e) {
+    case ON_CHANGE_INIT:
+        break;
+    case ON_CHANGE_RELEASE:
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        sys_timeout_add(NULL,reset_up_ui_func,100);
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(NETWORK_LIST_LAY)
+.onchange = network_set_onchange,
+};
+
+
+
+/***************************** 网络设置界面 返回按钮 ************************************/
+static int network_return_btn_ontouch(void *ctr, struct element_touch_event *e)
+{
+    UI_ONTOUCH_DEBUG("**network_return_btn_ontouch**");
+    struct intent it;
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        ui_hide(ENC_NETWORK_PAGE);
+        ui_show(ENC_LAY_PAGE);
+        u8 mode_buf = voice;
+        u16 command_buf[] = {key_sound};
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,command_buf,c_len);
+        break;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(NETWORK_RETURN_BTN)
+.ontouch = network_return_btn_ontouch,
+};
+
+/***************************** 进入配网按钮 ************************************/
+static int network_enter_btn_ontouch(void *ctr, struct element_touch_event *e)
+{
+    UI_ONTOUCH_DEBUG("**network_start_btn_ontouch**");
+    struct intent it;
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        //ui_hide(ENC_NETWORK_PAGE);
+        ui_show(NETWORK_SET_LAY);
+        u8 mode_buf = voice;
+        u16 command_buf[] = {key_sound};
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,command_buf,c_len);
+        break;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(NETWORK_SET_BTN)
+.ontouch = network_enter_btn_ontouch,
+};
+
+
+/***************************** 开始配网页面 ************************************/
+static int network_start_lay_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct layout *layout = (struct layout *)ctr;
+    switch (e) {
+    case ON_CHANGE_INIT:
+        //ui_ontouch_lock(layout);
+        break;
+    case ON_CHANGE_RELEASE:
+        //ui_ontouch_unlock(layout);
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        printf("start set netwaork...\n");
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(NETWORK_SET_LAY)
+.onchange = network_start_lay_onchange,
+};
+
+
+/***************************** 配网界面 返回按钮 ************************************/
+static int network_set_return_btn_ontouch(void *ctr, struct element_touch_event *e)
+{
+    UI_ONTOUCH_DEBUG("**rec_sys_info_return_btn_ontouch**");
+    struct intent it;
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        ui_hide(NETWORK_SET_LAY);
+        ui_show(NETWORK_LIST_LAY);
+        u8 mode_buf = voice;
+        u16 command_buf[] = {key_sound};
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,command_buf,c_len);
+        break;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(NETWORK_SET_RETURN_BTN)
+.ontouch = network_set_return_btn_ontouch,
+};
+
+
+/***************************** 重置wifi模块按钮 ************************************/
+static int network_reset_btn_ontouch(void *ctr, struct element_touch_event *e)
+{
+    UI_ONTOUCH_DEBUG("**network_reset_btn_ontouch**");
+    struct intent it;
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        ui_show(NETWORK_RESET_LAY);
+        u8 mode_buf = voice;
+        u16 command_buf[] = {key_sound};
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,command_buf,c_len);
+        break;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(NETWORK_RESET_BTN)
+.ontouch = network_reset_btn_ontouch,
+};
+
+/***************************** 重置wifi模块页面 ************************************/
+static int network_reset_lay_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    struct layout *layout = (struct layout *)ctr;
+    switch (e) {
+    case ON_CHANGE_INIT:
+        ui_ontouch_lock(layout);
+        break;
+    case ON_CHANGE_RELEASE:
+        ui_ontouch_unlock(layout);
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        printf("start reset netwaork...\n");
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(NETWORK_RESET_LAY)
+.onchange = network_reset_lay_onchange,
+};
+
+
+/***************************** 重置wifi 取消按钮 ************************************/
+static int network_reset_cancel_btn_ontouch(void *ctr, struct element_touch_event *e)
+{
+    UI_ONTOUCH_DEBUG("**network_reset_btn_ontouch**");
+    struct intent it;
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        ui_hide(NETWORK_RESET_LAY);
+        ui_show(NETWORK_LIST_LAY);
+        u8 mode_buf = voice;
+        u16 command_buf[] = {key_sound};
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,command_buf,c_len);
+        break;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(NET_WORK_RESET_CANCEL_BTN)
+.ontouch = network_reset_cancel_btn_ontouch,
+};
+
+
+/***************************** 重置wifi 确认按钮 ************************************/
+static int network_reset_confirm_btn_ontouch(void *ctr, struct element_touch_event *e)
+{
+    UI_ONTOUCH_DEBUG("**network_reset_btn_ontouch**");
+    struct intent it;
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("Reset Wifi Confirm\n");
+
+        u8 mode_buf = voice;
+        u16 command_buf[] = {key_sound};
+        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
+        uart_send_package(mode_buf,command_buf,c_len);
+        break;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(NETWORK_RESET_CONFIRM_BTN)
+.ontouch = network_reset_confirm_btn_ontouch,
+};
+
 
 
 
@@ -4015,11 +4274,22 @@ static int rec_enc_set_lay_onchange(void *ctr, enum element_change_event e, void
 {
     switch (e) {
     case ON_CHANGE_INIT:
+
         break;
     case ON_CHANGE_RELEASE:
         break;
     case ON_CHANGE_SHOW:
         sys_timeout_add(NULL,reset_up_ui_func,100);
+        if(page_pic_flag)
+        {
+            ui_hide(ENC_PAGE_RIGHT_BTN);
+            ui_show(ENC_PAGE_LEFT_BTN);
+        }
+        else
+        {
+            ui_hide(ENC_PAGE_LEFT_BTN);
+            ui_show(ENC_PAGE_RIGHT_BTN);
+        }
         break;
     default:
         return false;

@@ -15,259 +15,259 @@
                 <Color id="0">55AAA5</Color>
                 <Color id="1">00AAFF</Color>
                 <Color id="2">FFFFFF</Color>
-                <Color id="3">000000</Color>
-                <Color id="4">949494</Color>
-                <Color id="5">2EE79B</Color>
-                <Color id="6">DFDFDF</Color>
-                <Color id="7">030406</Color>
-                <Color id="8">121722</Color>
-                <Color id="9">0D231C</Color>
-                <Color id="10">1C222D</Color>
-                <Color id="11">350E05</Color>
-                <Color id="12">28172E</Color>
-                <Color id="13">382516</Color>
-                <Color id="14">272B35</Color>
-                <Color id="15">0E1748</Color>
-                <Color id="16">091862</Color>
-                <Color id="17">023159</Color>
-                <Color id="18">003869</Color>
-                <Color id="19">241C48</Color>
-                <Color id="20">2F1D6E</Color>
-                <Color id="21">353A44</Color>
-                <Color id="22">372D77</Color>
-                <Color id="23">164A3A</Color>
-                <Color id="24">0C4559</Color>
-                <Color id="25">024773</Color>
-                <Color id="26">156C4D</Color>
-                <Color id="27">096776</Color>
-                <Color id="28">3C424B</Color>
-                <Color id="29">2E5470</Color>
-                <Color id="30">336778</Color>
-                <Color id="31">531306</Color>
-                <Color id="32">4C1827</Color>
-                <Color id="33">562C16</Color>
-                <Color id="34">513726</Color>
-                <Color id="35">6E180A</Color>
-                <Color id="36">6C1529</Color>
-                <Color id="37">6F2A13</Color>
-                <Color id="38">693A24</Color>
-                <Color id="39">451D47</Color>
-                <Color id="40">4A394C</Color>
-                <Color id="41">423378</Color>
-                <Color id="42">781149</Color>
-                <Color id="43">6C3849</Color>
-                <Color id="44">68336F</Color>
-                <Color id="45">5C411C</Color>
-                <Color id="46">5A4229</Color>
-                <Color id="47">73431D</Color>
-                <Color id="48">6F4A2D</Color>
-                <Color id="49">7A6737</Color>
-                <Color id="50">494D55</Color>
-                <Color id="51">525265</Color>
-                <Color id="52">5B615C</Color>
-                <Color id="53">586370</Color>
-                <Color id="54">71514B</Color>
-                <Color id="55">6C586C</Color>
-                <Color id="56">79714E</Color>
-                <Color id="57">6C6C74</Color>
-                <Color id="58">013B84</Color>
-                <Color id="59">3B3881</Color>
-                <Color id="60">00548B</Color>
-                <Color id="61">005CA2</Color>
-                <Color id="62">016598</Color>
-                <Color id="63">0078B5</Color>
-                <Color id="64">394D8E</Color>
-                <Color id="65">2B5BA7</Color>
-                <Color id="66">266E90</Color>
-                <Color id="67">3379A7</Color>
-                <Color id="68">007CC3</Color>
-                <Color id="69">473C81</Color>
-                <Color id="70">7A3782</Color>
-                <Color id="71">485190</Color>
-                <Color id="72">584CA4</Color>
-                <Color id="73">50728D</Color>
-                <Color id="74">4F7BA4</Color>
-                <Color id="75">66588F</Color>
-                <Color id="76">6A5AAA</Color>
-                <Color id="77">73758C</Color>
-                <Color id="78">7B6EA2</Color>
-                <Color id="79">477CCC</Color>
-                <Color id="80">675CC3</Color>
-                <Color id="81">7771C2</Color>
-                <Color id="82">1A835B</Color>
-                <Color id="83">16936D</Color>
-                <Color id="84">1CA172</Color>
-                <Color id="85">2D8E76</Color>
-                <Color id="86">24B178</Color>
-                <Color id="87">26C07F</Color>
-                <Color id="88">40837E</Color>
-                <Color id="89">7C8058</Color>
-                <Color id="90">75817D</Color>
-                <Color id="91">028D93</Color>
-                <Color id="92">0184BA</Color>
-                <Color id="93">16A29E</Color>
-                <Color id="94">03AAB0</Color>
-                <Color id="95">358895</Color>
-                <Color id="96">328DB5</Color>
-                <Color id="97">3EA185</Color>
-                <Color id="98">35A3BB</Color>
-                <Color id="99">089FD2</Color>
-                <Color id="100">2EE69B</Color>
-                <Color id="101">01E3E4</Color>
-                <Color id="102">558599</Color>
-                <Color id="103">4F8EB2</Color>
-                <Color id="104">53A28F</Color>
-                <Color id="105">51A2BC</Color>
-                <Color id="106">728B94</Color>
-                <Color id="107">6F8FAE</Color>
-                <Color id="108">69A598</Color>
-                <Color id="109">73A4BB</Color>
-                <Color id="110">5AAAD6</Color>
-                <Color id="111">60EAAE</Color>
-                <Color id="112">6FC3D7</Color>
-                <Color id="113">9F2A18</Color>
-                <Color id="114">983749</Color>
-                <Color id="115">91461B</Color>
-                <Color id="116">8E522A</Color>
-                <Color id="117">98621F</Color>
-                <Color id="118">956636</Color>
-                <Color id="119">AF4711</Color>
-                <Color id="120">A8522C</Color>
-                <Color id="121">B3671A</Color>
-                <Color id="122">B17037</Color>
-                <Color id="123">8E5350</Color>
-                <Color id="124">8B5967</Color>
-                <Color id="125">896855</Color>
-                <Color id="126">8E6D6F</Color>
-                <Color id="127">B05949</Color>
-                <Color id="128">A95A67</Color>
-                <Color id="129">B2724A</Color>
-                <Color id="130">AE716C</Color>
-                <Color id="131">C60601</Color>
-                <Color id="132">CA2713</Color>
-                <Color id="133">CB3827</Color>
-                <Color id="134">E23B36</Color>
-                <Color id="135">DD3D45</Color>
-                <Color id="136">C7520E</Color>
-                <Color id="137">C95034</Color>
-                <Color id="138">CC6D13</Color>
-                <Color id="139">C87330</Color>
-                <Color id="140">E45505</Color>
-                <Color id="141">E44939</Color>
-                <Color id="142">E4730F</Color>
-                <Color id="143">E57533</Color>
-                <Color id="144">CD544C</Color>
-                <Color id="145">C65A77</Color>
-                <Color id="146">C77354</Color>
-                <Color id="147">CB7767</Color>
-                <Color id="148">FB4C53</Color>
-                <Color id="149">FB5C62</Color>
-                <Color id="150">F16D53</Color>
-                <Color id="151">F7736F</Color>
-                <Color id="152">873C8F</Color>
-                <Color id="153">A338D8</Color>
-                <Color id="154">8A5590</Color>
-                <Color id="155">9C45A2</Color>
-                <Color id="156">857992</Color>
-                <Color id="157">8476AD</Color>
-                <Color id="158">A75689</Color>
-                <Color id="159">AC4CB1</Color>
-                <Color id="160">AC778D</Color>
-                <Color id="161">B17BA1</Color>
-                <Color id="162">9747CB</Color>
-                <Color id="163">8675C2</Color>
-                <Color id="164">B34BC6</Color>
-                <Color id="165">BA4FEB</Color>
-                <Color id="166">B06DDA</Color>
-                <Color id="167">BA61E5</Color>
-                <Color id="168">C65E80</Color>
-                <Color id="169">C87C9C</Color>
-                <Color id="170">C97CA1</Color>
-                <Color id="171">FC7D82</Color>
-                <Color id="172">E164E9</Color>
-                <Color id="173">9F843F</Color>
-                <Color id="174">BA823C</Color>
-                <Color id="175">958659</Color>
-                <Color id="176">978670</Color>
-                <Color id="177">90A373</Color>
-                <Color id="178">B7884E</Color>
-                <Color id="179">B39175</Color>
-                <Color id="180">B6A452</Color>
-                <Color id="181">B7A76C</Color>
-                <Color id="182">CE8719</Color>
-                <Color id="183">CB8936</Color>
-                <Color id="184">CCA93B</Color>
-                <Color id="185">E58812</Color>
-                <Color id="186">E68F32</Color>
-                <Color id="187">E6A21A</Color>
-                <Color id="188">ECAD35</Color>
-                <Color id="189">CA914F</Color>
-                <Color id="190">CB876A</Color>
-                <Color id="191">CBA953</Color>
-                <Color id="192">CBAD71</Color>
-                <Color id="193">E69250</Color>
-                <Color id="194">E5926D</Color>
-                <Color id="195">F4A650</Color>
-                <Color id="196">E7AB70</Color>
-                <Color id="197">FECF3B</Color>
-                <Color id="198">CCC558</Color>
-                <Color id="199">CBC774</Color>
-                <Color id="200">F8CC55</Color>
-                <Color id="201">F5D371</Color>
-                <Color id="202">8C8D94</Color>
-                <Color id="203">9292AC</Color>
-                <Color id="204">86A18B</Color>
-                <Color id="205">92A6B6</Color>
-                <Color id="206">B09095</Color>
-                <Color id="207">AC96AE</Color>
-                <Color id="208">B6AA92</Color>
-                <Color id="209">B1AEBA</Color>
-                <Color id="210">9697C1</Color>
-                <Color id="211">8BB5CC</Color>
-                <Color id="212">89BBE8</Color>
-                <Color id="213">A197C1</Color>
-                <Color id="214">B1B1C5</Color>
-                <Color id="215">A5BFE6</Color>
-                <Color id="216">9CC0B6</Color>
-                <Color id="217">84EEBB</Color>
-                <Color id="218">AFC2BB</Color>
-                <Color id="219">90C4D2</Color>
-                <Color id="220">8CC9E5</Color>
-                <Color id="221">92F0C6</Color>
-                <Color id="222">91F0F1</Color>
-                <Color id="223">AFC7CE</Color>
-                <Color id="224">ADD2EB</Color>
-                <Color id="225">AEF3D2</Color>
-                <Color id="226">B4EEEB</Color>
-                <Color id="227">C99594</Color>
-                <Color id="228">C894A3</Color>
-                <Color id="229">CCB79B</Color>
-                <Color id="230">CEB0A8</Color>
-                <Color id="231">F1948B</Color>
-                <Color id="232">F49BA3</Color>
-                <Color id="233">E4B498</Color>
-                <Color id="234">E4B9A4</Color>
-                <Color id="235">C09CC6</Color>
-                <Color id="236">D796F2</Color>
-                <Color id="237">C7BBC8</Color>
-                <Color id="238">D8ADE9</Color>
-                <Color id="239">EB96F0</Color>
-                <Color id="240">EBBCC3</Color>
-                <Color id="241">EBAAF3</Color>
-                <Color id="242">CBCA8D</Color>
-                <Color id="243">CCC3B7</Color>
-                <Color id="244">DDE1B4</Color>
-                <Color id="245">EDC797</Color>
-                <Color id="246">E5C9AE</Color>
-                <Color id="247">FDE28D</Color>
-                <Color id="248">EEE4B2</Color>
-                <Color id="249">CBCDCE</Color>
-                <Color id="250">CCDBE4</Color>
-                <Color id="251">CAEFDC</Color>
-                <Color id="252">DAE5EB</Color>
-                <Color id="253">E9D5C9</Color>
-                <Color id="254">E9D5EC</Color>
-                <Color id="255">EAE4D1</Color>
+                <Color id="3">FF0000</Color>
+                <Color id="4">000000</Color>
+                <Color id="5">949494</Color>
+                <Color id="6">2EE79B</Color>
+                <Color id="7">DFDFDF</Color>
+                <Color id="8">030305</Color>
+                <Color id="9">121722</Color>
+                <Color id="10">0D231C</Color>
+                <Color id="11">1C222D</Color>
+                <Color id="12">350E05</Color>
+                <Color id="13">28172E</Color>
+                <Color id="14">382516</Color>
+                <Color id="15">272B35</Color>
+                <Color id="16">0E1748</Color>
+                <Color id="17">091862</Color>
+                <Color id="18">023159</Color>
+                <Color id="19">003869</Color>
+                <Color id="20">241C48</Color>
+                <Color id="21">2F1D6E</Color>
+                <Color id="22">353A44</Color>
+                <Color id="23">372D77</Color>
+                <Color id="24">164A3A</Color>
+                <Color id="25">0C4559</Color>
+                <Color id="26">024773</Color>
+                <Color id="27">156C4D</Color>
+                <Color id="28">096776</Color>
+                <Color id="29">3C424B</Color>
+                <Color id="30">2E5470</Color>
+                <Color id="31">336778</Color>
+                <Color id="32">531306</Color>
+                <Color id="33">4C1827</Color>
+                <Color id="34">562C16</Color>
+                <Color id="35">513726</Color>
+                <Color id="36">6E180A</Color>
+                <Color id="37">6C1529</Color>
+                <Color id="38">6F2A13</Color>
+                <Color id="39">693A24</Color>
+                <Color id="40">451D47</Color>
+                <Color id="41">4A394C</Color>
+                <Color id="42">423378</Color>
+                <Color id="43">781149</Color>
+                <Color id="44">6C3849</Color>
+                <Color id="45">68336F</Color>
+                <Color id="46">5C411C</Color>
+                <Color id="47">5A4229</Color>
+                <Color id="48">73431D</Color>
+                <Color id="49">6F4A2D</Color>
+                <Color id="50">7A6737</Color>
+                <Color id="51">494D55</Color>
+                <Color id="52">525265</Color>
+                <Color id="53">5B615C</Color>
+                <Color id="54">586370</Color>
+                <Color id="55">71514B</Color>
+                <Color id="56">6C586C</Color>
+                <Color id="57">79714E</Color>
+                <Color id="58">6C6C74</Color>
+                <Color id="59">013B84</Color>
+                <Color id="60">3B3881</Color>
+                <Color id="61">00548B</Color>
+                <Color id="62">005CA2</Color>
+                <Color id="63">016598</Color>
+                <Color id="64">0078B5</Color>
+                <Color id="65">394D8E</Color>
+                <Color id="66">2B5BA7</Color>
+                <Color id="67">266E90</Color>
+                <Color id="68">3379A7</Color>
+                <Color id="69">007CC3</Color>
+                <Color id="70">473C81</Color>
+                <Color id="71">7A3782</Color>
+                <Color id="72">485190</Color>
+                <Color id="73">584CA4</Color>
+                <Color id="74">50728D</Color>
+                <Color id="75">4F7BA4</Color>
+                <Color id="76">66588F</Color>
+                <Color id="77">6A5AAA</Color>
+                <Color id="78">73758C</Color>
+                <Color id="79">7B6EA2</Color>
+                <Color id="80">477CCC</Color>
+                <Color id="81">675CC3</Color>
+                <Color id="82">7771C2</Color>
+                <Color id="83">1A835B</Color>
+                <Color id="84">16936D</Color>
+                <Color id="85">1CA172</Color>
+                <Color id="86">2D8E76</Color>
+                <Color id="87">24B178</Color>
+                <Color id="88">26C07F</Color>
+                <Color id="89">40837E</Color>
+                <Color id="90">7C8058</Color>
+                <Color id="91">75817D</Color>
+                <Color id="92">028D93</Color>
+                <Color id="93">0184BA</Color>
+                <Color id="94">16A29E</Color>
+                <Color id="95">03AAB0</Color>
+                <Color id="96">358895</Color>
+                <Color id="97">328DB5</Color>
+                <Color id="98">3EA185</Color>
+                <Color id="99">35A3BB</Color>
+                <Color id="100">089FD2</Color>
+                <Color id="101">2EE69B</Color>
+                <Color id="102">01E3E4</Color>
+                <Color id="103">558599</Color>
+                <Color id="104">4F8EB2</Color>
+                <Color id="105">53A28F</Color>
+                <Color id="106">51A2BC</Color>
+                <Color id="107">728B94</Color>
+                <Color id="108">6F8FAE</Color>
+                <Color id="109">69A598</Color>
+                <Color id="110">73A4BB</Color>
+                <Color id="111">5AAAD6</Color>
+                <Color id="112">60EAAE</Color>
+                <Color id="113">6FC3D7</Color>
+                <Color id="114">9F2A18</Color>
+                <Color id="115">983749</Color>
+                <Color id="116">91461B</Color>
+                <Color id="117">8E522A</Color>
+                <Color id="118">98621F</Color>
+                <Color id="119">956636</Color>
+                <Color id="120">AF4711</Color>
+                <Color id="121">A8522C</Color>
+                <Color id="122">B3671A</Color>
+                <Color id="123">B17037</Color>
+                <Color id="124">8E5350</Color>
+                <Color id="125">8B5967</Color>
+                <Color id="126">896855</Color>
+                <Color id="127">8E6D6F</Color>
+                <Color id="128">B05949</Color>
+                <Color id="129">A95A67</Color>
+                <Color id="130">B2724A</Color>
+                <Color id="131">AE716C</Color>
+                <Color id="132">C60601</Color>
+                <Color id="133">CA2713</Color>
+                <Color id="134">CB3827</Color>
+                <Color id="135">E23B36</Color>
+                <Color id="136">DD3D45</Color>
+                <Color id="137">C7520E</Color>
+                <Color id="138">C95034</Color>
+                <Color id="139">CC6D13</Color>
+                <Color id="140">C87330</Color>
+                <Color id="141">E45505</Color>
+                <Color id="142">E44939</Color>
+                <Color id="143">E4730F</Color>
+                <Color id="144">E57533</Color>
+                <Color id="145">CD544C</Color>
+                <Color id="146">C65A77</Color>
+                <Color id="147">C77354</Color>
+                <Color id="148">CB7767</Color>
+                <Color id="149">FB4C53</Color>
+                <Color id="150">FB5C62</Color>
+                <Color id="151">F16D53</Color>
+                <Color id="152">F7736F</Color>
+                <Color id="153">873C8F</Color>
+                <Color id="154">A338D8</Color>
+                <Color id="155">8A5590</Color>
+                <Color id="156">9C45A2</Color>
+                <Color id="157">857992</Color>
+                <Color id="158">8476AD</Color>
+                <Color id="159">A75689</Color>
+                <Color id="160">AC4CB1</Color>
+                <Color id="161">AC778D</Color>
+                <Color id="162">B17BA1</Color>
+                <Color id="163">9747CB</Color>
+                <Color id="164">8675C2</Color>
+                <Color id="165">B34BC6</Color>
+                <Color id="166">BA4FEB</Color>
+                <Color id="167">B06DDA</Color>
+                <Color id="168">BA61E5</Color>
+                <Color id="169">C65E80</Color>
+                <Color id="170">C87C9C</Color>
+                <Color id="171">C97CA1</Color>
+                <Color id="172">FC7D82</Color>
+                <Color id="173">E164E9</Color>
+                <Color id="174">9F843F</Color>
+                <Color id="175">BA823C</Color>
+                <Color id="176">958659</Color>
+                <Color id="177">978670</Color>
+                <Color id="178">90A373</Color>
+                <Color id="179">B7884E</Color>
+                <Color id="180">B39175</Color>
+                <Color id="181">B6A452</Color>
+                <Color id="182">B7A76C</Color>
+                <Color id="183">CE8719</Color>
+                <Color id="184">CB8936</Color>
+                <Color id="185">CCA93B</Color>
+                <Color id="186">E58812</Color>
+                <Color id="187">E68F32</Color>
+                <Color id="188">E6A21A</Color>
+                <Color id="189">ECAD35</Color>
+                <Color id="190">CA914F</Color>
+                <Color id="191">CB876A</Color>
+                <Color id="192">CBA953</Color>
+                <Color id="193">CBAD71</Color>
+                <Color id="194">E69250</Color>
+                <Color id="195">E5926D</Color>
+                <Color id="196">F4A650</Color>
+                <Color id="197">E7AB70</Color>
+                <Color id="198">FECF3B</Color>
+                <Color id="199">CCC558</Color>
+                <Color id="200">CBC774</Color>
+                <Color id="201">F8CC55</Color>
+                <Color id="202">F5D371</Color>
+                <Color id="203">8C8D94</Color>
+                <Color id="204">9292AC</Color>
+                <Color id="205">86A18B</Color>
+                <Color id="206">92A6B6</Color>
+                <Color id="207">B09095</Color>
+                <Color id="208">AC96AE</Color>
+                <Color id="209">B6AA92</Color>
+                <Color id="210">B1AEBA</Color>
+                <Color id="211">9697C1</Color>
+                <Color id="212">8BB5CC</Color>
+                <Color id="213">89BBE8</Color>
+                <Color id="214">A197C1</Color>
+                <Color id="215">B1B1C5</Color>
+                <Color id="216">A5BFE6</Color>
+                <Color id="217">9CC0B6</Color>
+                <Color id="218">84EEBB</Color>
+                <Color id="219">AFC2BB</Color>
+                <Color id="220">90C4D2</Color>
+                <Color id="221">8CC9E5</Color>
+                <Color id="222">92F0C6</Color>
+                <Color id="223">91F0F1</Color>
+                <Color id="224">AFC7CE</Color>
+                <Color id="225">ADD2EB</Color>
+                <Color id="226">AEF3D2</Color>
+                <Color id="227">B4EEEB</Color>
+                <Color id="228">C99594</Color>
+                <Color id="229">C894A3</Color>
+                <Color id="230">CCB79B</Color>
+                <Color id="231">CEB0A8</Color>
+                <Color id="232">F1948B</Color>
+                <Color id="233">F49BA3</Color>
+                <Color id="234">E4B498</Color>
+                <Color id="235">E4B9A4</Color>
+                <Color id="236">C09CC6</Color>
+                <Color id="237">D796F2</Color>
+                <Color id="238">C7BBC8</Color>
+                <Color id="239">D8ADE9</Color>
+                <Color id="240">EB96F0</Color>
+                <Color id="241">EBBCC3</Color>
+                <Color id="242">EBAAF3</Color>
+                <Color id="243">CBCA8D</Color>
+                <Color id="244">CCC3B7</Color>
+                <Color id="245">DDE1B4</Color>
+                <Color id="246">EDC797</Color>
+                <Color id="247">E5C9AE</Color>
+                <Color id="248">FDE28D</Color>
+                <Color id="249">EEE4B2</Color>
+                <Color id="250">CBCDCE</Color>
+                <Color id="251">CCDBE4</Color>
+                <Color id="252">CAEFDC</Color>
+                <Color id="253">DAE5EB</Color>
+                <Color id="254">E9D5C9</Color>
+                <Color id="255">E9D5EC</Color>
             </ColorList>
             <PictureList>
                 <Picture fmt="OSD8" id="1">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\add.png</Picture>
@@ -285,79 +285,80 @@
                 <Picture fmt="OSD8" id="13">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\delete.png</Picture>
                 <Picture fmt="OSD8" id="14">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\face_recognition.png</Picture>
                 <Picture fmt="OSD8A" id="15">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\facial.png</Picture>
-                <Picture fmt="OSD8" id="16">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\fingerprint.png</Picture>
-                <Picture fmt="OSD8" id="17">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\frame_back.png</Picture>
-                <Picture fmt="OSD8" id="18">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\goto.png</Picture>
-                <Picture fmt="OSD8" id="19">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_0d.png</Picture>
-                <Picture fmt="OSD8" id="20">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_0u.png</Picture>
-                <Picture fmt="OSD8" id="21">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_1d.png</Picture>
-                <Picture fmt="OSD8" id="22">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_1u.png</Picture>
-                <Picture fmt="OSD8" id="23">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_2d.png</Picture>
-                <Picture fmt="OSD8" id="24">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_2u.png</Picture>
-                <Picture fmt="OSD8" id="25">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_3d.png</Picture>
-                <Picture fmt="OSD8" id="26">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_3u.png</Picture>
-                <Picture fmt="OSD8" id="27">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_4d.png</Picture>
-                <Picture fmt="OSD8" id="28">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_4u.png</Picture>
-                <Picture fmt="OSD8" id="29">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_5d.png</Picture>
-                <Picture fmt="OSD8" id="30">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_5u.png</Picture>
-                <Picture fmt="OSD8" id="31">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_6d.png</Picture>
-                <Picture fmt="OSD8" id="32">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_6u.png</Picture>
-                <Picture fmt="OSD8" id="33">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_7d.png</Picture>
-                <Picture fmt="OSD8" id="34">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_7u.png</Picture>
-                <Picture fmt="OSD8" id="35">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_8d.png</Picture>
-                <Picture fmt="OSD8" id="36">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_8u.png</Picture>
-                <Picture fmt="OSD8" id="37">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_9d.png</Picture>
-                <Picture fmt="OSD8" id="38">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_9u.png</Picture>
-                <Picture fmt="OSD8" id="39">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_okd.png</Picture>
-                <Picture fmt="OSD8" id="40">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_oku.png</Picture>
-                <Picture fmt="OSD8" id="41">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_setd.png</Picture>
-                <Picture fmt="OSD8" id="42">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_setu.png</Picture>
-                <Picture fmt="OSD8" id="43">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\kong.png</Picture>
-                <Picture fmt="OSD8" id="44">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\kuang.png</Picture>
-                <Picture fmt="OSD8" id="45">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\kuang_H.png</Picture>
-                <Picture fmt="OSD8" id="46">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\door_lock\lock_down.png</Picture>
-                <Picture fmt="OSD8" id="47">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\door_lock\lock_up.png</Picture>
-                <Picture fmt="OSD8" id="48">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\logo.png</Picture>
-                <Picture fmt="OSD8" id="49">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_1.png</Picture>
-                <Picture fmt="OSD8" id="50">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_2.png</Picture>
-                <Picture fmt="OSD8" id="51">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_3.png</Picture>
-                <Picture fmt="OSD8" id="52">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_4.png</Picture>
-                <Picture fmt="OSD8" id="53">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num0.png</Picture>
-                <Picture fmt="OSD8" id="54">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num1.png</Picture>
-                <Picture fmt="OSD8" id="55">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num2.png</Picture>
-                <Picture fmt="OSD8" id="56">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num3.png</Picture>
-                <Picture fmt="OSD8" id="57">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num4.png</Picture>
-                <Picture fmt="OSD8" id="58">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num5.png</Picture>
-                <Picture fmt="OSD8" id="59">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num6.png</Picture>
-                <Picture fmt="OSD8" id="60">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num7.png</Picture>
-                <Picture fmt="OSD8" id="61">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num8.png</Picture>
-                <Picture fmt="OSD8" id="62">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num9.png</Picture>
-                <Picture fmt="OSD8" id="63">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\numm.png</Picture>
-                <Picture fmt="OSD8" id="64">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\off_bottom.png</Picture>
-                <Picture fmt="OSD8" id="65">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\OK.png</Picture>
-                <Picture fmt="OSD8" id="66">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\on_bottom.png</Picture>
-                <Picture fmt="OSD8" id="67">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\password.png</Picture>
-                <Picture fmt="OSD8" id="68">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\return.png</Picture>
-                <Picture fmt="OSD8A" id="69">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\return.png</Picture>
-                <Picture fmt="OSD8" id="70">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set1.png</Picture>
-                <Picture fmt="OSD8" id="71">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set2.png</Picture>
-                <Picture fmt="OSD8" id="72">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set3.png</Picture>
-                <Picture fmt="OSD8" id="73">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set4.png</Picture>
-                <Picture fmt="OSD8" id="74">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_left.png</Picture>
-                <Picture fmt="OSD8" id="75">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_page1.png</Picture>
-                <Picture fmt="OSD8" id="76">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_page2.png</Picture>
-                <Picture fmt="OSD8" id="77">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_right.png</Picture>
-                <Picture fmt="OSD8" id="78">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\shurufa.png</Picture>
-                <Picture fmt="OSD8" id="79">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\door_lock\slider.png</Picture>
-                <Picture fmt="OSD8" id="80">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_1.png</Picture>
-                <Picture fmt="OSD8" id="81">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_2.png</Picture>
-                <Picture fmt="OSD8" id="82">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_3.png</Picture>
-                <Picture fmt="OSD8" id="83">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_4.png</Picture>
-                <Picture fmt="OSD8" id="84">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_5.png</Picture>
-                <Picture fmt="OSD8" id="85">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_6.png</Picture>
-                <Picture fmt="OSD8" id="86">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\user_pic.png</Picture>
-                <Picture fmt="OSD8" id="87">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\wifi_off.png</Picture>
-                <Picture fmt="OSD8" id="88">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\wifi_on.png</Picture>
+                <Picture fmt="OSD8" id="16">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\facial.png</Picture>
+                <Picture fmt="OSD8" id="17">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\fingerprint.png</Picture>
+                <Picture fmt="OSD8" id="18">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\frame_back.png</Picture>
+                <Picture fmt="OSD8" id="19">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\goto.png</Picture>
+                <Picture fmt="OSD8" id="20">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_0d.png</Picture>
+                <Picture fmt="OSD8" id="21">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_0u.png</Picture>
+                <Picture fmt="OSD8" id="22">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_1d.png</Picture>
+                <Picture fmt="OSD8" id="23">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_1u.png</Picture>
+                <Picture fmt="OSD8" id="24">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_2d.png</Picture>
+                <Picture fmt="OSD8" id="25">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_2u.png</Picture>
+                <Picture fmt="OSD8" id="26">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_3d.png</Picture>
+                <Picture fmt="OSD8" id="27">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_3u.png</Picture>
+                <Picture fmt="OSD8" id="28">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_4d.png</Picture>
+                <Picture fmt="OSD8" id="29">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_4u.png</Picture>
+                <Picture fmt="OSD8" id="30">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_5d.png</Picture>
+                <Picture fmt="OSD8" id="31">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_5u.png</Picture>
+                <Picture fmt="OSD8" id="32">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_6d.png</Picture>
+                <Picture fmt="OSD8" id="33">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_6u.png</Picture>
+                <Picture fmt="OSD8" id="34">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_7d.png</Picture>
+                <Picture fmt="OSD8" id="35">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_7u.png</Picture>
+                <Picture fmt="OSD8" id="36">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_8d.png</Picture>
+                <Picture fmt="OSD8" id="37">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_8u.png</Picture>
+                <Picture fmt="OSD8" id="38">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_9d.png</Picture>
+                <Picture fmt="OSD8" id="39">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_9u.png</Picture>
+                <Picture fmt="OSD8" id="40">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_okd.png</Picture>
+                <Picture fmt="OSD8" id="41">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_oku.png</Picture>
+                <Picture fmt="OSD8" id="42">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_setd.png</Picture>
+                <Picture fmt="OSD8" id="43">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\key_setu.png</Picture>
+                <Picture fmt="OSD8" id="44">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\kong.png</Picture>
+                <Picture fmt="OSD8" id="45">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\kuang.png</Picture>
+                <Picture fmt="OSD8" id="46">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\kuang_H.png</Picture>
+                <Picture fmt="OSD8" id="47">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\door_lock\lock_down.png</Picture>
+                <Picture fmt="OSD8" id="48">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\door_lock\lock_up.png</Picture>
+                <Picture fmt="OSD8" id="49">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\logo.png</Picture>
+                <Picture fmt="OSD8" id="50">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_1.png</Picture>
+                <Picture fmt="OSD8" id="51">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_2.png</Picture>
+                <Picture fmt="OSD8" id="52">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_3.png</Picture>
+                <Picture fmt="OSD8" id="53">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\main_4.png</Picture>
+                <Picture fmt="OSD8" id="54">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num0.png</Picture>
+                <Picture fmt="OSD8" id="55">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num1.png</Picture>
+                <Picture fmt="OSD8" id="56">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num2.png</Picture>
+                <Picture fmt="OSD8" id="57">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num3.png</Picture>
+                <Picture fmt="OSD8" id="58">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num4.png</Picture>
+                <Picture fmt="OSD8" id="59">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num5.png</Picture>
+                <Picture fmt="OSD8" id="60">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num6.png</Picture>
+                <Picture fmt="OSD8" id="61">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num7.png</Picture>
+                <Picture fmt="OSD8" id="62">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num8.png</Picture>
+                <Picture fmt="OSD8" id="63">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\num9.png</Picture>
+                <Picture fmt="OSD8" id="64">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\time\big\numm.png</Picture>
+                <Picture fmt="OSD8" id="65">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\off_bottom.png</Picture>
+                <Picture fmt="OSD8" id="66">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\OK.png</Picture>
+                <Picture fmt="OSD8" id="67">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\on_bottom.png</Picture>
+                <Picture fmt="OSD8" id="68">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\password.png</Picture>
+                <Picture fmt="OSD8" id="69">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\return.png</Picture>
+                <Picture fmt="OSD8A" id="70">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\return.png</Picture>
+                <Picture fmt="OSD8" id="71">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set1.png</Picture>
+                <Picture fmt="OSD8" id="72">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set2.png</Picture>
+                <Picture fmt="OSD8" id="73">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set3.png</Picture>
+                <Picture fmt="OSD8" id="74">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set4.png</Picture>
+                <Picture fmt="OSD8" id="75">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_left.png</Picture>
+                <Picture fmt="OSD8" id="76">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_page1.png</Picture>
+                <Picture fmt="OSD8" id="77">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_page2.png</Picture>
+                <Picture fmt="OSD8" id="78">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\page1\set_right.png</Picture>
+                <Picture fmt="OSD8" id="79">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\shurufa.png</Picture>
+                <Picture fmt="OSD8" id="80">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\door_lock\slider.png</Picture>
+                <Picture fmt="OSD8" id="81">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_1.png</Picture>
+                <Picture fmt="OSD8" id="82">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_2.png</Picture>
+                <Picture fmt="OSD8" id="83">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_3.png</Picture>
+                <Picture fmt="OSD8" id="84">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_4.png</Picture>
+                <Picture fmt="OSD8" id="85">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_5.png</Picture>
+                <Picture fmt="OSD8" id="86">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\sys_info\sys_info_6.png</Picture>
+                <Picture fmt="OSD8" id="87">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\user_pic.png</Picture>
+                <Picture fmt="OSD8" id="88">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\wifi_off.png</Picture>
+                <Picture fmt="OSD8" id="89">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\up_ui\wifi_on.png</Picture>
             </PictureList>
             <CellList>
                 <Cell id="1">m1</Cell>
@@ -420,18 +421,23 @@
                 <Cell id="61">mv12</Cell>
                 <Cell id="62">mv13</Cell>
                 <Cell id="63">mv14</Cell>
-                <Cell id="68">mp9</Cell>
-                <Cell id="69">mp12</Cell>
-                <Cell id="70">mp13</Cell>
+                <Cell id="68">mp7</Cell>
+                <Cell id="69">mp8</Cell>
+                <Cell id="70">mp9</Cell>
+                <Cell id="71">mp12</Cell>
+                <Cell id="72">mp13</Cell>
+                <Cell id="86">mp28</Cell>
+                <Cell id="88">mp30</Cell>
+                <Cell id="95">mst4</Cell>
             </CellList>
         </Page>
         <Page id="2">
             <ColorList>
                 <Color id="0">55AAA5</Color>
-                <Color id="1">FFC046</Color>
-                <Color id="2">FFFFFF</Color>
-                <Color id="3">000000</Color>
-                <Color id="4">353535</Color>
+                <Color id="1">000000</Color>
+                <Color id="2">353535</Color>
+                <Color id="3">FFC046</Color>
+                <Color id="4">FFFFFF</Color>
             </ColorList>
             <PictureList/>
             <CellList>
@@ -451,62 +457,62 @@
                 <Cell id="65">mp2</Cell>
                 <Cell id="66">mp3</Cell>
                 <Cell id="67">mp4</Cell>
-                <Cell id="69">mp12</Cell>
-                <Cell id="70">mp13</Cell>
-                <Cell id="71">mp14</Cell>
-                <Cell id="72">mp15</Cell>
-                <Cell id="73">mp16</Cell>
-                <Cell id="74">mp17</Cell>
-                <Cell id="75">mp19</Cell>
-                <Cell id="76">mp20</Cell>
-                <Cell id="77">mp21</Cell>
-                <Cell id="78">mp22</Cell>
-                <Cell id="79">mp23</Cell>
-                <Cell id="80">mp24</Cell>
-                <Cell id="81">mp25</Cell>
-                <Cell id="82">mp26</Cell>
-                <Cell id="83">mp27</Cell>
-                <Cell id="84">mp29</Cell>
-                <Cell id="85">mp30</Cell>
-                <Cell id="86">mp31</Cell>
-                <Cell id="87">mp32</Cell>
-                <Cell id="88">mp33</Cell>
-                <Cell id="138">tip1</Cell>
-                <Cell id="139">tip2</Cell>
-                <Cell id="141">tip4</Cell>
-                <Cell id="144">tip7</Cell>
-                <Cell id="145">tip8</Cell>
-                <Cell id="153">tip16</Cell>
+                <Cell id="71">mp12</Cell>
+                <Cell id="72">mp13</Cell>
+                <Cell id="73">mp14</Cell>
+                <Cell id="74">mp15</Cell>
+                <Cell id="75">mp16</Cell>
+                <Cell id="76">mp17</Cell>
+                <Cell id="77">mp19</Cell>
+                <Cell id="78">mp20</Cell>
+                <Cell id="79">mp21</Cell>
+                <Cell id="80">mp22</Cell>
+                <Cell id="81">mp23</Cell>
+                <Cell id="82">mp24</Cell>
+                <Cell id="83">mp25</Cell>
+                <Cell id="84">mp26</Cell>
+                <Cell id="85">mp27</Cell>
+                <Cell id="87">mp29</Cell>
+                <Cell id="88">mp30</Cell>
+                <Cell id="89">mp31</Cell>
+                <Cell id="90">mp32</Cell>
+                <Cell id="91">mp33</Cell>
+                <Cell id="141">tip1</Cell>
+                <Cell id="142">tip2</Cell>
+                <Cell id="144">tip4</Cell>
+                <Cell id="147">tip7</Cell>
+                <Cell id="148">tip8</Cell>
+                <Cell id="156">tip16</Cell>
             </CellList>
         </Page>
         <Page id="3">
             <ColorList>
                 <Color id="0">55AAA5</Color>
-                <Color id="1">AA00FF</Color>
-                <Color id="2">FFFFFF</Color>
-                <Color id="3">000000</Color>
-                <Color id="4">858585</Color>
-                <Color id="5">FFFF00</Color>
-                <Color id="6">353535</Color>
+                <Color id="1">FFFFFF</Color>
+                <Color id="2">000000</Color>
+                <Color id="3">858585</Color>
+                <Color id="4">FFFF00</Color>
+                <Color id="5">353535</Color>
+                <Color id="6">AA00FF</Color>
             </ColorList>
             <PictureList/>
             <CellList>
-                <Cell id="135">mf1</Cell>
-                <Cell id="136">mf2</Cell>
-                <Cell id="137">mf3</Cell>
-                <Cell id="139">tip2</Cell>
-                <Cell id="140">tip3</Cell>
-                <Cell id="142">tip5</Cell>
-                <Cell id="143">tip6</Cell>
-                <Cell id="146">tip9</Cell>
-                <Cell id="147">tip10</Cell>
-                <Cell id="148">tip11</Cell>
-                <Cell id="149">tip12</Cell>
-                <Cell id="150">tip13</Cell>
-                <Cell id="151">tip14</Cell>
-                <Cell id="152">tip15</Cell>
-                <Cell id="153">tip16</Cell>
-                <Cell id="156">tip19</Cell>
+                <Cell id="138">mf1</Cell>
+                <Cell id="139">mf2</Cell>
+                <Cell id="140">mf3</Cell>
+                <Cell id="142">tip2</Cell>
+                <Cell id="143">tip3</Cell>
+                <Cell id="145">tip5</Cell>
+                <Cell id="146">tip6</Cell>
+                <Cell id="149">tip9</Cell>
+                <Cell id="150">tip10</Cell>
+                <Cell id="151">tip11</Cell>
+                <Cell id="152">tip12</Cell>
+                <Cell id="153">tip13</Cell>
+                <Cell id="154">tip14</Cell>
+                <Cell id="155">tip15</Cell>
+                <Cell id="156">tip16</Cell>
+                <Cell id="159">tip19</Cell>
             </CellList>
         </Page>
         <Page id="4">
@@ -805,54 +811,54 @@
                 <Cell id="43">m46</Cell>
                 <Cell id="44">m47</Cell>
                 <Cell id="49">m52</Cell>
-                <Cell id="89">mst1</Cell>
-                <Cell id="90">mst2</Cell>
-                <Cell id="91">mst3</Cell>
-                <Cell id="92">mst4</Cell>
-                <Cell id="93">mst5</Cell>
-                <Cell id="94">mst6</Cell>
-                <Cell id="95">mst7</Cell>
-                <Cell id="96">mst8</Cell>
-                <Cell id="97">mst9</Cell>
-                <Cell id="98">mst10</Cell>
-                <Cell id="99">mst11</Cell>
-                <Cell id="100">mst12</Cell>
-                <Cell id="101">mst13</Cell>
-                <Cell id="102">ms1</Cell>
-                <Cell id="103">ms2</Cell>
-                <Cell id="104">ms3</Cell>
-                <Cell id="105">ms4</Cell>
-                <Cell id="106">ms5</Cell>
-                <Cell id="107">ms6</Cell>
-                <Cell id="108">ms7</Cell>
-                <Cell id="109">ms8</Cell>
-                <Cell id="110">ms9</Cell>
-                <Cell id="111">ms10</Cell>
-                <Cell id="112">ms11</Cell>
-                <Cell id="113">ms12</Cell>
-                <Cell id="114">ms14</Cell>
-                <Cell id="115">ms15</Cell>
-                <Cell id="116">ms16</Cell>
-                <Cell id="117">ms17</Cell>
-                <Cell id="118">ms18</Cell>
-                <Cell id="119">ms19</Cell>
-                <Cell id="120">ms21</Cell>
-                <Cell id="121">ms22</Cell>
-                <Cell id="122">ms23</Cell>
-                <Cell id="123">ms24</Cell>
-                <Cell id="124">ms25</Cell>
-                <Cell id="125">ms26</Cell>
-                <Cell id="126">ms27</Cell>
-                <Cell id="127">ms28</Cell>
-                <Cell id="128">ms29</Cell>
-                <Cell id="129">ms30</Cell>
-                <Cell id="130">ms31</Cell>
-                <Cell id="131">ms32</Cell>
-                <Cell id="132">ms33</Cell>
-                <Cell id="133">ms34</Cell>
-                <Cell id="134">ms35</Cell>
-                <Cell id="139">tip2</Cell>
-                <Cell id="153">tip16</Cell>
+                <Cell id="92">mst1</Cell>
+                <Cell id="93">mst2</Cell>
+                <Cell id="94">mst3</Cell>
+                <Cell id="95">mst4</Cell>
+                <Cell id="96">mst5</Cell>
+                <Cell id="97">mst6</Cell>
+                <Cell id="98">mst7</Cell>
+                <Cell id="99">mst8</Cell>
+                <Cell id="100">mst9</Cell>
+                <Cell id="101">mst10</Cell>
+                <Cell id="102">mst11</Cell>
+                <Cell id="103">mst12</Cell>
+                <Cell id="104">mst13</Cell>
+                <Cell id="105">ms1</Cell>
+                <Cell id="106">ms2</Cell>
+                <Cell id="107">ms3</Cell>
+                <Cell id="108">ms4</Cell>
+                <Cell id="109">ms5</Cell>
+                <Cell id="110">ms6</Cell>
+                <Cell id="111">ms7</Cell>
+                <Cell id="112">ms8</Cell>
+                <Cell id="113">ms9</Cell>
+                <Cell id="114">ms10</Cell>
+                <Cell id="115">ms11</Cell>
+                <Cell id="116">ms12</Cell>
+                <Cell id="117">ms14</Cell>
+                <Cell id="118">ms15</Cell>
+                <Cell id="119">ms16</Cell>
+                <Cell id="120">ms17</Cell>
+                <Cell id="121">ms18</Cell>
+                <Cell id="122">ms19</Cell>
+                <Cell id="123">ms21</Cell>
+                <Cell id="124">ms22</Cell>
+                <Cell id="125">ms23</Cell>
+                <Cell id="126">ms24</Cell>
+                <Cell id="127">ms25</Cell>
+                <Cell id="128">ms26</Cell>
+                <Cell id="129">ms27</Cell>
+                <Cell id="130">ms28</Cell>
+                <Cell id="131">ms29</Cell>
+                <Cell id="132">ms30</Cell>
+                <Cell id="133">ms31</Cell>
+                <Cell id="134">ms32</Cell>
+                <Cell id="135">ms33</Cell>
+                <Cell id="136">ms34</Cell>
+                <Cell id="137">ms35</Cell>
+                <Cell id="142">tip2</Cell>
+                <Cell id="156">tip16</Cell>
             </CellList>
         </Page>
         <Page id="6">
@@ -873,8 +879,8 @@
             </ColorList>
             <PictureList/>
             <CellList>
-                <Cell id="154">tip17</Cell>
-                <Cell id="155">tip18</Cell>
+                <Cell id="157">tip17</Cell>
+                <Cell id="158">tip18</Cell>
             </CellList>
         </Page>
     </PageList>

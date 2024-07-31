@@ -101,7 +101,7 @@ mp33;系统自检;System self-test;
 mst1;老化测试;Aging test;
 mst2;出厂测试;Factory test;
 mst3;状态信息;status information;
-mst4;;;
+mst4;网络配置;network configuration;
 mst5;;;
 mst6;;;
 mst7;;;
