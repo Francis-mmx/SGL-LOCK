@@ -703,8 +703,7 @@ static int rec_goto_password_page_ontouch(void *ctr, struct element_touch_event 
         reset_up_ui_func();
         u8 mode_buf = voice;
         u16 command_buf[] = {input_admin_infor};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         //uart_recv_retransmit(flag);
         break;
     }
@@ -737,8 +736,7 @@ static int rec_goto_back_page_ontouch(void *ctr, struct element_touch_event *e)
         reset_up_ui_func();
         u8 mode_buf = voice;
         u16 command_buf[] = {operate_success};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -770,8 +768,7 @@ static int rec_goto_set_page_ontouch(void *ctr, struct element_touch_event *e)
 
         u8 mode_buf = voice;
         u16 command_buf[] = {enter_admin_mode};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -837,8 +834,7 @@ static int rec_set_goto_paw_page_ontouch(void *ctr, struct element_touch_event *
         }
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -872,8 +868,7 @@ static int rec_goto_set_date_ontouch(void *ctr, struct element_touch_event *e)
         printf("year %d : month %d : day %d\n",temp_date_time.year,temp_date_time.month,temp_date_time.day);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -905,8 +900,7 @@ static int rec_goto_set_time_ontouch(void *ctr, struct element_touch_event *e)
         printf("hour %d : min %d : sec %d\n",temp_date_time.hour,temp_date_time.min,temp_date_time.sec);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -1232,8 +1226,7 @@ static int sys_date_temp_ontouch(void *ctr, struct element_touch_event *e)
         printf("setting...%d/%d/%d\n",temp_date_time.year,temp_date_time.month,temp_date_time.day);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -1326,8 +1319,7 @@ static int sys_time_temp_ontouch(void *ctr, struct element_touch_event *e)
 
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -1373,8 +1365,7 @@ static int sys_date_confirm_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_SET_LAY);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -1404,8 +1395,7 @@ static int sys_time_confirm_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_SET_LAY);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -1434,8 +1424,7 @@ static int rec_goto_set_lang_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(SET_LANG_LAY);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -1536,8 +1525,7 @@ static int rec_language_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(SET_TEXT_LANG_LAY);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -1568,8 +1556,7 @@ static int rec_goto_set_vol_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(SET_VOLUME_LAY);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -1668,8 +1655,7 @@ static int rec_volume_ontouch(void *ctr, struct element_touch_event *e)
         menu_rec_volume_set(sel_item);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -1748,8 +1734,7 @@ static int rec_set_two_menu_off_ontouch(void *ctr, struct element_touch_event *e
         }
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -1791,8 +1776,7 @@ static int rec_goto_set_paper_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_PAPER_SET_PIC);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -1878,8 +1862,7 @@ static int rec_set_paper_ui_ontouch(void *ctr, struct element_touch_event *e)
         ui_pic_show_image_by_id(REC_SET_PAPER_PIC[db_select("back")],1);        //显示选中选项
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -1972,8 +1955,7 @@ static int rec_password_in_ontouch(void *ctr, struct element_touch_event *e)
         ui_text_set_str_by_id(ENC_PASSWORD_TXT, "ascii", &asterisk_number[PAW_NUM-password_num]);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -2036,8 +2018,7 @@ static int rec_password_del_ontouch(void *ctr, struct element_touch_event *e)
         ui_text_set_str_by_id(ENC_PASSWORD_TXT, "ascii", &asterisk_number[PAW_NUM-password_num]);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -2114,8 +2095,7 @@ static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
         }
         u8 mode_buf = voice;
         u16 command_buf[] = {unlocked};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -2216,8 +2196,7 @@ static int rec_page_right_ontouch(void *ctr, struct element_touch_event *e)
         
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -2253,8 +2232,7 @@ static int rec_page_left_ontouch(void *ctr, struct element_touch_event *e)
         reset_up_ui_func();
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -2290,8 +2268,7 @@ static int rec_LAY_BTN_1_ontouch(void *ctr, struct element_touch_event *e)
         }
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -2326,8 +2303,7 @@ static int rec_LAY_BTN_2_ontouch(void *ctr, struct element_touch_event *e)
         }
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -2357,8 +2333,7 @@ static int rec_LAY_BTN_3_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_SET_LAY);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -2388,8 +2363,7 @@ static int rec_LAY_BTN_4_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_NETWORK_PAGE);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -2422,8 +2396,7 @@ static int rec_lay_page_btn_ontouch(void *ctr, struct element_touch_event *e)
         page_pic_flag = 0;
         u8 mode_buf = voice;
         u16 command_buf[] = {exit_admin_mode};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
 
         break;
     }
@@ -2583,8 +2556,7 @@ static int rec_set_return_user_ontouch(void *ctr, struct element_touch_event *e)
         }
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -2615,8 +2587,7 @@ static int rec_set_new_user_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_LAY_USER_INPUT);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -2757,8 +2728,7 @@ static int rec_user_name_btn_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_LAY_USER_DETAILS);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -2786,7 +2756,6 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
     u8 input_key = 0;
     UI_ONTOUCH_DEBUG("**rec_lay_user_scanf_ontouch**");
     struct button *btn = (struct button *)ctr;
-
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
@@ -2926,8 +2895,7 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
                 user_name[0] = '\0';
             u8 mode_buf = voice;
             u16 command_buf[] = {key_sound};
-            u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-            uart_send_package(mode_buf,command_buf,c_len);
+            uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
                 ui_hide(ENC_USER_NAME_TXT);
                 ui_show(ENC_PLASE_INPUT_TXT);
                 return false;
@@ -2939,6 +2907,8 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
             printf("======== btn ok : user name:");
             puts(user_name);
             memcpy(user_name_arrsy[name_array_num],user_name,sizeof(user_name));
+            memcpy(record_w_infor[name_array_num].name,user_name,sizeof(user_name));//将输入的用户名拷贝到结构体中
+            printf("record information name %s\n",record_w_infor[name_array_num]);
             now_btn_user = name_array_num;
             name_array_num++;
             if(name_array_num>9){
@@ -2946,8 +2916,7 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
             }
             u8 mode_buf = voice;
             u16 command_buf[] = {key_sound};
-            u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-            uart_send_package(mode_buf,command_buf,c_len);
+            uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
             ui_hide(ENC_LAY_USER_INPUT);
             ui_show(ENC_LAY_USER_DETAILS);
             return false;
@@ -2966,8 +2935,7 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
         {
             u8 mode_buf = voice;
             u16 command_buf[] = {key_sound};
-            u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-            uart_send_package(mode_buf,command_buf,c_len);
+            uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         }
         break;
     }
@@ -3119,8 +3087,7 @@ static int rec_user_push_btn_ontouch(void *ctr, struct element_touch_event *e)
         break;
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
     }
     return false;
 }
@@ -3151,8 +3118,7 @@ static int rec_user_power_btn_ontouch(void *ctr, struct element_touch_event *e)
         ui_text_show_index_by_id(ENC_USER_POWER_TXT,user_function_array[(list_page_num*5)+now_btn_user][1]);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -3188,8 +3154,7 @@ static int rec_user_facial_btn_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_FACIAL_LAY);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -3225,8 +3190,7 @@ static int rec_facial_return_btn_ontouch(void *ctr, struct element_touch_event *
         ui_show(ENC_WIN);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -3292,8 +3256,7 @@ static int rec_record_page_return_btn_ontouch(void *ctr, struct element_touch_ev
         ui_show(ENC_LAY_PAGE);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -3604,8 +3567,7 @@ static int network_return_btn_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(ENC_LAY_PAGE);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -3635,8 +3597,7 @@ static int network_enter_btn_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(NETWORK_SET_LAY);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -3691,8 +3652,7 @@ static int network_set_return_btn_ontouch(void *ctr, struct element_touch_event 
         ui_show(NETWORK_LIST_LAY);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -3722,8 +3682,7 @@ static int network_reset_btn_ontouch(void *ctr, struct element_touch_event *e)
         ui_show(NETWORK_RESET_LAY);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -3777,8 +3736,7 @@ static int network_reset_cancel_btn_ontouch(void *ctr, struct element_touch_even
         ui_show(NETWORK_LIST_LAY);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -3808,8 +3766,7 @@ static int network_reset_confirm_btn_ontouch(void *ctr, struct element_touch_eve
 
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -3842,8 +3799,7 @@ static int rec_sys_info_return_btn_ontouch(void *ctr, struct element_touch_event
         ui_show(ENC_LAY_PAGE);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -3903,8 +3859,7 @@ static int rec_door_lock_onoff_btn_ontouch(void *ctr, struct element_touch_event
         }
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -4023,8 +3978,7 @@ static int rec_lock_list_page_btn_ontouch(void *ctr, struct element_touch_event 
         }
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -4056,8 +4010,7 @@ static int rec_door_lock_return_btn_ontouch(void *ctr, struct element_touch_even
         door_lock_page_flag = 0;
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -4175,8 +4128,7 @@ static int rec_rec_lock_up_ontouch(void *ctr, struct element_touch_event *e)
         ui_lcd_light_off();
         u8 mode_buf = voice;
         u16 command_buf[] = {locked};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
@@ -4210,8 +4162,7 @@ static int rec_rec_ling_up_ontouch(void *ctr, struct element_touch_event *e)
         }
         u8 mode_buf = voice;
         u16 command_buf[] = {door_bell};
-        u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
-        uart_send_package(mode_buf,command_buf,c_len);
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
         break;
     }
     return false;
