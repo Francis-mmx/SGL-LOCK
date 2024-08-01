@@ -13,11 +13,11 @@
 #define PWD2   (('1' << 24) | ('2' << 16) | ('3' << 8) | ('4' << 0))
 
 
-#define MAX_NAME_LEN  10        //名字最长字符数
+#define MAX_NAME_LEN  20        //名字最长字符数
 #define MAX_REGISTER_NUM  100    //最大注册人数
 
 typedef enum{
-    FACE_UNLOCK,
+    FACE_UNLOCK = 0,
     PASSWORD_UNLOCK,
     FINGER_UNLOCK,
     NFC_UNLOCK,
@@ -26,17 +26,29 @@ typedef enum{
     PASSWORD_ADMIN_MODE,
     FINGER_ADMIN_MODE,
     NFC_ADMIN_MODE,
-}Mode_t;
+};
 
-/*记录解锁信息*/
+/*记录用户信息*/
 typedef struct {
-    u8 name[MAX_NAME_LEN];
-    Mode_t mode;
-    struct sys_time record_time;
+    u8 name[20];                    //名字
+    u8 mode;                        //解锁模式
+    u8 face_buf[16];                   //人脸数据
+    u8 password_buf[16];               //密码
+    u8 finger_buf[16];                 //指纹数据
+    u8 nfc_buf[16];                    //NFC数据
+    struct sys_time record_time;    //记录的时间
 }record_infor;
 
 
-record_infor record_w_infor[MAX_REGISTER_NUM];
+record_infor record_w_infor = {
+    "Francis",
+    FACE_UNLOCK,
+    {0x48,0x53,0xBB,0x94,0x1F,0x3E,0x61,0xF8,0xF0,0xC1,0xA3,0x67,0xC9,0xBD,0x5B,0x97},
+    {0x0F,0x1E,0x3C,0x78,0xD1,0x83,0x27,0x4E,0x9C,0x19,0x13,0x26,0x4C,0x98,0x30,0x60},
+    {0xFE,0xDF,0xB3,0xF1,0x1F,0x2E,0x7C,0xF8,0x80,0x6C,0xA3,0x67,0xCE,0xBD,0x5B,0x97},
+    {0xFF,0xDF,0xA2,0xE2,0x1F,0x0E,0x65,0xF8,0x48,0x0A,0xA0,0x67,0xCB,0xBD,0x5B,0x97},
+    {2024,8,1,15,24,50}
+};
 record_infor record_R_infor[MAX_REGISTER_NUM];
 
 
@@ -95,8 +107,6 @@ extern int spec_uart_recv(char *buf, u32 len);
 
 extern int uart_send_package(u8 *mode,u16 *command,u8 com_len);
 extern int uart_recv_retransmit();
-
-
 
 
 extern int storage_device_ready();
@@ -704,6 +714,7 @@ static int rec_goto_password_page_ontouch(void *ctr, struct element_touch_event 
         u8 mode_buf = voice;
         u16 command_buf[] = {input_admin_infor};
         uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
+        write_data_to_flash(&record_w_infor,sizeof(record_w_infor));
         //uart_recv_retransmit(flag);
         break;
     }
@@ -717,6 +728,7 @@ REGISTER_UI_EVENT_HANDLER(REC_PASSWORD_BTN)
 /***************************** 退出密码界面返回壁纸界面按钮 ************************************/
 static int rec_goto_back_page_ontouch(void *ctr, struct element_touch_event *e)
 {
+    record_infor read_buf;
     UI_ONTOUCH_DEBUG("**rec_goto_back_page_ontouch**");
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
@@ -737,6 +749,7 @@ static int rec_goto_back_page_ontouch(void *ctr, struct element_touch_event *e)
         u8 mode_buf = voice;
         u16 command_buf[] = {operate_success};
         uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
+        read_data_from_flash(&read_buf,sizeof(read_buf));
         break;
     }
     return false;
@@ -864,7 +877,7 @@ static int rec_goto_set_date_ontouch(void *ctr, struct element_touch_event *e)
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_show(SET_DATE_LAY);
-        
+
         printf("year %d : month %d : day %d\n",temp_date_time.year,temp_date_time.month,temp_date_time.day);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
@@ -896,7 +909,7 @@ static int rec_goto_set_time_ontouch(void *ctr, struct element_touch_event *e)
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         ui_show(SET_TIME_LAY);
-        
+
         printf("hour %d : min %d : sec %d\n",temp_date_time.hour,temp_date_time.min,temp_date_time.sec);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
@@ -2193,7 +2206,7 @@ static int rec_page_right_ontouch(void *ctr, struct element_touch_event *e)
         ui_text_show_index_by_id(ENC_LAY_PAGE_TXT1,page_pic_flag);
         ui_text_show_index_by_id(ENC_LAY_PAGE_TXT2,page_pic_flag);
         ui_pic_show_image_by_id(ENC_LAY_SET_PIC,1);
-        
+
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
         uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
@@ -2228,7 +2241,7 @@ static int rec_page_left_ontouch(void *ctr, struct element_touch_event *e)
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-       
+
         reset_up_ui_func();
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
@@ -2907,8 +2920,8 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
             printf("======== btn ok : user name:");
             puts(user_name);
             memcpy(user_name_arrsy[name_array_num],user_name,sizeof(user_name));
-            memcpy(record_w_infor[name_array_num].name,user_name,sizeof(user_name));//将输入的用户名拷贝到结构体中
-            printf("record information name %s\n",record_w_infor[name_array_num]);
+            //memcpy(record_w_infor[name_array_num].name,user_name,sizeof(user_name));//将输入的用户名拷贝到结构体中
+            //printf("record information name %s\n",record_w_infor[name_array_num]);
             now_btn_user = name_array_num;
             name_array_num++;
             if(name_array_num>9){

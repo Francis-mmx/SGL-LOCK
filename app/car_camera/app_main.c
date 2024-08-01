@@ -567,6 +567,44 @@ int uart_recv_retransmit()
 }
 /*************************************Changed by liumenghui*************************************/
 
+#define SECTOR_SIZE 0x1000              //4K
+
+u32 flash_offset = 0x7EF000;            //8*1024*1024-68*1024
+void write_data_to_flash(u8 *buf,u32 size)
+{
+    u16 len = 0;
+    u8 sec = (size + SECTOR_SIZE - 1) / SECTOR_SIZE;            //传入的size有几个sector
+    void *dev = dev_open("spiflash", NULL);
+    if (!dev) {
+        return ;
+    }
+    dev_ioctl(dev, IOCTL_ERASE_SECTOR, (flash_offset - SECTOR_SIZE) * sec);     //擦除基地址前sec个扇区
+    len = dev_bulk_write(dev, buf, flash_offset-size, size);                   //从基地址往前面写数据
+    if(len != size)
+    {
+        printf("write error!\n");
+    }       
+    dev_close(dev);
+    dev = NULL;
+}
+
+void read_data_from_flash(struct record_infor *buf,u32 size)
+{
+    u8 len = 0;
+    void *dev = dev_open("spiflash", NULL);
+    if (!dev) {
+        return ;
+    }
+    len = dev_bulk_read(dev, buf, flash_offset-size, size);                   //从基地址往前面写数据
+    if(len != size)
+    {
+        printf("read error!\n");
+    }   
+    dev_close(dev);
+    dev = NULL;
+}
+
+
 
 /*
  * 应用程序主函数
@@ -663,7 +701,6 @@ void app_main()
     u8 c_len = sizeof(command_buf)/sizeof(command_buf[0]);
     uart_send_package(mode_buf,command_buf,c_len);
 /*******************************************上电*******************************************/
-
     sys_power_auto_shutdown_start(db_select("aff") * 60);
     sys_power_low_voltage_shutdown(320, PWR_DELAY_INFINITE);
 //    sys_power_charger_off_shutdown(10, 1);

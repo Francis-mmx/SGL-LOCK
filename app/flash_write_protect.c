@@ -9,16 +9,18 @@ void test_wirte_protect()
     if (!dev) {
         return ;
     }
-    /* dev_ioctl(dev, IOCTL_SET_WRITE_PROTECT, 0); */
+    /*dev_ioctl(dev, IOCTL_SET_WRITE_PROTECT, 0);*/
+    dev_ioctl(dev, IOCTL_ERASE_SECTOR, 0x7EE00);        //8*1024*1024-68*1024-4*1024
     u8 buf[512];
     memset(buf, 0xaa, sizeof(buf));
-    dev_bulk_write(dev, buf, 0, sizeof(buf));
+    dev_bulk_write(dev, buf, 0x7EEE00, sizeof(buf));
     memset(buf, 0xbb, sizeof(buf));
-    dev_bulk_read(dev, buf, 0, sizeof(buf));
+    dev_bulk_read(dev, buf, 0x7EEE00, sizeof(buf));
+    printf("write flash ...\n");
     put_buf(buf, sizeof(buf));
     dev_close(dev);
     dev = NULL;
-    cpu_reset();
+    //cpu_reset();
 }
 int spi_flash_write_protect()
 {
