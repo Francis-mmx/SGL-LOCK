@@ -13,6 +13,7 @@
 
 
 
+
 u32 spin_lock_cnt[2] = {0};
 
 u32 uart_timer_handle = 0;
@@ -565,44 +566,12 @@ int uart_recv_retransmit()
         uart_timer_handle = sys_timeout_add(0,transmit_overtime,100);//超时    超时处理      100ms后删除
     }
 }
+
+
+
+
+
 /*************************************Changed by liumenghui*************************************/
-
-#define SECTOR_SIZE 0x1000              //4K
-
-u32 flash_offset = 0x7EF000;            //8*1024*1024-68*1024
-void write_data_to_flash(u8 *buf,u32 size)
-{
-    u16 len = 0;
-    u8 sec = (size + SECTOR_SIZE - 1) / SECTOR_SIZE;            //传入的size有几个sector
-    void *dev = dev_open("spiflash", NULL);
-    if (!dev) {
-        return ;
-    }
-    dev_ioctl(dev, IOCTL_ERASE_SECTOR, (flash_offset - SECTOR_SIZE) * sec);     //擦除基地址前sec个扇区
-    len = dev_bulk_write(dev, buf, flash_offset-size, size);                   //从基地址往前面写数据
-    if(len != size)
-    {
-        printf("write error!\n");
-    }       
-    dev_close(dev);
-    dev = NULL;
-}
-
-void read_data_from_flash(struct record_infor *buf,u32 size)
-{
-    u8 len = 0;
-    void *dev = dev_open("spiflash", NULL);
-    if (!dev) {
-        return ;
-    }
-    len = dev_bulk_read(dev, buf, flash_offset-size, size);                   //从基地址往前面写数据
-    if(len != size)
-    {
-        printf("read error!\n");
-    }   
-    dev_close(dev);
-    dev = NULL;
-}
 
 
 

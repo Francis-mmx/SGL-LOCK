@@ -1,3 +1,4 @@
+
 #include "ui/includes.h"
 #include "server/ui_server.h"
 #include "style.h"
@@ -9,12 +10,19 @@
 #include "app_database.h"
 #include "system/device/uart.h"
 
-#define PWD1   (('6' << 24) | ('6' << 16) | ('6' << 8) | ('6' << 0))
-#define PWD2   (('1' << 24) | ('2' << 16) | ('3' << 8) | ('4' << 0))
+#define PWD1   ((6 << 24) | (6 << 16) | (6 << 8) | (6 << 0))
+#define PWD2   ((1 << 24) | (2 << 16) | (3 << 8) | (4 << 0))
 
+/*User Data*/
 
 #define MAX_NAME_LEN  20        //名字最长字符数
-#define MAX_REGISTER_NUM  100    //最大注册人数
+#define MAX_REGISTER_NUM  10    //最大注册人数
+
+#define SECTOR_SIZE 0x1000              //4K
+#define USER_DATA_SIZE  0x2000      //8k
+#define BASE_ADDRESS 0x7EF000
+u32 flash_offset = BASE_ADDRESS;            //8*1024*1024-68*1024
+
 
 typedef enum{
     FACE_UNLOCK = 0,
@@ -28,6 +36,7 @@ typedef enum{
     NFC_ADMIN_MODE,
 };
 
+
 /*记录用户信息*/
 typedef struct {
     u8 name[20];                    //名字
@@ -40,16 +49,25 @@ typedef struct {
 }record_infor;
 
 
+
 record_infor record_w_infor = {
     "Francis",
     FACE_UNLOCK,
     {0x48,0x53,0xBB,0x94,0x1F,0x3E,0x61,0xF8,0xF0,0xC1,0xA3,0x67,0xC9,0xBD,0x5B,0x97},
-    {0x0F,0x1E,0x3C,0x78,0xD1,0x83,0x27,0x4E,0x9C,0x19,0x13,0x26,0x4C,0x98,0x30,0x60},
+    {6,6,6,6,1,2,3,4},
     {0xFE,0xDF,0xB3,0xF1,0x1F,0x2E,0x7C,0xF8,0x80,0x6C,0xA3,0x67,0xCE,0xBD,0x5B,0x97},
     {0xFF,0xDF,0xA2,0xE2,0x1F,0x0E,0x65,0xF8,0x48,0x0A,0xA0,0x67,0xCB,0xBD,0x5B,0x97},
     {2024,8,1,15,24,50}
 };
-record_infor record_R_infor[MAX_REGISTER_NUM];
+record_infor record_r_infor = {
+    "Liumh",
+    NFC_UNLOCK,
+    {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x10,0x11,0x12,0x13,0x14,0x15,0x16},
+    {1,2,3,4,1,2,3,4},
+    {0xFE,0xDF,0xB3,0xF1,0x1F,0x2E,0x7C,0xF8,0x80,0x6C,0xA3,0x67,0xCE,0xBD,0x5B,0x97},
+    {0xFF,0xDF,0xA2,0xE2,0x1F,0x0E,0x65,0xF8,0x48,0x0A,0xA0,0x67,0xCB,0xBD,0x5B,0x97},
+    {2024,8,2,11,0,0}
+};
 
 
 #ifdef CONFIG_UI_STYLE_JL02_ENABLE
@@ -332,6 +350,106 @@ Data *create_packet_uncertain_len(u8 mode,u16 *command,u16 com_len)
 
     return data_packet;
 }
+
+
+void write_data_to_flash(u8 *buf,u32 size)
+{
+    u16 len = 0;
+    u8 sec = (size + SECTOR_SIZE - 1) / SECTOR_SIZE;            //传入的size有几个sector
+    void *dev = dev_open("spiflash", NULL);
+    if (!dev) {
+        return ;
+    }
+    dev_ioctl(dev, IOCTL_ERASE_SECTOR, flash_offset - SECTOR_SIZE * sec);     //擦除基地址前sec个扇区
+    len = dev_bulk_write(dev, buf, flash_offset-size, size);                   //从基地址往前面写数据
+    if(len != size)
+    {
+        printf("write error!\n");
+    }
+    dev_close(dev);
+    dev = NULL;
+    flash_offset -= SECTOR_SIZE;
+}
+
+/**/
+void read_data_from_flash(struct record_infor *buf,u32 size)
+{
+    u8 len = 0;
+    void *dev = dev_open("spiflash", NULL);
+    if (!dev) {
+        return ;
+    }
+    len = dev_bulk_read(dev, buf, BASE_ADDRESS-size, size);                   //从基地址往前面写数据
+    if(len != size)
+    {
+        printf("read error!\n");
+    }
+    put_buf(buf,size);
+    dev_close(dev);
+    dev = NULL;
+}
+
+#if 1
+
+
+/*比较用户输入的人脸、密码、指纹、卡片数据，成功后返回结构体数据*/
+record_infor *match_user_data(u8 *buf,u32 len,u32 size,u8 mode)
+{
+    u8 match_offset = 0;
+    u32 read_size = 0;
+    record_infor match_data;
+    void *dev = dev_open("spiflash", NULL);
+    if (!dev) {
+        return -1;
+    }
+
+    for (match_offset = 0; match_offset < MAX_REGISTER_NUM; match_offset++)
+    {
+        read_size = dev_bulk_read(dev, &match_data, BASE_ADDRESS - size - SECTOR_SIZE* match_offset, size);
+        //len = dev_bulk_read(dev, &match_data, flash_offset-size, size);
+        if(read_size != size)
+        {
+            printf("read error!\n");
+        }
+        switch(mode){
+        case FACE_UNLOCK:
+            if(memcmp(buf,match_data.face_buf,len) == 0)
+            {
+                printf("match success\n");
+                return &match_data;
+            }
+            break;
+        case PASSWORD_UNLOCK:
+            put_buf(match_data.password_buf,len);
+            if(memcmp(buf,match_data.password_buf,len) == 0)
+            {
+                printf("match success\n");
+                return &match_data;
+            }
+            break;
+        case FINGER_UNLOCK:
+            if(memcmp(buf,match_data.finger_buf,len) == 0)
+            {
+                printf("match success\n");
+                return &match_data;
+            }
+            break;
+        case NFC_UNLOCK:
+            if(memcmp(buf,match_data.nfc_buf,len) == 0)
+            {
+                printf("match success\n");
+                return &match_data;
+            }
+            break;
+        default:
+            return -1;
+        }
+    }
+    dev_close(dev);
+    dev = NULL;
+}
+#endif
+
 
 /*************************************Changed by liumenghui*************************************/
 
@@ -714,7 +832,8 @@ static int rec_goto_password_page_ontouch(void *ctr, struct element_touch_event 
         u8 mode_buf = voice;
         u16 command_buf[] = {input_admin_infor};
         uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
-        write_data_to_flash(&record_w_infor,sizeof(record_w_infor));
+       
+        write_data_to_flash(&record_r_infor,sizeof(record_r_infor));
         //uart_recv_retransmit(flag);
         break;
     }
@@ -2047,6 +2166,7 @@ static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
 
     u8 pw[PAW_NUM+1] = {0};
     u8 i,j;
+    record_infor pw_code;
     UI_ONTOUCH_DEBUG("**rec_password_ok_ontouch**");
     int tmp = 0;
     switch (e->event) {
@@ -2086,12 +2206,12 @@ static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
         printf("password[7]  %d\n",pw[7]);
 #else
         for (i = 0; i < 4; i++) {
-            pw[i] = (db_select("pwd1") >> (24 - i * 8)) & 0xFF - 48;
+            pw[i] = (db_select("pwd1") >> (24 - i * 8)) & 0xFF ;
             printf("password[%d]  %d\n", i, pw[i]);
         }
 
         for (i = 0; i < 4; i++) {
-            pw[i+4] = (db_select("pwd2") >> (24 - i * 8)) & 0xFF - 48;
+            pw[i+4] = (db_select("pwd2") >> (24 - i * 8)) & 0xFF ;
             printf("password[%d]  %d\n", i+4, pw[i+4]);
         }
 #endif
@@ -2101,6 +2221,8 @@ static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
             printf("input_paw[%d] %d\n",i,password_code[i]);
         }
         tmp = strcmp(password_code,pw);
+        match_user_data(password_code, sizeof(password_code), sizeof(record_infor), PASSWORD_UNLOCK);
+        //read_data_from_flash(&pw_code,sizeof(record_infor));
         if(tmp == 0){
             printf("================== pwd check succ\n");
         }else{
@@ -4176,6 +4298,7 @@ static int rec_rec_ling_up_ontouch(void *ctr, struct element_touch_event *e)
         u8 mode_buf = voice;
         u16 command_buf[] = {door_bell};
         uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
+        write_data_to_flash(&record_w_infor,sizeof(record_w_infor));
         break;
     }
     return false;
