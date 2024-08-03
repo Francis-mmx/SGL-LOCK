@@ -13,13 +13,13 @@
         <Page id="1">
             <ColorList>
                 <Color id="0">55AAA5</Color>
-                <Color id="1">DFDFDF</Color>
-                <Color id="2">00AAFF</Color>
-                <Color id="3">FFFFFF</Color>
-                <Color id="4">FF0000</Color>
-                <Color id="5">000000</Color>
-                <Color id="6">949494</Color>
-                <Color id="7">2EE79B</Color>
+                <Color id="1">2EE79B</Color>
+                <Color id="2">DFDFDF</Color>
+                <Color id="3">00AAFF</Color>
+                <Color id="4">000000</Color>
+                <Color id="5">FFFFFF</Color>
+                <Color id="6">FF0000</Color>
+                <Color id="7">949494</Color>
                 <Color id="8">030305</Color>
                 <Color id="9">121722</Color>
                 <Color id="10">0D231C</Color>
@@ -338,8 +338,8 @@
                 <Picture fmt="OSD8" id="66">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\OK.png</Picture>
                 <Picture fmt="OSD8" id="67">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\user\on_bottom.png</Picture>
                 <Picture fmt="OSD8" id="68">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\password.png</Picture>
-                <Picture fmt="OSD8" id="69">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\return.png</Picture>
-                <Picture fmt="OSD8A" id="70">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\return.png</Picture>
+                <Picture fmt="OSD8A" id="69">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\return.png</Picture>
+                <Picture fmt="OSD8" id="70">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\paw_ui\return.png</Picture>
                 <Picture fmt="OSD8" id="71">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set1.png</Picture>
                 <Picture fmt="OSD8" id="72">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set2.png</Picture>
                 <Picture fmt="OSD8" id="73">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\模式界面\project\config\UI_1280_480\new ui\set\set3.png</Picture>
@@ -434,10 +434,10 @@
         <Page id="2">
             <ColorList>
                 <Color id="0">55AAA5</Color>
-                <Color id="1">000000</Color>
-                <Color id="2">353535</Color>
-                <Color id="3">FFC046</Color>
-                <Color id="4">FFFFFF</Color>
+                <Color id="1">FFC046</Color>
+                <Color id="2">FFFFFF</Color>
+                <Color id="3">000000</Color>
+                <Color id="4">353535</Color>
             </ColorList>
             <PictureList/>
             <CellList>
@@ -488,12 +488,12 @@
         <Page id="3">
             <ColorList>
                 <Color id="0">55AAA5</Color>
-                <Color id="1">AA00FF</Color>
-                <Color id="2">FFFFFF</Color>
-                <Color id="3">000000</Color>
-                <Color id="4">858585</Color>
-                <Color id="5">FFFF00</Color>
-                <Color id="6">353535</Color>
+                <Color id="1">353535</Color>
+                <Color id="2">AA00FF</Color>
+                <Color id="3">FFFFFF</Color>
+                <Color id="4">000000</Color>
+                <Color id="5">858585</Color>
+                <Color id="6">FFFF00</Color>
             </ColorList>
             <PictureList/>
             <CellList>
@@ -789,13 +789,13 @@
         <Page id="5">
             <ColorList>
                 <Color id="0">55AAA5</Color>
-                <Color id="1">353535</Color>
-                <Color id="2">B3B3B3</Color>
-                <Color id="3">FFFFFF</Color>
-                <Color id="4">AEAEAE</Color>
-                <Color id="5">000000</Color>
-                <Color id="6">FFC046</Color>
-                <Color id="7">AAAAAA</Color>
+                <Color id="1">000000</Color>
+                <Color id="2">FFC046</Color>
+                <Color id="3">AAAAAA</Color>
+                <Color id="4">353535</Color>
+                <Color id="5">B3B3B3</Color>
+                <Color id="6">FFFFFF</Color>
+                <Color id="7">AEAEAE</Color>
             </ColorList>
             <PictureList/>
             <CellList>

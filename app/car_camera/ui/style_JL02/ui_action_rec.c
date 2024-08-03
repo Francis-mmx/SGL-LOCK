@@ -16,9 +16,10 @@
 /*User Data*/
 
 #define MAX_NAME_LEN  20        //名字最长字符数
-#define MAX_REGISTER_NUM  10    //最大注册人数
+#define MAX_REGISTER_NUM  100    //最大注册人数
 
 #define SECTOR_SIZE 0x1000              //4K
+#define RECORD_INFOR_SIZE       0x64
 #define BASE_ADDRESS 0x7EF000
 u32 flash_offset = BASE_ADDRESS;            //8*1024*1024-68*1024
 
@@ -42,7 +43,7 @@ typedef struct {
     u8 mode;                        //管理员 or 开锁
     u16 user_num;                   //用户编号
     u8 sort;                        //开锁方式
-    u8 password_buf[16];               //密码
+    u8 password_buf[20];               //密码
     struct sys_time record_time;    //记录的时间
 }record_infor;
 
@@ -51,7 +52,6 @@ typedef struct {
     record_infor* records;
     int count;                          // 匹配记录的数量
 } MatchResult;
-
 
 
 
@@ -358,12 +358,11 @@ Data *create_packet_uncertain_len(u8 mode,u16 *command,u16 com_len)
 void write_data_to_flash(u8 *buf,u32 size)
 {
     u16 len = 0;
-    u8 sec = (size + SECTOR_SIZE - 1) / SECTOR_SIZE;            //传入的size有几个sector
     void *dev = dev_open("spiflash", NULL);
     if (!dev) {
         return ;
     }
-    dev_ioctl(dev, IOCTL_ERASE_SECTOR, flash_offset - SECTOR_SIZE * sec);     //擦除基地址前sec个扇区
+    dev_ioctl(dev, IOCTL_ERASE_SECTOR, flash_offset - SECTOR_SIZE);     //擦除基地址前1个扇区
     len = dev_bulk_write(dev, buf, flash_offset-size, size);                   //从基地址往前面写数据
     if(len != size)
     {
@@ -371,7 +370,7 @@ void write_data_to_flash(u8 *buf,u32 size)
     }
     dev_close(dev);
     dev = NULL;
-    flash_offset -= SECTOR_SIZE;
+    flash_offset -= RECORD_INFOR_SIZE;          //基地址往前移100字节
 }
 
 /**/
@@ -382,7 +381,7 @@ void read_data_from_flash(struct record_infor *buf,u32 size)
     if (!dev) {
         return ;
     }
-    len = dev_bulk_read(dev, buf, BASE_ADDRESS-SECTOR_SIZE-size, size);        //从基地址往前面写数据
+    len = dev_bulk_read(dev, buf, BASE_ADDRESS-size, size);        //从基地址读出数据
     if(len != size)
     {
         printf("read error!\n");
@@ -408,7 +407,7 @@ record_infor *match_user_data(u8 *buf,u32 len,u32 size)
 
     for (match_offset = 0; match_offset < MAX_REGISTER_NUM; match_offset++)
     {
-        read_size = dev_bulk_read(dev, &match_data, BASE_ADDRESS - SECTOR_SIZE * match_offset - size, size);//基地址-块地址偏移-用户数据大小
+        read_size = dev_bulk_read(dev, &match_data, BASE_ADDRESS - RECORD_INFOR_SIZE * match_offset - size, size);//基地址-分配每个记录的地址大小-用户数据大小
         if(read_size != size)
         {
             printf("read data error!\n");
@@ -447,7 +446,7 @@ MatchResult *match_visit_time(struct sys_time *sys_time)
     }
     for (match_offset = 0; match_offset < MAX_REGISTER_NUM; match_offset++)
     {
-        read_size = dev_bulk_read(dev, &match_time, BASE_ADDRESS - SECTOR_SIZE * match_offset - sizeof(record_infor), sizeof(record_infor));//基地址-块地址偏移-用户数据大小
+        read_size = dev_bulk_read(dev, &match_time, BASE_ADDRESS - RECORD_INFOR_SIZE * match_offset - sizeof(record_infor), sizeof(record_infor));//基地址-分配每个记录的地址大小-用户数据大小
         if(read_size != sizeof(record_infor))
         {
             printf("read time error!\n");
@@ -3276,6 +3275,69 @@ REGISTER_UI_EVENT_HANDLER(ENC_USER_POWER_BTN)
 .ontouch = rec_user_power_btn_ontouch,
 };
 
+
+/***************************** 用户详情界面 新建指纹密码按钮 ************************************/
+static int rec_user_pw_fp_btn_ontouch(void *ctr, struct element_touch_event *e)
+{
+    UI_ONTOUCH_DEBUG("**rec_user_pw_fp_btn_ontouch**");
+
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        ui_hide(ENC_LAY_USER_DETAILS);
+        ui_show(USER_NEW_PW_FP_PAGE);
+        u8 mode_buf = voice;
+        u16 command_buf[] = {key_sound};
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
+        break;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_USER_PW_FP_BTN)
+.ontouch = rec_user_pw_fp_btn_ontouch,
+};
+
+/***************************** 新建指纹密码返回详情界面按钮 ************************************/
+static int rec_user_pw_fp_return_btn_ontouch(void *ctr, struct element_touch_event *e)
+{
+    UI_ONTOUCH_DEBUG("**rec_user_pw_fp_return_btn_ontouch**");
+
+    switch (e->event) {
+    case ELM_EVENT_TOUCH_DOWN:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
+        break;
+    case ELM_EVENT_TOUCH_HOLD:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
+        break;
+    case ELM_EVENT_TOUCH_MOVE:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
+        break;
+    case ELM_EVENT_TOUCH_UP:
+        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        ui_hide(USER_NEW_PW_FP_PAGE);
+        ui_show(ENC_LAY_USER_DETAILS);
+        u8 mode_buf = voice;
+        u16 command_buf[] = {key_sound};
+        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
+        break;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(USER_PW_FP_RETURN_BTN)
+.ontouch = rec_user_pw_fp_return_btn_ontouch,
+};
+
+
+
 /***************************** 用户详情界面 新建人脸按钮 ************************************/
 static int rec_user_facial_btn_ontouch(void *ctr, struct element_touch_event *e)
 {
@@ -3962,7 +4024,7 @@ static int rec_sys_info_return_btn_ontouch(void *ctr, struct element_touch_event
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-        
+
         ui_hide(ENC_LAY_SYS_INFO_PAGE);
         ui_show(ENC_LAY_PAGE);
         u8 mode_buf = voice;
@@ -4173,7 +4235,7 @@ static int rec_door_lock_return_btn_ontouch(void *ctr, struct element_touch_even
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-        
+
         ui_hide(ENC_LAY_DOOR_LOCK_PAGE);
         ui_show(ENC_LAY_PAGE);
         door_lock_page_flag = 0;
