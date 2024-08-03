@@ -2277,6 +2277,27 @@ REGISTER_UI_EVENT_HANDLER(ENC_LAY_SET_PIC)
 };
 
 /***************************** 设置主界面文字 ************************************/
+static int rec_lay_set_txt1_onchange(void *ctr, enum element_change_event e, void *arg)
+{
+    switch (e) {
+    case ON_CHANGE_INIT:
+        break;
+    case ON_CHANGE_RELEASE:
+        break;
+    case ON_CHANGE_FIRST_SHOW:
+        ui_text_show_index_by_id(ENC_LAY_PAGE_TXT1,page_pic_flag);
+        ui_text_show_index_by_id(ENC_LAY_PAGE_TXT2,page_pic_flag);
+        break;
+    default:
+        return false;
+    }
+    return false;
+}
+REGISTER_UI_EVENT_HANDLER(ENC_LAY_TXT1_PAGE)
+.onchange = rec_lay_set_txt1_onchange,
+};
+
+
 static int rec_lay_set_txt2_onchange(void *ctr, enum element_change_event e, void *arg)
 {
     switch (e) {
@@ -2302,7 +2323,6 @@ static int rec_page_right_ontouch(void *ctr, struct element_touch_event *e)
 {
     UI_ONTOUCH_DEBUG("**rec_page_right_ontouch**");
     struct button *btn = (struct button *)ctr;
-    page_pic_flag = 1;
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
@@ -2315,6 +2335,7 @@ static int rec_page_right_ontouch(void *ctr, struct element_touch_event *e)
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        page_pic_flag = 1;
 
         ui_hide(ENC_LAY_TXT2_PAGE);
         ui_text_show_index_by_id(ENC_LAY_PAGE_TXT1,page_pic_flag);
@@ -2337,14 +2358,9 @@ static int rec_page_left_ontouch(void *ctr, struct element_touch_event *e)
 {
     UI_ONTOUCH_DEBUG("**rec_page_left_ontouch**");
     struct button *btn = (struct button *)ctr;
-    page_pic_flag = 0;
 
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
-        ui_show(ENC_LAY_TXT2_PAGE);
-        ui_text_show_index_by_id(ENC_LAY_PAGE_TXT1,page_pic_flag);
-        ui_text_show_index_by_id(ENC_LAY_PAGE_TXT2,page_pic_flag);
-        ui_pic_show_image_by_id(ENC_LAY_SET_PIC,0);
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
         break;
     case ELM_EVENT_TOUCH_HOLD:
@@ -2355,7 +2371,13 @@ static int rec_page_left_ontouch(void *ctr, struct element_touch_event *e)
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-
+        page_pic_flag = 0;
+        ui_show(ENC_LAY_TXT2_PAGE);
+        ui_text_show_index_by_id(ENC_LAY_PAGE_TXT3,page_pic_flag);
+        ui_text_show_index_by_id(ENC_LAY_PAGE_TXT4,page_pic_flag);
+        ui_text_show_index_by_id(ENC_LAY_PAGE_TXT1,page_pic_flag);
+        ui_text_show_index_by_id(ENC_LAY_PAGE_TXT2,page_pic_flag);
+        ui_pic_show_image_by_id(ENC_LAY_SET_PIC,0);
         reset_up_ui_func();
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
@@ -3940,7 +3962,7 @@ static int rec_sys_info_return_btn_ontouch(void *ctr, struct element_touch_event
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-        page_pic_flag = 0;
+        
         ui_hide(ENC_LAY_SYS_INFO_PAGE);
         ui_show(ENC_LAY_PAGE);
         u8 mode_buf = voice;
@@ -4151,7 +4173,7 @@ static int rec_door_lock_return_btn_ontouch(void *ctr, struct element_touch_even
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-        page_pic_flag = 0;
+        
         ui_hide(ENC_LAY_DOOR_LOCK_PAGE);
         ui_show(ENC_LAY_PAGE);
         door_lock_page_flag = 0;
@@ -4385,21 +4407,14 @@ static int rec_enc_set_lay_onchange(void *ctr, enum element_change_event e, void
         {
             ui_hide(ENC_PAGE_RIGHT_BTN);
             ui_show(ENC_PAGE_LEFT_BTN);
-            /*
-            ui_hide(ENC_LAY_TXT2_PAGE);
-            ui_text_show_index_by_id(ENC_LAY_PAGE_TXT1,page_pic_flag);
-            ui_text_show_index_by_id(ENC_LAY_PAGE_TXT2,page_pic_flag);
-            */
+            ui_show(ENC_LAY_TXT1_PAGE);
+            //ui_text_show_index_by_id(ENC_LAY_PAGE_TXT1,page_pic_flag);
+            //ui_text_show_index_by_id(ENC_LAY_PAGE_TXT2,page_pic_flag);
         }
         else
         {
             ui_hide(ENC_PAGE_LEFT_BTN);
             ui_show(ENC_PAGE_RIGHT_BTN);
-            /*
-            ui_show(ENC_LAY_TXT2_PAGE);
-            ui_text_show_index_by_id(ENC_LAY_PAGE_TXT1,page_pic_flag);
-            ui_text_show_index_by_id(ENC_LAY_PAGE_TXT2,page_pic_flag);
-            */
         }
         break;
     default:
