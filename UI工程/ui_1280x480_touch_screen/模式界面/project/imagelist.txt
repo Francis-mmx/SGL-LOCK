@@ -1,2 +1,4 @@
-set_right.png|D:/Work Document/SGL-LOCK/UI工程/ui_1280x480_touch_screen/模式界面/project/config/UI_1280_480/new ui/set/page1/set_right.pngbaskslash equal zero else
-config/UI_1280_480/new ui/set/page1/set_right.png
+fingerprint.png|D:/Work Document/SGL-LOCK/UI工程/ui_1280x480_touch_screen/模式界面/project/config/UI_1280_480/new ui/set/user/fingerprint.pngbaskslash equal zero else
+config/UI_1280_480/new ui/set/user/fingerprint.png
+face_recognition.png|D:/Work Document/SGL-LOCK/UI工程/ui_1280x480_touch_screen/模式界面/project/config/UI_1280_480/new ui/set/user/face_recognition.pngbaskslash equal zero else
+config/UI_1280_480/new ui/set/user/face_recognition.png

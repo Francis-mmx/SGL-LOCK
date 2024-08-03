@@ -19,54 +19,57 @@
 #define MAX_REGISTER_NUM  10    //最大注册人数
 
 #define SECTOR_SIZE 0x1000              //4K
-#define USER_DATA_SIZE  0x2000      //8k
 #define BASE_ADDRESS 0x7EF000
 u32 flash_offset = BASE_ADDRESS;            //8*1024*1024-68*1024
 
 
 typedef enum{
-    FACE_UNLOCK = 0,
-    PASSWORD_UNLOCK,
-    FINGER_UNLOCK,
-    NFC_UNLOCK,
+    ADMIN = 0,
+    UNLOCK,
+};
 
-    FACE_ADMIN_MODE,
-    PASSWORD_ADMIN_MODE,
-    FINGER_ADMIN_MODE,
-    NFC_ADMIN_MODE,
+typedef enum{
+    FACE = 0,
+    PASSWORD,
+    FINGER,
+    NFC,
 };
 
 
 /*记录用户信息*/
 typedef struct {
     u8 name[20];                    //名字
-    u8 mode;                        //解锁模式
-    u8 face_buf[16];                   //人脸数据
+    u8 mode;                        //管理员 or 开锁
+    u16 user_num;                   //用户编号
+    u8 sort;                        //开锁方式
     u8 password_buf[16];               //密码
-    u8 finger_buf[16];                 //指纹数据
-    u8 nfc_buf[16];                    //NFC数据
     struct sys_time record_time;    //记录的时间
 }record_infor;
+
+
+typedef struct {
+    record_infor* records;
+    int count;                          // 匹配记录的数量
+} MatchResult;
+
 
 
 
 record_infor record_w_infor = {
     "Francis",
-    FACE_UNLOCK,
-    {0x48,0x53,0xBB,0x94,0x1F,0x3E,0x61,0xF8,0xF0,0xC1,0xA3,0x67,0xC9,0xBD,0x5B,0x97},
+    ADMIN,
+    0,
+    FACE,
     {6,6,6,6,1,2,3,4},
-    {0xFE,0xDF,0xB3,0xF1,0x1F,0x2E,0x7C,0xF8,0x80,0x6C,0xA3,0x67,0xCE,0xBD,0x5B,0x97},
-    {0xFF,0xDF,0xA2,0xE2,0x1F,0x0E,0x65,0xF8,0x48,0x0A,0xA0,0x67,0xCB,0xBD,0x5B,0x97},
     {2024,8,1,15,24,50}
 };
 record_infor record_r_infor = {
     "Liumh",
-    NFC_UNLOCK,
-    {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,0x10,0x11,0x12,0x13,0x14,0x15,0x16},
+    UNLOCK,
+    5,
+    NFC,
     {1,2,3,4,1,2,3,4},
-    {0xFE,0xDF,0xB3,0xF1,0x1F,0x2E,0x7C,0xF8,0x80,0x6C,0xA3,0x67,0xCE,0xBD,0x5B,0x97},
-    {0xFF,0xDF,0xA2,0xE2,0x1F,0x0E,0x65,0xF8,0x48,0x0A,0xA0,0x67,0xCB,0xBD,0x5B,0x97},
-    {2024,8,2,11,0,0}
+    {2024,8,2,19,30,5}
 };
 
 
@@ -379,7 +382,7 @@ void read_data_from_flash(struct record_infor *buf,u32 size)
     if (!dev) {
         return ;
     }
-    len = dev_bulk_read(dev, buf, BASE_ADDRESS-size, size);                   //从基地址往前面写数据
+    len = dev_bulk_read(dev, buf, BASE_ADDRESS-SECTOR_SIZE-size, size);        //从基地址往前面写数据
     if(len != size)
     {
         printf("read error!\n");
@@ -391,65 +394,81 @@ void read_data_from_flash(struct record_infor *buf,u32 size)
 
 #if 1
 
-
-/*比较用户输入的人脸、密码、指纹、卡片数据，成功后返回结构体数据*/
-record_infor *match_user_data(u8 *buf,u32 len,u32 size,u8 mode)
+/*比较用户输入的密码，成功后返回结构体数据*/
+record_infor *match_user_data(u8 *buf,u32 len,u32 size)
 {
-    u8 match_offset = 0;
+    u8 count,match_offset = 0;
     u32 read_size = 0;
     record_infor match_data;
+
     void *dev = dev_open("spiflash", NULL);
     if (!dev) {
-        return -1;
+        return NULL;
     }
 
     for (match_offset = 0; match_offset < MAX_REGISTER_NUM; match_offset++)
     {
-        read_size = dev_bulk_read(dev, &match_data, BASE_ADDRESS - size - SECTOR_SIZE* match_offset, size);
-        //len = dev_bulk_read(dev, &match_data, flash_offset-size, size);
+        read_size = dev_bulk_read(dev, &match_data, BASE_ADDRESS - SECTOR_SIZE * match_offset - size, size);//基地址-块地址偏移-用户数据大小
         if(read_size != size)
         {
-            printf("read error!\n");
+            printf("read data error!\n");
         }
-        switch(mode){
-        case FACE_UNLOCK:
-            if(memcmp(buf,match_data.face_buf,len) == 0)
-            {
-                printf("match success\n");
-                return &match_data;
-            }
-            break;
-        case PASSWORD_UNLOCK:
-            put_buf(match_data.password_buf,len);
-            if(memcmp(buf,match_data.password_buf,len) == 0)
-            {
-                printf("match success\n");
-                return &match_data;
-            }
-            break;
-        case FINGER_UNLOCK:
-            if(memcmp(buf,match_data.finger_buf,len) == 0)
-            {
-                printf("match success\n");
-                return &match_data;
-            }
-            break;
-        case NFC_UNLOCK:
-            if(memcmp(buf,match_data.nfc_buf,len) == 0)
-            {
-                printf("match success\n");
-                return &match_data;
-            }
-            break;
-        default:
-            return -1;
+        if(memcmp(buf,match_data.password_buf,len) == 0)
+        {
+            printf("match password data success\n");
+            dev_close(dev);
+            dev = NULL;
+            return &match_data;
         }
+
     }
     dev_close(dev);
     dev = NULL;
+    return NULL;
 }
 #endif
 
+
+
+MatchResult *match_visit_time(struct sys_time *sys_time)
+{
+    u8 count=0,read_size,match_offset = 0;
+    record_infor match_time;
+    MatchResult *result = malloc(sizeof(MatchResult));
+    result->records = malloc(MAX_REGISTER_NUM * sizeof(record_infor));
+    if (!result->records) {
+        return NULL;
+    }
+    result->count = 0;
+
+    void *dev = dev_open("spiflash", NULL);
+    if (!dev) {
+        return NULL;
+    }
+    for (match_offset = 0; match_offset < MAX_REGISTER_NUM; match_offset++)
+    {
+        read_size = dev_bulk_read(dev, &match_time, BASE_ADDRESS - SECTOR_SIZE * match_offset - sizeof(record_infor), sizeof(record_infor));//基地址-块地址偏移-用户数据大小
+        if(read_size != sizeof(record_infor))
+        {
+            printf("read time error!\n");
+        }
+        if(sys_time->year == match_time.record_time.year && sys_time->month == match_time.record_time.month && sys_time->day == match_time.record_time.day)
+        {
+            printf("match time success\n");
+            memcpy(result->records + count, &match_time, sizeof(record_infor));
+            count++;
+        }
+    }
+    result->count = count;
+    dev_close(dev);
+    dev = NULL;
+    if (result->count == 0) { // 如果没有找到匹配项，释放内存并返回NULL
+        free(result->records);
+        free(result);
+        return NULL;
+    }
+    return result;
+}
 
 /*************************************Changed by liumenghui*************************************/
 
@@ -832,8 +851,7 @@ static int rec_goto_password_page_ontouch(void *ctr, struct element_touch_event 
         u8 mode_buf = voice;
         u16 command_buf[] = {input_admin_infor};
         uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
-       
-        write_data_to_flash(&record_r_infor,sizeof(record_r_infor));
+
         //uart_recv_retransmit(flag);
         break;
     }
@@ -2037,7 +2055,8 @@ REGISTER_UI_EVENT_HANDLER(PIC_BACK_REC)
 #define PAW_NUM 8           //密码最大个数
 u8 password_num = 0;        //输入的密码个数
 u8 password_code[PAW_NUM+1] = {0};       //保存输入的密码
-u8 asterisk_number[PAW_NUM] = {'*','*','*','*','*','*','*','*'};      //显示*号
+u8 asterisk_number[PAW_NUM+1] = {'*','*','*','*','*','*','*','*','*'};      //显示*号
+
 u8 get_password_code[PAW_NUM+1] = {1,2,3,4,5,6,7,8};
 static int rec_password_in_ontouch(void *ctr, struct element_touch_event *e)
 {
@@ -2083,8 +2102,9 @@ static int rec_password_in_ontouch(void *ctr, struct element_touch_event *e)
         password_code[password_num] = sel_item;
         printf("============ in pwd:");
         put_buf(password_code,PAW_NUM);             //输出当前输入的密码
-        password_num++;
         ui_text_set_str_by_id(ENC_PASSWORD_TXT, "ascii", &asterisk_number[PAW_NUM-password_num]);
+
+        password_num++;
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
         uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
@@ -2166,7 +2186,8 @@ static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
 
     u8 pw[PAW_NUM+1] = {0};
     u8 i,j;
-    record_infor pw_code;
+    record_infor *pw_code = NULL;
+    struct sys_time sys_time;
     UI_ONTOUCH_DEBUG("**rec_password_ok_ontouch**");
     int tmp = 0;
     switch (e->event) {
@@ -2181,53 +2202,24 @@ static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-        put_buf(get_password_code,PAW_NUM);             //输出密码
+
         put_buf(password_code,PAW_NUM);             //输出输入密码
-        db_update("pwd1",PWD1);
-        db_update("pwd2",PWD2);
-        db_flush();
-#if 0
-        pw[0] = (db_select("pwd1") >> 24) & 0xFF - 48;
-        printf("password[0]  %d\n",pw[0]);
-        pw[1] = (db_select("pwd1") >> 16) & 0xFF - 48;
-        printf("password[1]  %d\n",pw[1]);
-        pw[2] = (db_select("pwd1") >> 8) & 0xFF - 48;
-        printf("password[2]  %d\n",pw[2]);
-        pw[3] = (db_select("pwd1") >> 0) & 0xFF - 48;
-        printf("password[3]  %d\n",pw[3]);
+        pw_code = match_user_data(password_code, sizeof(password_code), sizeof(record_infor));
+        if(pw_code != NULL)
+        {
 
-        pw[4] = (db_select("pwd2") >> 24) & 0xFF - 48;
-        printf("password[4]  %d\n",pw[4]);
-        pw[5] = (db_select("pwd2") >> 16) & 0xFF - 48;
-        printf("password[5]  %d\n",pw[5]);
-        pw[6] = (db_select("pwd2") >> 8) & 0xFF - 48;
-        printf("password[6]  %d\n",pw[6]);
-        pw[7] = (db_select("pwd2") >> 0) & 0xFF - 48;
-        printf("password[7]  %d\n",pw[7]);
-#else
-        for (i = 0; i < 4; i++) {
-            pw[i] = (db_select("pwd1") >> (24 - i * 8)) & 0xFF ;
-            printf("password[%d]  %d\n", i, pw[i]);
-        }
+            get_system_time(&sys_time);
+            pw_code->record_time.year = sys_time.year;
+            pw_code->record_time.month = sys_time.month;
+            pw_code->record_time.day = sys_time.day;
+            pw_code->record_time.hour = sys_time.hour;
+            pw_code->record_time.min = sys_time.min;
+            pw_code->record_time.sec = sys_time.sec;
 
-        for (i = 0; i < 4; i++) {
-            pw[i+4] = (db_select("pwd2") >> (24 - i * 8)) & 0xFF ;
-            printf("password[%d]  %d\n", i+4, pw[i+4]);
+            printf("%d/%d/%d %d:%d:%d\n",pw_code->record_time.year,pw_code->record_time.month,pw_code->record_time.day,
+                                            pw_code->record_time.hour,pw_code->record_time.min,pw_code->record_time.sec);
         }
-#endif
-        pw[PAW_NUM] = '\0';
-
-        for(i=0;i<PAW_NUM;i++){
-            printf("input_paw[%d] %d\n",i,password_code[i]);
-        }
-        tmp = strcmp(password_code,pw);
-        match_user_data(password_code, sizeof(password_code), sizeof(record_infor), PASSWORD_UNLOCK);
-        //read_data_from_flash(&pw_code,sizeof(record_infor));
-        if(tmp == 0){
-            printf("================== pwd check succ\n");
-        }else{
-            printf("================== pwd check err\n");
-        }
+        write_data_to_flash(pw_code, sizeof(record_infor));
         u8 mode_buf = voice;
         u16 command_buf[] = {unlocked};
         uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
@@ -3346,19 +3338,24 @@ const int lay_record_list[]={
 
 static int rec_lay_record_page_onchange(void *ctr, enum element_change_event e, void *arg)
 {
+    record_infor *record_visit = NULL;
     switch (e) {
     case ON_CHANGE_INIT:
         break;
     case ON_CHANGE_RELEASE:
         break;
     case ON_CHANGE_FIRST_SHOW:
+        //record_visit = match_visit_time(struct sys_time * sys_time);
         ui_show(ENC_RECORD_INFOR);
+        ui_show(ENC_RECORD_INFOR_LIST_1);
+        /*
         for(int i=0;i<name_array_num;i++){
             ui_show(lay_record_list[i]);
             if(i>4){
                 break;
             }
         }
+        */
         break;
     default:
         return false;
@@ -3449,16 +3446,21 @@ static int timer_1_record_infor_onchange(void *ctr, enum element_change_event e,
 {
     struct ui_time *time = (struct ui_time *)ctr;
     struct sys_time sys_time;
-
+    MatchResult *record_visit = NULL;
     switch (e) {
     case ON_CHANGE_INIT:
         get_system_time(&sys_time);
-        time->year = sys_time.year;
-        time->month = sys_time.month;
-        time->day = sys_time.day;
-        time->hour = sys_time.hour;
-        time->min = sys_time.min;
-        time->sec = sys_time.sec;
+        record_visit = match_visit_time(&sys_time);
+        if(record_visit != NULL && record_visit->count > 0)
+        {
+            time->year = record_visit->records[0].record_time.year;
+            time->month = record_visit->records[0].record_time.month;
+            time->day = record_visit->records[0].record_time.day;
+            time->hour = record_visit->records[0].record_time.hour;
+            time->min = record_visit->records[0].record_time.min;
+            time->sec = record_visit->records[0].record_time.sec;
+            printf("Record time %d/%d/%d %d:%d:%d\n",time->year,time->month,time->day,time->hour,time->min,time->sec);
+        }
         break;
     default:
         return false;
@@ -3569,13 +3571,21 @@ REGISTER_UI_EVENT_HANDLER(ENC_RECORD_INFOR_TIME_5)
 /***************************** 记录列表显示 ************************************/
 static int rec_record_infor_list_1_onchange(void *ctr, enum element_change_event e, void *arg)
 {
+    MatchResult *record_visit = NULL;
+    struct sys_time time_visit;
     switch (e) {
     case ON_CHANGE_INIT:
         break;
     case ON_CHANGE_RELEASE:
         break;
     case ON_CHANGE_FIRST_SHOW:
-        ui_text_set_str_by_id(ENC_RECORD_INFOR_TXT_1, "ascii", &user_name_arrsy[(list_page_num*5)+0]);
+        get_system_time(&time_visit);
+        record_visit = match_visit_time(&time_visit);
+        if(record_visit->count != 0)
+        {
+            printf("Record name %s\n",record_visit->records[0].name);
+            ui_text_set_str_by_id(ENC_RECORD_INFOR_TXT_1, "ascii", record_visit->records[0].name);
+        }
         break;
     default:
         return false;
@@ -3769,7 +3779,7 @@ REGISTER_UI_EVENT_HANDLER(NETWORK_SET_LAY)
 /***************************** 配网界面 返回按钮 ************************************/
 static int network_set_return_btn_ontouch(void *ctr, struct element_touch_event *e)
 {
-    UI_ONTOUCH_DEBUG("**rec_sys_info_return_btn_ontouch**");
+    UI_ONTOUCH_DEBUG("**network_set_return_btn_ontouch**");
     struct intent it;
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
@@ -3930,6 +3940,7 @@ static int rec_sys_info_return_btn_ontouch(void *ctr, struct element_touch_event
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        page_pic_flag = 0;
         ui_hide(ENC_LAY_SYS_INFO_PAGE);
         ui_show(ENC_LAY_PAGE);
         u8 mode_buf = voice;
@@ -4123,7 +4134,7 @@ REGISTER_UI_EVENT_HANDLER(ENC_LOCK_LIST_PAGE_BTN)
 };
 
 
-/***************************** 系统信息界面 返回按钮 ************************************/
+/***************************** 门锁配置界面 返回按钮 ************************************/
 static int rec_door_lock_return_btn_ontouch(void *ctr, struct element_touch_event *e)
 {
     UI_ONTOUCH_DEBUG("**rec_door_lock_return_btn_ontouch**");
@@ -4140,6 +4151,7 @@ static int rec_door_lock_return_btn_ontouch(void *ctr, struct element_touch_even
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        page_pic_flag = 0;
         ui_hide(ENC_LAY_DOOR_LOCK_PAGE);
         ui_show(ENC_LAY_PAGE);
         door_lock_page_flag = 0;
@@ -4264,6 +4276,8 @@ static int rec_rec_lock_up_ontouch(void *ctr, struct element_touch_event *e)
         u8 mode_buf = voice;
         u16 command_buf[] = {locked};
         uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
+
+        write_data_to_flash(&record_r_infor,sizeof(record_r_infor));
         break;
     }
     return false;
@@ -4371,11 +4385,21 @@ static int rec_enc_set_lay_onchange(void *ctr, enum element_change_event e, void
         {
             ui_hide(ENC_PAGE_RIGHT_BTN);
             ui_show(ENC_PAGE_LEFT_BTN);
+            /*
+            ui_hide(ENC_LAY_TXT2_PAGE);
+            ui_text_show_index_by_id(ENC_LAY_PAGE_TXT1,page_pic_flag);
+            ui_text_show_index_by_id(ENC_LAY_PAGE_TXT2,page_pic_flag);
+            */
         }
         else
         {
             ui_hide(ENC_PAGE_LEFT_BTN);
             ui_show(ENC_PAGE_RIGHT_BTN);
+            /*
+            ui_show(ENC_LAY_TXT2_PAGE);
+            ui_text_show_index_by_id(ENC_LAY_PAGE_TXT1,page_pic_flag);
+            ui_text_show_index_by_id(ENC_LAY_PAGE_TXT2,page_pic_flag);
+            */
         }
         break;
     default:
