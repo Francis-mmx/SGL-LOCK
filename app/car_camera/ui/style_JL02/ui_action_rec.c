@@ -19,9 +19,11 @@
 #define MAX_REGISTER_NUM  100    //最大注册人数
 
 #define SECTOR_SIZE 0x1000              //4K
-#define RECORD_INFOR_SIZE       0x64
+#define RECORD_INFOR_SIZE       sizeof(record_infor)
 #define BASE_ADDRESS 0x7EF000
 u32 flash_offset = BASE_ADDRESS;            //8*1024*1024-68*1024
+
+#define   USER_NAME_MAX       20
 
 
 typedef enum{
@@ -39,12 +41,13 @@ typedef enum{
 
 /*记录用户信息*/
 typedef struct {
-    u8 name[20];                    //名字
-    u8 mode;                        //管理员 or 开锁
-    u16 user_num;                   //用户编号
-    u8 sort;                        //开锁方式
-    u8 password_buf[20];               //密码
-    struct sys_time record_time;    //记录的时间
+    u8 name[MAX_NAME_LEN];                    //名字
+    u8 push_message;                          //是否推送消息
+    u8 mode;                                  //管理员 or 开锁
+    u16 user_num;                             //用户编号
+    u8 sort;                                  //开锁方式
+    u8 password_buf[USER_NAME_MAX];           //密码
+    struct sys_time record_time;              //记录的时间
 }record_infor;
 
 
@@ -53,10 +56,11 @@ typedef struct {
     int count;                          // 匹配记录的数量
 } MatchResult;
 
-
+record_infor user_new_infor_temp;
 
 record_infor record_w_infor = {
     "Francis",
+    0,
     ADMIN,
     0,
     FACE,
@@ -65,6 +69,7 @@ record_infor record_w_infor = {
 };
 record_infor record_r_infor = {
     "Liumh",
+    0,
     UNLOCK,
     5,
     NFC,
@@ -149,7 +154,6 @@ static const u8 num_input[] = {
 
 u8 user_name[26]={0};       //储存输入的用户名
 int user_name_num = 0;      //当前输入字符的个数
-
 u8 user_name_arrsy[10][26] = {0};       //保存用户名的数组
 u8 name_array_num = 0;      //存储用户名的个数
 u8 list_page_num = 0;           //用户名列表页数
@@ -355,19 +359,23 @@ Data *create_packet_uncertain_len(u8 mode,u16 *command,u16 com_len)
 }
 
 
-void write_data_to_flash(u8 *buf,u32 size)
+void write_data_to_flash(u8 *buf)
 {
+    record_infor write_data;
     u16 len = 0;
+    memcpy(&write_data,buf,sizeof(record_infor));
     void *dev = dev_open("spiflash", NULL);
     if (!dev) {
         return ;
     }
+    
     dev_ioctl(dev, IOCTL_ERASE_SECTOR, flash_offset - SECTOR_SIZE);     //擦除基地址前1个扇区
-    len = dev_bulk_write(dev, buf, flash_offset-size, size);                   //从基地址往前面写数据
-    if(len != size)
+    len = dev_bulk_write(dev, buf, flash_offset-sizeof(record_infor), sizeof(record_infor));                   //从基地址往前面写数据
+    if(len != sizeof(record_infor))
     {
         printf("write error!\n");
     }
+    
     dev_close(dev);
     dev = NULL;
     flash_offset -= RECORD_INFOR_SIZE;          //基地址往前移100字节
@@ -390,6 +398,38 @@ void read_data_from_flash(struct record_infor *buf,u32 size)
     dev_close(dev);
     dev = NULL;
 }
+
+/*通过结构体的编号，返回对应的结构体*/
+record_infor *match_user_num(u8 num)
+{
+    u8 match_offset = 0;
+    u32 read_size = 0;
+    record_infor *match_num = malloc(sizeof(record_infor));
+    void *dev = dev_open("spiflash", NULL);
+    if (!dev) {
+        return NULL;
+    }
+    for (match_offset = 0; match_offset < MAX_REGISTER_NUM; match_offset++)
+    {
+        read_size = dev_bulk_read(dev, match_num, BASE_ADDRESS - RECORD_INFOR_SIZE * match_offset - sizeof(record_infor), sizeof(record_infor));//基地址-分配每个记录的地址大小-用户数据大小
+        if(read_size != sizeof(record_infor))
+        {
+            printf("read data error!\n");
+        }
+        if(match_num->user_num == num)//匹配对应的编号
+        {
+            printf("match user num success\n");
+            dev_close(dev);
+            dev = NULL;
+            return match_num;
+        }
+
+    }
+    dev_close(dev);
+    dev = NULL;
+    return NULL;
+}
+
 
 #if 1
 
@@ -2218,7 +2258,7 @@ static int rec_password_ok_ontouch(void *ctr, struct element_touch_event *e)
             printf("%d/%d/%d %d:%d:%d\n",pw_code->record_time.year,pw_code->record_time.month,pw_code->record_time.day,
                                             pw_code->record_time.hour,pw_code->record_time.min,pw_code->record_time.sec);
         }
-        write_data_to_flash(pw_code, sizeof(record_infor));
+        write_data_to_flash(pw_code);
         u8 mode_buf = voice;
         u16 command_buf[] = {unlocked};
         uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
@@ -2646,6 +2686,7 @@ REGISTER_UI_EVENT_HANDLER(ENC_LAY_USER_INPUT)
 
 static int rec_lay_user_details_onchange(void *ctr, enum element_change_event e, void *arg)
 {
+    record_infor user_detail;
     switch (e) {
     case ON_CHANGE_INIT:
         break;
@@ -2657,6 +2698,7 @@ static int rec_lay_user_details_onchange(void *ctr, enum element_change_event e,
         ui_text_show_index_by_id(ENC_SET_USER_TXT,user_page_flag);
         memset(user_name,0,sizeof(user_name));
         user_name_num = 0;
+        //ui_text_set_str_by_id(ENC_NOW_USER_NAME, "ascii", &user_name_arrsy[now_btn_user+(list_page_num*5)]);
         ui_text_set_str_by_id(ENC_NOW_USER_NAME, "ascii", &user_name_arrsy[now_btn_user+(list_page_num*5)]);
 
         ui_pic_show_image_by_id(ENC_USER_PUSH_PIC,user_function_array[(list_page_num*5)+now_btn_user][0]);
@@ -2844,6 +2886,7 @@ static int rec_user_name_btn_ontouch(void *ctr, struct element_touch_event *e)
 {
     UI_ONTOUCH_DEBUG("**rec_user_name_btn_ontouch**");
     struct button *btn = (struct button *)ctr;
+    record_infor *record_user_name = NULL;;
     const int user_name_btn[] = {
         ENC_USER_NAME_BTN_1,
         ENC_USER_NAME_BTN_2,
@@ -2854,16 +2897,12 @@ static int rec_user_name_btn_ontouch(void *ctr, struct element_touch_event *e)
     u8 i,j;
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
         break;
     case ELM_EVENT_TOUCH_HOLD:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
         break;
     case ELM_EVENT_TOUCH_MOVE:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
         break;
     case ELM_EVENT_TOUCH_UP:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
         j=sizeof(user_name_btn)/sizeof(user_name_btn[0]);
         for (i = 0; i < j; i++) {
             if (btn->elm.id == user_name_btn[i]) {
@@ -2871,7 +2910,12 @@ static int rec_user_name_btn_ontouch(void *ctr, struct element_touch_event *e)
                 break;
             }
         }
-
+        record_user_name = match_user_num(now_btn_user);
+        if(record_user_name != NULL)
+        {
+            printf("current chose user number %s\n",record_user_name->name);
+            printf("current chose user number %d\n",record_user_name->user_num);
+        }
         ui_hide(ENC_LAY_USER_LIST);
         ui_show(ENC_LAY_USER_DETAILS);
         u8 mode_buf = voice;
@@ -2902,20 +2946,21 @@ REGISTER_UI_EVENT_HANDLER(ENC_USER_NAME_BTN_5)
 static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
 {
     u8 input_key = 0;
+    record_infor record_input;
     UI_ONTOUCH_DEBUG("**rec_lay_user_scanf_ontouch**");
     struct button *btn = (struct button *)ctr;
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
         break;
     case ELM_EVENT_TOUCH_HOLD:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
         break;
     case ELM_EVENT_TOUCH_MOVE:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
         break;
     case ELM_EVENT_TOUCH_UP:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        if(user_name_num == (USER_NAME_MAX + 1)){
+            printf("======================= user name num max\n");
+            break;
+        }
         if((user_name_num == 0) && (btn->elm.id != BTN_USER_BACK)){
             ui_hide(ENC_PLASE_INPUT_TXT);
         }
@@ -3036,14 +3081,12 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
             break;
         case BTN_USER_BACK:
             input_key = 1;
-            user_name_num-=2;
+            user_name_num -= 2;
             printf("======== user_name_num:%d\n",user_name_num);
+            
             if(user_name_num<0){
                 user_name_num = 0;
                 user_name[0] = '\0';
-            u8 mode_buf = voice;
-            u16 command_buf[] = {key_sound};
-            uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
                 ui_hide(ENC_USER_NAME_TXT);
                 ui_show(ENC_PLASE_INPUT_TXT);
                 return false;
@@ -3051,17 +3094,27 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
 
             break;
         case BTN_USER_OK:
+            if(user_name_num > USER_NAME_MAX){
+                printf("======================= user name num max\n");
+                break;
+            }
             input_key = 1;
             printf("======== btn ok : user name:");
             puts(user_name);
             memcpy(user_name_arrsy[name_array_num],user_name,sizeof(user_name));
-            //memcpy(record_w_infor[name_array_num].name,user_name,sizeof(user_name));//将输入的用户名拷贝到结构体中
-            //printf("record information name %s\n",record_w_infor[name_array_num]);
+            
+            memcpy(record_input.name,user_name,sizeof(user_name));//将输入的用户名拷贝到结构体中
+            printf("record information user name %s\n",record_input.name);
+            record_input.user_num = name_array_num;
+            printf("record information user num %d\n",record_input.user_num);
+            write_data_to_flash(&record_input);
+            
             now_btn_user = name_array_num;
             name_array_num++;
             if(name_array_num>9){
                 name_array_num = 0;
             }
+            
             u8 mode_buf = voice;
             u16 command_buf[] = {key_sound};
             uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
@@ -3215,27 +3268,30 @@ REGISTER_UI_EVENT_HANDLER(BTN_USER_OK)
 static int rec_user_push_btn_ontouch(void *ctr, struct element_touch_event *e)
 {
     UI_ONTOUCH_DEBUG("**rec_user_push_btn_ontouch**");
-
+    record_infor *user_input = NULL;
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
         break;
     case ELM_EVENT_TOUCH_HOLD:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
         break;
     case ELM_EVENT_TOUCH_MOVE:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
         break;
     case ELM_EVENT_TOUCH_UP:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-        user_function_array[(list_page_num*5)+now_btn_user][0] = !user_function_array[(list_page_num*5)+now_btn_user][0];
-        printf("================== %d\n",user_function_array[(list_page_num*5)+now_btn_user][0]);
-        ui_pic_show_image_by_id(ENC_USER_PUSH_PIC,user_function_array[(list_page_num*5)+now_btn_user][0]);
-        ui_text_show_index_by_id(ENC_USER_PUSH_TXT,user_function_array[(list_page_num*5)+now_btn_user][0]);
+        user_input = match_user_num(now_btn_user);
+        if(user_input != NULL)
+        {
+            user_function_array[(list_page_num*5)+now_btn_user][0] = !user_function_array[(list_page_num*5)+now_btn_user][0];
+            user_input->push_message = user_function_array[(list_page_num*5)+now_btn_user][0];
+            printf("==================user message push %d\n",user_input->push_message);
+            write_data_to_flash(user_input);
+            ui_pic_show_image_by_id(ENC_USER_PUSH_PIC,user_function_array[(list_page_num*5)+now_btn_user][0]);
+            ui_text_show_index_by_id(ENC_USER_PUSH_TXT,user_function_array[(list_page_num*5)+now_btn_user][0]);
+            u8 mode_buf = voice;
+            u16 command_buf[] = {key_sound};
+            uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
+        }
+        
         break;
-        u8 mode_buf = voice;
-        u16 command_buf[] = {key_sound};
-        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
     }
     return false;
 }
@@ -3247,26 +3303,29 @@ REGISTER_UI_EVENT_HANDLER(ENC_USER_PUSH_BTN)
 static int rec_user_power_btn_ontouch(void *ctr, struct element_touch_event *e)
 {
     UI_ONTOUCH_DEBUG("**rec_user_power_btn_ontouch**");
-
+    record_infor *user_input = NULL;
+    
     switch (e->event) {
     case ELM_EVENT_TOUCH_DOWN:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_DOWN\n");
         break;
     case ELM_EVENT_TOUCH_HOLD:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_HOLD\n");
         break;
     case ELM_EVENT_TOUCH_MOVE:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_MOVE\n");
         break;
     case ELM_EVENT_TOUCH_UP:
-        UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
-        user_function_array[(list_page_num*5)+now_btn_user][1] = !user_function_array[(list_page_num*5)+now_btn_user][1];
-
-        ui_pic_show_image_by_id(ENC_USER_POWER_PIC,user_function_array[(list_page_num*5)+now_btn_user][1]);
-        ui_text_show_index_by_id(ENC_USER_POWER_TXT,user_function_array[(list_page_num*5)+now_btn_user][1]);
-        u8 mode_buf = voice;
-        u16 command_buf[] = {key_sound};
-        uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
+        user_input = match_user_num(now_btn_user);
+        if(user_input != NULL)
+        {
+            user_function_array[(list_page_num*5)+now_btn_user][1] = !user_function_array[(list_page_num*5)+now_btn_user][1];
+            user_input->mode = user_function_array[(list_page_num*5)+now_btn_user][1];
+            printf("==================user power limit %d\n",user_function_array[(list_page_num*5)+now_btn_user][1]);
+            write_data_to_flash(user_input);
+            ui_pic_show_image_by_id(ENC_USER_POWER_PIC,user_function_array[(list_page_num*5)+now_btn_user][1]);
+            ui_text_show_index_by_id(ENC_USER_POWER_TXT,user_function_array[(list_page_num*5)+now_btn_user][1]);
+            u8 mode_buf = voice;
+            u16 command_buf[] = {key_sound};
+            uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
+        }
         break;
     }
     return false;
@@ -4361,7 +4420,7 @@ static int rec_rec_lock_up_ontouch(void *ctr, struct element_touch_event *e)
         u16 command_buf[] = {locked};
         uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
 
-        write_data_to_flash(&record_r_infor,sizeof(record_r_infor));
+        write_data_to_flash(&record_r_infor);
         break;
     }
     return false;
@@ -4396,7 +4455,7 @@ static int rec_rec_ling_up_ontouch(void *ctr, struct element_touch_event *e)
         u8 mode_buf = voice;
         u16 command_buf[] = {door_bell};
         uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
-        write_data_to_flash(&record_w_infor,sizeof(record_w_infor));
+        write_data_to_flash(&record_w_infor);
         break;
     }
     return false;
