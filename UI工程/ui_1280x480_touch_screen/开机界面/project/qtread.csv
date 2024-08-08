@@ -36,73 +36,73 @@ m34;网络设置;Network Settings;
 m35;门锁配置;Door lock configuration;
 m36;系统信息;system information;
 m37;;;空
-m38;;;
-m39;;;
-m40;;;
-m41;;;
-m42;;;
-m43;;;
-m44;;;
-m45;;;
-m46;;;
-m47;;;
-m48;;
-m49;;
-m50;;
-m51;;
-m52;;
-mv1;;
-mv2;;
-mv3;;
-mv4;;
-mv5;;
-mv6;;
-mv7;;
-mv8;;
-mv9;;
-mv10;;
-mv11;;
-mv12;;
-mv13;;
-mv14;;
-mp1;;
-mp2;;
-mp3;;
-mp4;;
-mp5;;
-mp6;;
-mp7;;
-mp8;;
-mp9;;
-mp10;;
-mp11;;
-mp12;;
-mp13;;
-mp14;;
-mp15;;
-mp16;;
-mp17;;
-mp18;;
-mp19;;
-mp20;;
-mp21;;
-mp22;;
-mp23;;
-mp24;;
-mp25;;
-mp26;;
-mp27;;
-mp28;;
-mp29;;
-mp30;;;
-mp31;;;
-mp32;;;
-mp33;;;
-mst1;;;
-mst2;;;
-mst3;;;
-mst4;;;
-mst5;;;
+m38;新建用户;Create new user;
+m39;用户管理;User Management;
+m40;用户名称;user name;
+m41;用户详情;User details;
+m42;请输入用户名称;Please enter user name;
+m43;消息推送;Push message;
+m44;管理员权限;Administrator rights;
+m45;新建指纹密码卡;Create a new fingerprint password card;
+m46;新建人脸(选配);Create a new face (optional);
+m47;(开启);(on);
+m48;(关闭);(off)
+m49;请单人正脸出镜，并保持安静;Please show your face alone and keep quiet
+m50;系统信息;system message
+m51;恢复出厂;Restore Factory
+m52;关于设备;About the device
+mv1;系统自检;System self-test
+mv2;老化测试;Aging test
+mv3;出厂测试;Factory test
+mv4;状态信息;status information
+mv5;门锁配置;Door lock configuration
+mv6;验证模式;Authentication mode
+mv7;单验证模式;Single authentication mode
+mv8;防撬报警;Anti-pry alarm
+mv9;人体感应;Human body induction
+mv10;常开模式;Normally open mode
+mv11;左开右开选择;Open left, open right, choose
+mv12;自弹锁体选择;Self-elastic lock body selection
+mv13;自动反锁选择;Automatic anti-lock selection
+mv14;自动反锁阈值;Automatic anti-lock threshold
+mp1;双验证模式;Double verification mode
+mp2;密码;password
+mp3;人脸;face
+mp4;指纹;fingerprint
+mp5;解锁;Unlock
+mp6;权限;Permissions
+mp7;启动配网操作;Start distribution network operation
+mp8;重置Wi-Fi模块;Reset Wi-Fi module
+mp9;日期设置;Date setting
+mp10;网络时间;network time
+mp11;亮度调节;Dimming
+mp12;确认;confirm
+mp13;取消;Cancel
+mp14;立即清除;Clear now
+mp15;硬件版本;hardware version
+mp16;软件版本;Software version
+mp17;识别码;Identifier
+mp18;开始检测;Start detection
+mp19;已停止;stopped
+mp20;正在开锁;Unlocking
+mp21;已开锁;Unlocked
+mp22;开锁;unlock
+mp23;关锁;lock
+mp24;用户数量;amount of users
+mp25;密钥数量;Number of keys
+mp26;总共;total
+mp27;剩余;Remaining
+mp28;开始配网;Start distributing network
+mp29;是否重置Wi-Fi模块;Whether to reset the Wi-Fi module
+mp30;立即重置;Reset now;
+mp31;恢复出厂;Restore Factory;
+mp32;关于设备;About the device;
+mp33;系统自检;System self-test;
+mst1;老化测试;Aging test;
+mst2;出厂测试;Factory test;
+mst3;状态信息;status information;
+mst4;网络配置;network configuration;
+mst5;删除用户;delete user;
 mst6;;;
 mst7;;;
 mst8;;;

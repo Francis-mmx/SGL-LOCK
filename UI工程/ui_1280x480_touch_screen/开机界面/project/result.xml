@@ -7,7 +7,7 @@
                 <Color id="1">000000</Color>
             </ColorList>
             <PictureList>
-                <Picture fmt="YUV" id="1">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\开机界面\project\config\开机图片\SJE.jpg</Picture>
+                <Picture fmt="YUV" id="1">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\开机界面\project\config\开机图片\SJE.jpg</Picture>
             </PictureList>
             <CellList/>
         </Page>
@@ -17,7 +17,7 @@
                 <Color id="1">000000</Color>
             </ColorList>
             <PictureList>
-                <Picture fmt="YUV" id="1">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\开机界面\project\config\开机图片\SJE.jpg</Picture>
+                <Picture fmt="YUV" id="1">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\开机界面\project\config\开机图片\SJE.jpg</Picture>
             </PictureList>
             <CellList/>
         </Page>

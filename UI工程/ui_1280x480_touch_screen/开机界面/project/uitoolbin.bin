@@ -1,7 +1,7 @@
 {
     "-name": "UI_TOUCH_1280_480_ANI",
     "-type": "project",
-    "activePage": 1,
+    "activePage": 0,
     "lang_excel": "../../../UITools/UI_TOUCH_1280_480.xls",
     "language": [
     ],
@@ -152,7 +152,7 @@
                                             "-name": "piclist",
                                             "-type": "piclist",
                                             "caption": "图片列表",
-                                            "default": "",
+                                            "default": "config/开机图片/SJE.jpg",
                                             "list": [
                                                 "config/开机图片/SJE.jpg"
                                             ],

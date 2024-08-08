@@ -102,7 +102,7 @@ mst1;老化测试;Aging test;
 mst2;出厂测试;Factory test;
 mst3;状态信息;status information;
 mst4;网络配置;network configuration;
-mst5;;;
+mst5;删除用户;delete user;
 mst6;;;
 mst7;;;
 mst8;;;

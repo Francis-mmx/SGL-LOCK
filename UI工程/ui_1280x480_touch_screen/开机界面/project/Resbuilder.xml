@@ -26,28 +26,28 @@
                         <language_name LANG="Arabic">阿拉伯语</language_name>
                 </LanguageList>
                 <Fonts>
-                        <font00 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="Cambria" lfHeight="-32" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font01 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-32" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font02 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-32" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font03 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-32" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font04 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-32" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font05 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-32" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font06 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font07 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font08 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font09 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font10 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font11 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font12 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font13 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font14 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font15 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font16 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font17 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font18 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font19 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font20 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
-                        <font21 lfPitchAndFamily="2" lfItalic="0" lfWidth="0" lfStrikeOut="0" lfUnderline="0" lfCharSet="134" lfWeight="400" lfEscapement="0" lfQuality="0" lfFaceName="宋体" lfHeight="-16" lfClipPrecision="0" lfOrientation="0" lfOutPrecision="0"/>
+                        <font00 lfWeight="400" lfQuality="0" lfFaceName="Cambria" lfOrientation="0" lfClipPrecision="0" lfHeight="-32" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font01 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-32" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font02 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-32" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font03 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-32" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font04 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-32" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font05 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-32" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font06 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font07 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font08 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font09 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font10 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font11 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font12 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font13 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font14 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font15 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font16 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font17 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font18 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font19 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font20 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
+                        <font21 lfWeight="400" lfQuality="0" lfFaceName="宋体" lfOrientation="0" lfClipPrecision="0" lfHeight="-16" lfWidth="0" lfStrikeOut="0" lfPitchAndFamily="2" lfUnderline="0" lfEscapement="0" lfOutPrecision="0" lfItalic="0" lfCharSet="134"/>
                 </Fonts>
                 <endian>LITTLEENDIAN</endian>
                 <paneltype>TFTPANEL</paneltype>
@@ -57,14 +57,14 @@
                         <Page id="0">
                                 <ColorList/>
                                 <PictureList>
-                                        <Picture fmt="YUV">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\开机界面\project\config\开机图片\SJE.jpg</Picture>
+                                        <Picture fmt="YUV">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\开机界面\project\config\开机图片\SJE.jpg</Picture>
                                 </PictureList>
                                 <CellList/>
                         </Page>
                         <Page id="1">
                                 <ColorList/>
                                 <PictureList>
-                                        <Picture fmt="YUV">H:\2021Work\work\XD_G1W5_MAIN_V03(5211+MIPI)\AC521X_release_sdk_V2.0.0\UI工程\ui_1280x480_touch_screen\开机界面\project\config\开机图片\SJE.jpg</Picture>
+                                        <Picture fmt="YUV">D:\Work Document\SGL-LOCK\UI工程\ui_1280x480_touch_screen\开机界面\project\config\开机图片\SJE.jpg</Picture>
                                 </PictureList>
                                 <CellList/>
                         </Page>
