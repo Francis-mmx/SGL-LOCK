@@ -161,6 +161,7 @@ int user_name_num = 0;      //当前输入字符的个数
 u8 user_name_arrsy[10][26] = {0};       //保存用户名的数组
 u8 name_array_num = 0;      //存储用户名的个数
 u8 list_page_num = 0;           //用户名列表页数
+u8 list_cur_page = 0;
 u8 user_page_flag = 0;          //用户名称设置界面标志位 0--用户管理  1--用户名称  2--用户详情
 u8 now_btn_user = 0;        //当前选择进入的用户
 
@@ -376,17 +377,26 @@ Data *create_packet_uncertain_len(u8 mode,u16 *command,u16 com_len)
 
 u8 erase_flash()
 {
+    u8 len;
     void *dev = dev_open("spiflash", NULL);
     if (!dev) {
         return -1;
     }
-    
-    dev_ioctl(dev, IOCTL_ERASE_SECTOR, write_flash_offset - SECTOR_SIZE);     //擦除扇区
-    printf("erase flash addr 0x%x ",write_flash_offset);
-    write_flash_offset += SECTOR_SIZE;
-    if(write_flash_offset > BASE_ADDRESS)
+    write_flash_offset = BASE_ADDRESS - (40 * 4 * 1024);
+    for(int i=0;i<41;i++)
     {
-        write_flash_offset  = BASE_ADDRESS;
+        len = dev_ioctl(dev, IOCTL_ERASE_SECTOR, write_flash_offset - SECTOR_SIZE);     //擦除扇区
+        if(len)
+        {
+            printf("erase error\n");
+        }
+        printf("erase flash addr 0x%x - 0x%x",write_flash_offset - SECTOR_SIZE,write_flash_offset);
+        write_flash_offset += SECTOR_SIZE;
+        if(write_flash_offset > BASE_ADDRESS)
+        {
+            write_flash_offset  = BASE_ADDRESS;
+            break;
+        }
     }
     dev_close(dev);
     dev = NULL;
@@ -409,7 +419,11 @@ void write_data_to_flash(u8 *buf)
     }
     if(0 == index)
     {
-        dev_ioctl(dev, IOCTL_ERASE_SECTOR, write_flash_offset - SECTOR_SIZE);     //擦除基地址前1个扇区
+        len = dev_ioctl(dev, IOCTL_ERASE_SECTOR, write_flash_offset - SECTOR_SIZE);     //擦除基地址前1个扇区
+        if(len)
+        {
+            printf("erase error\n");
+        }
         len = dev_bulk_write(dev, buf, write_flash_offset-sizeof(record_infor), sizeof(record_infor));                   //从基地址往前面写数据
         printf("write flash addr 0x%x  data addr 0x%x",write_flash_offset,write_flash_offset-sizeof(record_infor));
         write_flash_offset -= SECTOR_SIZE;          //基地址往前移4k
@@ -2530,14 +2544,15 @@ static int rec_LAY_BTN_1_ontouch(void *ctr, struct element_touch_event *e)
             user_data = match_user_num(i);
             if((user_data != NULL))
             {
-                if(user_data->user_num != 0xFF)
+                if(user_data->name != NULL)
                 {
                     write_flash_offset = BASE_ADDRESS - i * SECTOR_SIZE;//进入用户管理的时候，查找有多少个已注册的用户，以便确定地址偏移
-                    printf("write_flash_offset 0x%x\n",write_flash_offset);
+                    name_array_num = i;
+                    list_page_num = name_array_num / 5;
+                    printf("write_flash_offset 0x%x user_num %d page_num %d\n",write_flash_offset,name_array_num,list_page_num);
                 }
                 else
                 {
-                    printf("write_flash_offset 0x%x\n",write_flash_offset);
                     break;
                 }
             }
@@ -2748,8 +2763,8 @@ static int rec_lay_user_list_onchange(void *ctr, enum element_change_event e, vo
     case ON_CHANGE_FIRST_SHOW:
         user_page_flag = 0;
         ui_text_show_index_by_id(ENC_SET_USER_TXT,user_page_flag);
-        
-        for(int i=list_page_num*5;i<MAX_REGISTER_NUM;i++)
+        printf("page %d num %d",list_cur_page,name_array_num);
+        for(int i=list_cur_page*5;i<name_array_num+1;i++)
         {
             user_data = match_user_num(i);
             if(user_data != NULL)
@@ -2759,8 +2774,14 @@ static int rec_lay_user_list_onchange(void *ctr, enum element_change_event e, vo
             }
             else
             {
-                name_array_num = i;
-                printf("current story user %d\n",name_array_num);
+                //name_array_num = i;
+                //list_page_num = name_array_num / 5;
+                //printf("current story user %d\n",name_array_num);
+                user_data = match_user_num(5);
+                if(user_data != NULL)
+                {
+                    printf("NO USER INFOR %d\n",user_data->user_num);
+                }
                 break;
             }
         }
@@ -2814,9 +2835,9 @@ static int rec_lay_user_details_onchange(void *ctr, enum element_change_event e,
         memset(user_name,0,sizeof(user_name));
         user_name_num = 0;
 #if 1
-        printf("user details now btn %d\n",now_btn_user + 5 * list_page_num);
+        printf("user details now btn %d\n",now_btn_user + 5 * list_cur_page);
         record_infor *user_data = malloc(sizeof(record_infor));
-        user_data = match_user_num(now_btn_user + 5 * list_page_num);
+        user_data = match_user_num(now_btn_user + 5 * list_cur_page);
         if(user_data != NULL)
         {
             printf("details current chose user number %s\n",user_data->name);
@@ -2870,6 +2891,7 @@ static int rec_set_return_user_ontouch(void *ctr, struct element_touch_event *e)
         break;
     case ELM_EVENT_TOUCH_UP:
         UI_ONTOUCH_DEBUG("ELM_EVENT_TOUCH_UP\n");
+        //list_cur_page = 0;
         if(user_page_flag == 0){
             ui_hide(ENC_LAY_USER_PAGE);
             ui_show(ENC_LAY_PAGE);
@@ -3042,11 +3064,12 @@ static int rec_lay_user_name_1_onchange(void *ctr, enum element_change_event e, 
     case ON_CHANGE_RELEASE:
         break;
     case ON_CHANGE_FIRST_SHOW:
-        page = list_page_num;
+        page = list_cur_page;
         user_data = match_user_num((page * 5) + list_index);
         if(user_data != NULL)
         {
             printf("user_name_1 %s\n",user_data->name);
+            put_buf(user_data,sizeof(record_infor));
             ui_text_set_str_by_id(ENC_USER_NAME_TXT_1, "ascii", user_data->name);
         }
         if(user_data != NULL)
@@ -3074,11 +3097,12 @@ static int rec_lay_user_name_2_onchange(void *ctr, enum element_change_event e, 
     case ON_CHANGE_RELEASE:
         break;
     case ON_CHANGE_FIRST_SHOW:
-        page = list_page_num;
+        page = list_cur_page;
         user_data = match_user_num((page * 5) + list_index);
         if(user_data != NULL)
         {
             printf("user_name_2 %s\n",user_data->name);
+            put_buf(user_data,sizeof(record_infor));
             ui_text_set_str_by_id(ENC_USER_NAME_TXT_2, "ascii", user_data->name);
         }
         if(user_data != NULL)
@@ -3106,11 +3130,12 @@ static int rec_lay_user_name_3_onchange(void *ctr, enum element_change_event e, 
     case ON_CHANGE_RELEASE:
         break;
     case ON_CHANGE_FIRST_SHOW:
-        page = list_page_num;
+        page = list_cur_page;
         user_data = match_user_num((page * 5) + list_index);
         if(user_data != NULL)
         {
             printf("user_name_3 %s\n",user_data->name);
+            put_buf(user_data,sizeof(record_infor));
             ui_text_set_str_by_id(ENC_USER_NAME_TXT_3, "ascii", user_data->name);
         }
         if(user_data != NULL)
@@ -3138,15 +3163,17 @@ static int rec_lay_user_name_4_onchange(void *ctr, enum element_change_event e, 
     case ON_CHANGE_RELEASE:
         break;
     case ON_CHANGE_FIRST_SHOW:
-        page = list_page_num;
+        page = list_cur_page;
         user_data = match_user_num((page * 5) + list_index);
         if(user_data != NULL)
         {
             printf("user_name_4 %s\n",user_data->name);
+            put_buf(user_data,sizeof(record_infor));
             ui_text_set_str_by_id(ENC_USER_NAME_TXT_4, "ascii", user_data->name);
         }
         if(user_data != NULL)
         {
+            put_buf(user_data,sizeof(record_infor));
             free(user_data);
             user_data = NULL;
         }
@@ -3170,11 +3197,12 @@ static int rec_lay_user_name_5_onchange(void *ctr, enum element_change_event e, 
     case ON_CHANGE_RELEASE:
         break;
     case ON_CHANGE_FIRST_SHOW:
-        page = list_page_num;
+        page = list_cur_page;
         user_data = match_user_num((page * 5) + list_index);
         if(user_data != NULL)
         {
             printf("user_name_5 %s\n",user_data->name);
+            put_buf(user_data,sizeof(record_infor));
             ui_text_set_str_by_id(ENC_USER_NAME_TXT_5, "ascii", user_data->name);
         }
         if(user_data != NULL)
@@ -3225,7 +3253,7 @@ static int rec_user_name_btn_ontouch(void *ctr, struct element_touch_event *e)
                 break;
             }
         } 
-        record_user_name = match_user_num(now_btn_user + 5 * list_page_num);
+        record_user_name = match_user_num(now_btn_user + 5 * list_cur_page);
         if(record_user_name != NULL)
         {
             printf("current chose user name %s number %d\n",record_user_name->name,record_user_name->user_num);
@@ -3273,14 +3301,16 @@ static int rec_user_previous_page_ontouch(void *ctr, struct element_touch_event 
     case ELM_EVENT_TOUCH_MOVE:
         break;
     case ELM_EVENT_TOUCH_UP:
-        UI_ONTOUCH_DEBUG("delete_user_cancel\n");
-        list_page_num--;
-        if(list_page_num > 20)
+        list_cur_page--;
+        if(list_cur_page > 20)
         {
-            list_page_num = 0;
+            list_cur_page = 0;
+            return false;
         }
+        ui_hide(ENC_LAY_USER_LIST);
         ui_show(ENC_LAY_USER_LIST);
         
+        printf("now page %d\n",list_cur_page);
         u8 mode_buf = voice;
         u16 command_buf[] = {key_sound};
         uart_send_package(mode_buf,command_buf,ARRAY_SIZE(command_buf));
@@ -3306,12 +3336,21 @@ static int rec_user_next_page_ontouch(void *ctr, struct element_touch_event *e)
     case ELM_EVENT_TOUCH_MOVE:
         break;
     case ELM_EVENT_TOUCH_UP:
-        UI_ONTOUCH_DEBUG("delete_user_cancel\n");
-        list_page_num++;
-        if(list_page_num > 20)
+        if(list_cur_page < list_page_num)
         {
-            list_page_num = 20;
+            list_cur_page++;
         }
+        else
+        {
+            return false;
+        }
+        if(list_cur_page > 20)
+        {
+            list_cur_page = 20;
+            return false;
+        }
+        printf("now page %d\n",list_cur_page);
+        ui_hide(ENC_LAY_USER_LIST);
         ui_show(ENC_LAY_USER_LIST);
         
         u8 mode_buf = voice;
@@ -3480,7 +3519,7 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
 
             break;
         case BTN_USER_OK:
-            if(user_name_num > USER_NAME_MAX){
+            if(name_array_num > MAX_REGISTER_NUM){
                 printf("======================= user name num max\n");
                 break;
             }
@@ -3498,10 +3537,7 @@ static int rec_lay_user_scanf_ontouch(void *ctr, struct element_touch_event *e)
             now_btn_user = name_array_num;
             list_page_num = name_array_num / 5;
             name_array_num++;
-            if(name_array_num > MAX_REGISTER_NUM){
-                printf("register user num full\n");
-                break;
-            }
+            
             write_data_to_flash(&record_input);
 
             u8 mode_buf = voice;
@@ -3666,12 +3702,12 @@ static int rec_user_push_btn_ontouch(void *ctr, struct element_touch_event *e)
     case ELM_EVENT_TOUCH_MOVE:
         break;
     case ELM_EVENT_TOUCH_UP:
-        user_input = match_user_num(now_btn_user + 5* list_page_num);
+        user_input = match_user_num(now_btn_user + 5* list_cur_page);
         if(user_input != NULL)
         {
             //user_function_array[(list_page_num*5)+now_btn_user][0] = !user_function_array[(list_page_num*5)+now_btn_user][0];
             user_input->push_message = !user_input->push_message;
-            user_input->index = now_btn_user;
+            //user_input->index = now_btn_user ;
             printf("==================user message push %d index %d\n",user_input->push_message,user_input->index);
             write_data_to_flash(user_input);
             ui_pic_show_image_by_id(ENC_USER_PUSH_PIC,user_input->push_message);
@@ -3714,7 +3750,7 @@ static int rec_user_power_btn_ontouch(void *ctr, struct element_touch_event *e)
         {
             //user_function_array[(list_page_num*5)+now_btn_user][1] = !user_function_array[(list_page_num*5)+now_btn_user][1];
             user_input->mode = !user_input->mode;
-            user_input->index = now_btn_user;
+            //user_input->index = now_btn_user ;
             printf("==================user power limit %d index %d\n",user_input->mode,user_input->index);
             write_data_to_flash(user_input);
             ui_pic_show_image_by_id(ENC_USER_POWER_PIC,user_input->mode);
